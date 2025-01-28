@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/Home.css"; // Make sure this is linked
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
+import BetButton from "../components/BetButton";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,12 +28,8 @@ const Home = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     alert(searchQuery);
-    setSearchQuery("");
+    setSearchQuery("I bet mark and majella will");
   };
-
-  if (loading) return <p>Loading bets...</p>;
-  if (error) return <p>{error}</p>;
-  if (!bets.length) return <p>No bets found</p>;
 
   return (
     <div className="home">
@@ -49,15 +46,23 @@ const Home = () => {
         </button>
       </form>
 
-      <div className="bet-grid">
-        {bets
-          .filter((bet) =>
-            bet.text.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-          .map((bet) => (
-            <BetCard bet={bet} key={bet.id} />
-          ))}
-      </div>
+      <BetButton></BetButton>
+
+      {error && <div className="error-message">{error}</div>}
+
+      {loading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="bet-grid">
+          {bets
+            .filter((bet) =>
+              bet.text.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((bet) => (
+              <BetCard bet={bet} key={bet.id} />
+            ))}
+        </div>
+      )}
     </div>
   );
 };

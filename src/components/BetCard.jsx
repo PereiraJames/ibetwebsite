@@ -11,7 +11,7 @@ function BetCard({ bet }) {
         <h3>{bet.text}</h3>
         <p>Bet Placed By: {bet.bettor}</p>
         <p>Wager: ${bet.betamount}</p>
-        <p>Start Date: {bet.creationdate}</p>
+        <p>Start Date: {bet.startdate}</p>
         <p>Due Date: {bet.enddate}</p>
         <p>Conditionals: {bet.conditionals}</p>
       </div>

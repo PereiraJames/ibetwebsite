@@ -1,6 +1,6 @@
 export const getAllBets = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/bets`);
+      const response = await fetch(`http://192.168.1.52:3000/api/bets`);
   
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
