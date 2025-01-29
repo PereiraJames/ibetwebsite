@@ -1,8 +1,29 @@
+import { useState, useEffect } from "react";
 import "../css/BetCard.css";
 
 function BetCard({ bet }) {
-  function onLike() {
-    alert("Added to favorites");
+  const [likes, setLikes] = useState(bet.likes); // Track likes in state
+
+  useEffect(() => {
+    setLikes(bet.likes); // Update likes when bet changes
+  }, [bet]);
+
+  async function onLike() {
+    try {
+      const response = await fetch("http://192.168.1.52:3000/api/bets/like", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ betId: bet.id }),
+      });
+
+      if (response.ok) {
+        setLikes((prevLikes) => prevLikes + 1); // Update UI after successful response
+      } else {
+        console.error("Failed to like bet");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   return (
@@ -14,9 +35,13 @@ function BetCard({ bet }) {
         <p>Start Date: {bet.startdate}</p>
         <p>Due Date: {bet.enddate}</p>
         <p>Conditionals: {bet.conditionals}</p>
+        <p>Likes: {likes}</p> {/* Display updated like count */}
       </div>
-      <button className="favorite-btn" onClick={onLike}>
-        ♥
+      <button
+        className={`favorite-btn ${likes > bet.likes ? "active" : ""}`}
+        onClick={onLike}
+      >
+        ♥ {likes}
       </button>
     </div>
   );

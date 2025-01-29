@@ -14,6 +14,12 @@ function NavBar() {
         <Link to="/bestbets" className="nav-link">
           Best Bets
         </Link>
+        <Link to="/register" className="nav-link">
+          Register
+        </Link>
+        <Link to="/login" className="nav-link">
+          Login
+        </Link>
       </div>
     </nav>
   );
