@@ -26,6 +26,52 @@ db.connect((err) => {
   console.log("Connected to MySQL database");
 });
 
+async function getUserIdFromToken(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return null;
+  }
+  
+  const token = authHeader.split(' ')[1];
+  try {
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+      return decoded.id; // Ensure your JWT includes an 'id' field
+  } catch (error) {
+      console.error('Invalid token:', error.message);
+      return null;
+  }
+}
+
+app.get("/auth/get-username", async (req, res) => {
+  try {
+      const userId = await getUserIdFromToken(req);
+      if (!userId) {
+          return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      // Fetch username from database
+      const getUserNameQuery = "SELECT username FROM users WHERE id = ?"
+
+      db.query(getUserNameQuery, [userId], (err, result) => {
+        if (err) {
+          console.error("Error fetching username:", err);
+          return res.status(500).send("Error fetching data");
+        }
+
+        if (result.length === 0) {
+          return res.status(404).json({ message: "User Not Found" });
+        }
+
+        res.json({ username: result[0].username });
+      });
+
+  } catch (error) {
+      console.error("Error fetching username:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 // GET | Grab all the bets in the database
 app.get("/api/bets", (req, res) => {
   db.query("SELECT * FROM bets", (err, results) => {
@@ -37,7 +83,6 @@ app.get("/api/bets", (req, res) => {
     res.json(results);
   });
 });
-
 
 // POST | Creating a Bet
 app.post("/api/bets", (req, res) => {

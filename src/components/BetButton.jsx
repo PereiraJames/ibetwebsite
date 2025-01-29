@@ -50,15 +50,40 @@ function BetButton() {
     return `${day}-${months[parseInt(month) - 1]}-${year}`;
   };
 
+  const fetchUserName = async () => {
+    const JWTtoken = localStorage.getItem("token");
+
+    console.log(JWTtoken);
+
+    const response = await fetch("http://192.168.1.52:3000/auth/get-username", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${JWTtoken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.username;
+  };
+
   // Submit the bet details to the backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Format endDate before sending it to the backend
     const formattedEndDate = formatDate(betDetails.endDate);
+    const bettorFromToken = await fetchUserName();
 
     // Update betDetails with the formatted endDate
-    const updatedBetDetails = { ...betDetails, endDate: formattedEndDate };
+    const updatedBetDetails = {
+      ...betDetails,
+      endDate: formattedEndDate,
+      bettor: bettorFromToken,
+    };
 
     try {
       const response = await fetch("http://192.168.1.52:3000/api/bets", {
@@ -132,16 +157,7 @@ function BetButton() {
                   required
                 />
               </div>
-              <div className="form-group">
-                <label>Bettor</label>
-                <input
-                  type="text"
-                  name="bettor"
-                  value={betDetails.bettor}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+
               <div className="form-group">
                 <label>Conditionals</label>
                 <input
