@@ -35,7 +35,7 @@ function BetCard({ bet }) {
         <p>Start Date: {bet.startdate}</p>
         <p>Due Date: {bet.enddate}</p>
         <p>Conditionals: {bet.conditionals}</p>
-        <p>Likes: {likes}</p> {/* Display updated like count */}
+        {/* <p>Likes: {likes}</p> Display updated like count */}
       </div>
       <button
         className={`favorite-btn ${likes > bet.likes ? "active" : ""}`}
