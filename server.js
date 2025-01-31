@@ -30,7 +30,7 @@ async function getUserIdFromToken(req) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return null;
-  }
+      
   
   const token = authHeader.split(' ')[1];
   try {
@@ -62,7 +62,7 @@ app.get("/auth/get-username", async (req, res) => {
           return res.status(404).json({ message: "User Not Found" });
         }
 
-        res.json({ username: result[0].username });
+        res.json({ userData: result[0].username });
       });
 
   } catch (error) {
@@ -70,7 +70,6 @@ app.get("/auth/get-username", async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 // GET | Grab all the bets in the database
 app.get("/api/bets", (req, res) => {
@@ -86,14 +85,14 @@ app.get("/api/bets", (req, res) => {
 
 // POST | Creating a Bet
 app.post("/api/bets", (req, res) => {
-  const { text, betAmount, startDate, endDate, bettor, conditionals, phoneNo } = req.body;
+  const { text, betAmount, startDate, endDate, bettor, conditionals } = req.body;
 
-  if (!text || !betAmount || !startDate ||  !endDate || !bettor || !phoneNo) {
+  if (!text || !betAmount || !startDate ||  !endDate || !bettor) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  const query = "INSERT INTO bets (text, betAmount, startDate, endDate, bettor, conditionals, phoneNo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-  db.query(query, [text, betAmount, startDate, endDate, bettor, conditionals, phoneNo], (err, result) => {
+  const query = "INSERT INTO bets (text, betAmount, startDate, endDate, bettor, conditionals) VALUES (?, ?, ?, ?, ?, ?)";
+  db.query(query, [text, betAmount, startDate, endDate, bettor, conditionals], (err, result) => {
     if (err) {
       console.error("Error inserting bet:", err);
       res.status(500).json({ message: "Error creating bet" });
@@ -121,6 +120,7 @@ app.post("/api/bets/like", (req, res) => {
   });
 });
 
+//Creating an account
 app.post("/auth/register", async (req, res) => {
   const { username, password } = req.body;
 
@@ -148,6 +148,7 @@ app.post("/auth/register", async (req, res) => {
           console.error("Error inserting user:", err);
           return res.status(500).json({ message: "Error creating user" });
         }
+        console.log(`Successfully added new account ${username}`)
         return res.status(201).json({ message: "User Added Successfully!" });
       });
     });
@@ -157,6 +158,7 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
+//Logining into account
 app.post("/auth/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -189,7 +191,7 @@ app.post("/auth/login", (req, res) => {
 
       // Creating JWT Token
       const generatedToken = jwt.sign({ id: user.id }, process.env.JWT_KEY, { expiresIn: "3h" });
-      console.log(generatedToken)
+      console.log(`${user.id} | ${user.username} has successfully logged in.`)
       return res.status(200).json({token: generatedToken});
     });
 

@@ -53,8 +53,6 @@ function BetButton() {
   const fetchUserName = async () => {
     const JWTtoken = localStorage.getItem("token");
 
-    console.log(JWTtoken);
-
     const response = await fetch("http://192.168.1.52:3000/auth/get-username", {
       method: "GET",
       headers: {
@@ -67,7 +65,9 @@ function BetButton() {
       throw new Error(`HTTP Error: ${response.status}`);
     }
     const data = await response.json();
-    return data.username;
+
+    console.log(data.userData);
+    return data.userData;
   };
 
   // Submit the bet details to the backend
@@ -75,14 +75,19 @@ function BetButton() {
     e.preventDefault();
 
     // Format endDate before sending it to the backend
+
+    const prefixBet = `I bet Mark and Majella will ${betDetails.text}`;
     const formattedEndDate = formatDate(betDetails.endDate);
     const bettorFromToken = await fetchUserName();
+
+    console.log(bettorFromToken, formattedEndDate, prefixBet);
 
     // Update betDetails with the formatted endDate
     const updatedBetDetails = {
       ...betDetails,
       endDate: formattedEndDate,
       bettor: bettorFromToken,
+      text: prefixBet,
     };
 
     try {
@@ -100,9 +105,7 @@ function BetButton() {
           text: "",
           betAmount: "",
           endDate: "",
-          bettor: "",
           conditionals: "",
-          phoneNo: "",
         });
         setIsOpen(false); // Close popup after submit
       } else {
@@ -118,7 +121,7 @@ function BetButton() {
     <div>
       {/* Bet Button */}
       <button className="bet-button" onClick={togglePopup}>
-        Create Bet
+        I WANT TO BET!
       </button>
 
       {/* Popup Form */}
@@ -165,16 +168,6 @@ function BetButton() {
                   name="conditionals"
                   value={betDetails.conditionals}
                   onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>Phone Number</label>
-                <input
-                  type="text"
-                  name="phoneNo"
-                  value={betDetails.phoneNo}
-                  onChange={handleChange}
-                  required
                 />
               </div>
               <button type="submit" className="submit-button">

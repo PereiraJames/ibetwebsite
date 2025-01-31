@@ -3,6 +3,7 @@ import "../css/Home.css"; // Make sure this is linked
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
 import BetButton from "../components/BetButton";
+import FrontPageBanner from "../components/FrontBanner";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,6 +34,7 @@ const Home = () => {
 
   return (
     <div className="home">
+      <FrontPageBanner />
       <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
@@ -46,7 +48,7 @@ const Home = () => {
         </button>
       </form>
 
-      <BetButton></BetButton>
+      {/* <BetButton></BetButton> */}
 
       {error && <div className="error-message">{error}</div>}
 

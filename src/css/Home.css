@@ -1,5 +1,5 @@
 .home {
-    padding: 2rem 0;
+    /* padding: 2rem 0; */
     width: 100%;
     box-sizing: border-box;
   }
@@ -61,3 +61,47 @@
     width: 100%;
     box-sizing: border-box;
   }
+
+  .front-img-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .front-img-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: brightness(50%); /* Darken the image */
+  }
+  
+  .front-img-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35); /* Dark overlay */
+  }
+  
+  /* Text Styling */
+  .front-img-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    z-index: 2; /* Ensure it's above the overlay */
+    transition: font-size 0.2s ease-in-out; /* Smooth transition for font size */
+  }
+  
+  /* Hover effect to increase text size */
+  .front-img-container:hover .front-img-text {
+    font-size: 32px; /* Increase the text size */
+  }
+  
