@@ -7,6 +7,7 @@ function NavBar() {
   const [username, setUsername] = useState(null);
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false); // Track scroll state
   const JWTtoken = localStorage.getItem("token");
   const dropdownRef = useRef(null); // Reference to the dropdown
 
@@ -35,7 +36,7 @@ function NavBar() {
 
         const data = await response.json();
         console.log("Fetched user data:", data); // Debugging log
-        setUsername(data.userData);
+        setUsername(data.userData.toUpperCase());
       } catch (error) {
         console.error("Failed to fetch username:", error);
       } finally {
@@ -44,8 +45,9 @@ function NavBar() {
     };
 
     fetchUserName();
-  }, [JWTtoken]); // Ensure JWTtoken is a dependency
+  }, [JWTtoken]);
 
+  // Function to handle logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUsername(null);
@@ -71,46 +73,66 @@ function NavBar() {
     };
   }, [dropdownOpen]);
 
+  // Detect scroll position to apply the 'navbar-scrolled' class
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/">
-          {/* <img src="src/css/images/Logo_Trans.png" alt="MnMTransLogo" /> */}
-          <p>I Bet Mark and Majella</p>
+    <nav className={`navbar-container ${isScrolled ? "navbar-scrolled" : ""}`}>
+      <div className="navbar-left">
+        <Link to="/" className="navbar-left-items">
+          HOME
+        </Link>
+        <Link to="/bestbets" className="navbar-left-items">
+          LEADERBOARDS
         </Link>
       </div>
-      <div className="navbar-links">
-        <Link to="/" className="nav-link">
-          Home
-        </Link>
-        <Link to="/bestbets" className="nav-link">
-          Best Bets
-        </Link>
-
+      <div className="navbar-center">
+        <img
+          src="src/css/images/mmmm.svg"
+          className="mnm-logo"
+          alt="mnm-logo"
+        />
+      </div>
+      <div className="navbar-right">
         {JWTtoken ? (
-          <div className="dropdown" ref={dropdownRef}>
-            <button
-              className="dropdown-toggle"
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              {loading ? "Loading..." : username ? username : "Guest"}
-            </button>
-            {dropdownOpen && (
-              <div className="dropdown-menu">
-                <Link to="/userprofile" className="dropdown-item">
-                  Profile
-                </Link>
-                <button onClick={handleLogout} className="dropdown-item">
-                  Logout
-                </button>
-              </div>
-            )}
+          <div>
+            <div className="dropdown-username" ref={dropdownRef}>
+              <button
+                className="dropdown-toggle"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                {loading ? "Loading..." : username ? username : "Guest"}
+              </button>
+              {dropdownOpen && (
+                <div className="dropdown-menu">
+                  <Link to="/userprofile" className="dropdown-item">
+                    Profile
+                  </Link>
+                  <Link to="/likedbets" className="dropdown-item">
+                    Best Bets
+                  </Link>
+                  <button onClick={handleLogout} className="dropdown-item">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <>
-            <Link to="/register" className="nav-link">
-              Register
-            </Link>
             <Link to="/login" className="nav-link">
               Login
             </Link>

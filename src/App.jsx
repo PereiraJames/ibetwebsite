@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import "./css/App.css";
 import UserProfile from "./pages/UserProfile";
+import LikedBets from "./pages/LikedBets";
 
 function App() {
   const [refresh, setRefresh] = useState(false); // Track page changes for re-render
@@ -31,6 +32,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/likedbets" element={<LikedBets />} />
         </Routes>
       </main>
     </div>

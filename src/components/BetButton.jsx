@@ -121,7 +121,7 @@ function BetButton() {
     <div>
       {/* Bet Button */}
       <button className="bet-button" onClick={togglePopup}>
-        I WANT TO BET!
+        BET!
       </button>
 
       {/* Popup Form */}
@@ -133,6 +133,7 @@ function BetButton() {
               <div className="form-group">
                 <label>Bet Text</label>
                 <input
+                  placeholder="I bet Mark and Majella..."
                   type="text"
                   name="text"
                   value={betDetails.text}
@@ -143,6 +144,7 @@ function BetButton() {
               <div className="form-group">
                 <label>Bet Amount</label>
                 <input
+                  placeholder="$10"
                   type="text"
                   name="betAmount"
                   value={betDetails.betAmount}
@@ -164,6 +166,7 @@ function BetButton() {
               <div className="form-group">
                 <label>Conditionals</label>
                 <input
+                  placeholder="If this bet comes true..."
                   type="text"
                   name="conditionals"
                   value={betDetails.conditionals}

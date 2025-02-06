@@ -4,9 +4,8 @@ import { getAllBets } from "../services/database"; // Update this based on your 
 import BetCard from "../components/BetCard";
 import BetButton from "../components/BetButton";
 import FrontPageBanner from "../components/FrontBanner";
-import Carousell from "../components/Carousell";
 
-const Home = () => {
+const Leaderboards = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [bets, setBets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +35,6 @@ const Home = () => {
   return (
     <div className="home">
       <FrontPageBanner />
-      <Carousell />
       <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
@@ -72,4 +70,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Leaderboards;

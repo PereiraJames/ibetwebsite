@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "../css/BetCard.css";
+import AcceptBetButton from "./AcceptBetButton";
 
 function BetCard({ bet }) {
   const [likes, setLikes] = useState(bet.likes); // Track likes in state
@@ -31,18 +32,22 @@ function BetCard({ bet }) {
       <div className="bet-info">
         <h3>{bet.text}</h3>
         <p>Bet Placed By: {bet.bettor}</p>
+        <p>Bet Accepted By: - {bet.acceptor}</p>
         <p>Wager: ${bet.betamount}</p>
         <p>Start Date: {bet.startdate}</p>
         <p>Due Date: {bet.enddate}</p>
         <p>Conditionals: {bet.conditionals}</p>
         {/* <p>Likes: {likes}</p> Display updated like count */}
       </div>
-      <button
-        className={`favorite-btn ${likes > bet.likes ? "active" : ""}`}
-        onClick={onLike}
-      >
-        ♥ {likes}
-      </button>
+      <div className="interaction-bar">
+        <button
+          className={`favorite-btn ${likes > bet.likes ? "active" : ""}`}
+          onClick={onLike}
+        >
+          ♥ {likes}
+        </button>
+        <button className="accept-bet">Accept Bet!</button>
+      </div>
     </div>
   );
 }

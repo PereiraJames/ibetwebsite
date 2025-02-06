@@ -120,6 +120,27 @@ app.post("/api/bets/like", (req, res) => {
   });
 });
 
+app.post("/bets/accept-bet", (req,res) => {
+  const {username, userid} = req.body;
+
+  if (!userid) {
+    return res.status(400).json({message: "Need to be logged in."})
+  };
+
+  try{
+    const BetInfoQuery = "SELECT * FROM bets WHERE id = ?";
+    db.query(BetInfoQuery, [betId], (err, result) => {
+      if (err){
+        return res.status(500).json("Database Error!");
+      }
+      return res.status(200).json({message : "Successfully accepted bet!"})
+    });
+  } catch (err){
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 //Creating an account
 app.post("/auth/register", async (req, res) => {
   const { username, password } = req.body;

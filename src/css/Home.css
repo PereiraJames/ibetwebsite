@@ -136,3 +136,11 @@
     outline-style: solid;
     flex-direction: row;
   }
+
+  .home-info-banner{
+    background-color: white;
+    height: 60px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
