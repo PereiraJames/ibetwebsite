@@ -8,6 +8,9 @@
     height: 400px;
     width: 350px;
     display: flex;
+    outline: #FFD700;
+    outline-width: 3px;
+    outline-style: solid;
     flex-direction: row;
   }
   
@@ -15,7 +18,7 @@
     transform: translateY(-5px);
     background-color: #4a4a4a;
     border-radius: 4px;
-    outline: #000000;
+    outline: #ffffff;
     outline-width: 3px;
     outline-style: solid;
   }
@@ -130,4 +133,6 @@
       height: 32px;
       font-size: 1.2rem;
     }
+
+
   }

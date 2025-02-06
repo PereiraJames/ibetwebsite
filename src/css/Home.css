@@ -2,6 +2,7 @@
     /* padding: 2rem 0; */
     width: 100%;
     box-sizing: border-box;
+    background-color: black;
   }
   
   .search-form {
@@ -11,7 +12,9 @@
     gap: 1rem;
     padding: 0 1rem;
     box-sizing: border-box;
+    background-color: black;
   }
+
   
   .search-input {
     flex: 1;
@@ -60,6 +63,7 @@
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
+    background-color: black;
   }
 
   .front-img-container {
@@ -68,12 +72,22 @@
     width: 100%;
   }
   
-  .front-img-container img {
+  .front-img-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,1),rgba(0,0,0,0.3)); /* Correct gradient */
+    pointer-events: none; /* Ensure interaction with the image */
+}
+
+.front-img-container img {
     display: block;
     width: 100%;
     height: auto;
-    filter: brightness(50%); /* Darken the image */
-  }
+}
   
   .front-img-container::after {
     content: "";
@@ -82,7 +96,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.35); /* Dark overlay */
+    background: rgba(0, 0, 0, 0.35);
   }
   
   /* Text Styling */
@@ -105,3 +119,20 @@
     font-size: 32px; /* Increase the text size */
   }
   
+  .bet-card-dropdown{
+    padding: 10px;
+    /* margin: 15px; */
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    transition: transform 0.2s;
+    /* height: 100%; */
+    height: 120px;
+    width: 350px;
+    display: flex;
+    outline: #FFD700;
+    outline-width: 3px;
+    outline-style: solid;
+    flex-direction: row;
+  }
