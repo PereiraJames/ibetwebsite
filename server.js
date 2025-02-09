@@ -73,6 +73,35 @@ app.get("/auth/get-username", async (req, res) => {
   }
 });
 
+app.get("/auth/get-userinfo", async (req, res) => {
+  try {
+      const userId = await getUserIdFromToken(req);
+      if (!userId) {
+          return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      // Fetch username from database
+      const getUserNameQuery = "SELECT * FROM users WHERE id = ?"
+
+      db.query(getUserNameQuery, [userId], (err, result) => {
+        if (err) {
+          console.error("Error fetching username:", err);
+          return res.status(500).send("Error fetching data");
+        }
+
+        if (result.length === 0) {
+          return res.status(404).json({ message: "User Not Found" });
+        }
+
+        res.json({ userData: result[0] });
+      });
+
+  } catch (error) {
+      console.error("Error fetching username:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 //Creating an account
 app.post("/auth/register", async (req, res) => {
   const { username, password } = req.body;
@@ -157,30 +186,55 @@ app.post("/auth/login", (req, res) => {
 
 // BET APIs
 
-app.post("/bet/accept-bet", (req, res) => {
-  const {}
+app.post("/bet/accept-bet", async (req, res) => {
+  const { betID } = req.body;
+  const userID = await getUserIdFromToken(req);
 
-  //add the persons name to the bet acceptor.
-
-  //make sure it is able for other to accept the bet.
-})
-
-app.post("/bets/accept-bet", (req,res) => {
-  const {username, userid} = req.body;
-
-  if (!userid) {
-    return res.status(400).json({message: "Need to be logged in."})
-  };
-
-  try{
-    const BetInfoQuery = "SELECT * FROM bets WHERE id = ?";
-    db.query(BetInfoQuery, [betId], (err, result) => {
-      if (err){
+  try {
+    // Check if the user has already accepted the bet
+    const checkBetQuery = "SELECT * FROM betaccepts WHERE betid = ? AND userid = ?";
+    db.query(checkBetQuery, [betID, userID], (err, result) => {
+      if (err) {
+        console.error("Database Error:", err);
         return res.status(500).json("Database Error!");
       }
-      return res.status(200).json({message : "Successfully accepted bet!"})
+
+      // If a record exists, the user has already accepted the bet
+      if (result.length > 0) {
+        return res.status(400).json({ message: "You have already accepted this bet!" });
+      }
+
+      // If no record exists, proceed with inserting the new entry
+      const UserAcceptBetQuery = "INSERT INTO betaccepts (betid, userid) VALUES (?, ?)";
+      db.query(UserAcceptBetQuery, [betID, userID], (err, result) => {
+        if (err) {
+          console.error("Database Error:", err);
+          return res.status(500).json("Database Error!");
+        }
+        return res.status(200).json({ message: "Successfully accepted bet!" });
+      });
     });
-  } catch (err){
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/bet/user-acceptedbets", async (req,res) => {
+  const userID = await getUserIdFromToken(req);
+
+  try{
+    const userBetsQuery = "SELECT * FROM betaccepts WHERE userid = ?";
+    
+    db.query(userBetsQuery, [userID], (err,results) => {
+      if (err) {
+        console.error("Database Error:", err);
+        return res.status(500).json("Database Error!");
+      }
+      return res.json(results);
+    })
+
+  }catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
   }

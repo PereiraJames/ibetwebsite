@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import "../css/BetCard.css";
 import AcceptBetButton from "./AcceptBetButton";
 
-function BetCard({ bet }) {
-  const [likes, setLikes] = useState(bet.likes); // Track likes in state
+function BetCard({ bet: initialBet }) {
+  const [bet, setBet] = useState(initialBet); // Track bet state
+  const [likes, setLikes] = useState(initialBet.likes);
 
   useEffect(() => {
-    setLikes(bet.likes); // Update likes when bet changes
-  }, [bet]);
+    setBet(initialBet);
+    setLikes(initialBet.likes);
+  }, [initialBet]);
 
   async function onLike() {
     try {
@@ -18,7 +20,7 @@ function BetCard({ bet }) {
       });
 
       if (response.ok) {
-        setLikes((prevLikes) => prevLikes + 1); // Update UI after successful response
+        setLikes((prevLikes) => prevLikes + 1);
       } else {
         console.error("Failed to like bet");
       }
@@ -32,21 +34,25 @@ function BetCard({ bet }) {
       <div className="bet-info">
         <h3>{bet.text}</h3>
         <p>Bet Placed By: {bet.bettor}</p>
-        <p>Bet Accepted By: - {bet.acceptor}</p>
+        <p>Bet Accepted By: {bet.acceptor || "-"}</p>
         <p>Wager: ${bet.betamount}</p>
         <p>Start Date: {bet.startdate}</p>
         <p>Due Date: {bet.enddate}</p>
         <p>Conditionals: {bet.conditionals}</p>
-        {/* <p>Likes: {likes}</p> Display updated like count */}
       </div>
       <div className="interaction-bar">
         <button
-          className={`favorite-btn ${likes > bet.likes ? "active" : ""}`}
+          className={`favorite-btn ${likes > initialBet.likes ? "active" : ""}`}
           onClick={onLike}
         >
           ♥ {likes}
         </button>
-        <AcceptBetButton />
+
+        {!bet.isAccepted ? (
+          <AcceptBetButton bet={bet} onBetAccepted={setBet} />
+        ) : (
+          <div>You Have Accepted This Bet</div>
+        )}
       </div>
     </div>
   );

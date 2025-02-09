@@ -8,7 +8,7 @@ export const getAllBets = async () => {
   
       // Directly parse the array from the response
       const data = await response.json();
-      console.log("Fetched bets:", data); // Log to debug
+      // console.log("Fetched bets:", data); // Log to debug
       return data; // Directly return the array
     } catch (error) {
       console.error("Error fetching bets:", error.message);

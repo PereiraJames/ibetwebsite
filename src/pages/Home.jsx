@@ -11,21 +11,79 @@ const Home = () => {
   const [bets, setBets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [acceptedBets, setIsAccepted] = useState([]);
+
+  const JWTtoken = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchBets = async () => {
+    const fetchBetsAndAcceptedStatus = async () => {
       try {
-        const fetchedBets = await getAllBets();
-        setBets(fetchedBets);
+        console.log("Fetching bets and accepted bets...");
+
+        const [fetchedBets, response] = await Promise.all([
+          getAllBets(),
+          JWTtoken &&
+            fetch("http://192.168.1.52:3000/bet/user-acceptedbets", {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${JWTtoken}`,
+                "Content-Type": "application/json",
+              },
+            }),
+        ]);
+
+        console.log("Raw bets data:", fetchedBets);
+
+        if (response) {
+          const data = await response.json();
+          console.log("Raw accepted bets data:", data);
+
+          const acceptedBets = data || []; // Ensure it's an array
+          console.log("Processed accepted bets array:", acceptedBets);
+
+          // Merge `isAccepted` into bets
+          const updatedBets = fetchedBets.map((bet) => {
+            const isAccepted = acceptedBets.some(
+              (accepted) => accepted.betid === bet.id
+            );
+            console.log(`Bet ID: ${bet.id}, isAccepted: ${isAccepted}`);
+            return { ...bet, isAccepted };
+          });
+
+          console.log(
+            "Final updated bets with acceptance status:",
+            updatedBets
+          );
+
+          setBets(updatedBets);
+        } else {
+          // Handle the case where the user is not logged in (no JWT)
+          setBets(fetchedBets); // Just set the bets without the accepted status
+        }
       } catch (err) {
+        console.error("Error fetching bets:", err);
         setError("Failed to load bets...");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBets();
-  }, []);
+    if (JWTtoken) {
+      fetchBetsAndAcceptedStatus();
+    } else {
+      // If no JWT, simply fetch the bets without checking accepted bets
+      getAllBets()
+        .then((fetchedBets) => {
+          setBets(fetchedBets);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching bets:", err);
+          setError("Failed to load bets...");
+          setLoading(false);
+        });
+    }
+  }, [JWTtoken]); // Ensure `JWTtoken` is available before making the request
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -49,8 +107,6 @@ const Home = () => {
           Search
         </button>
       </form>
-
-      {/* <BetButton></BetButton> */}
 
       {error && <div className="error-message">{error}</div>}
 
