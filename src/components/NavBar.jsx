@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../css/NavBar.css";
 import BetButton from "./BetButton";
+import LoginPopUp from "./LoginPopUp";
 
 function NavBar() {
   const [username, setUsername] = useState(null);
@@ -35,7 +36,7 @@ function NavBar() {
         }
 
         const data = await response.json();
-        console.log("Fetched user data:", data); // Debugging log
+        // console.log("Fetched user data:", data); // Debugging log
         setUsername(data.userData.toUpperCase());
       } catch (error) {
         console.error("Failed to fetch username:", error);
@@ -98,6 +99,7 @@ function NavBar() {
         <Link to="/bestbets" className="navbar-left-items">
           LEADERBOARDS
         </Link>
+        <LoginPopUp />
       </div>
       <div className="navbar-center">
         <img
@@ -107,14 +109,14 @@ function NavBar() {
         />
       </div>
       <div className="navbar-right">
-        {JWTtoken ? (
+        {JWTtoken && username ? (
           <div>
             <div className="dropdown-username" ref={dropdownRef}>
               <button
                 className="dropdown-toggle"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                {loading ? "Loading..." : username ? username : "Guest"}
+                {loading ? "Loading..." : username ? username : "Unknown"}
               </button>
               {dropdownOpen && (
                 <div className="dropdown-menu">
@@ -139,7 +141,7 @@ function NavBar() {
           </>
         )}
 
-        {JWTtoken && !loading && <BetButton />}
+        {JWTtoken && username && !loading && <BetButton />}
       </div>
     </nav>
   );

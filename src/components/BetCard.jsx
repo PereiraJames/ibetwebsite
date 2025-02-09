@@ -46,7 +46,7 @@ function BetCard({ bet }) {
         >
           ♥ {likes}
         </button>
-        <button className="accept-bet">Accept Bet!</button>
+        <AcceptBetButton />
       </div>
     </div>
   );

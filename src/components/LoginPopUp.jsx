@@ -1,27 +1,21 @@
-import "../css/AcceptBetButton.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../css/LoginPopUp.css"; // Optional: For styling
 
-function AcceptBetButton() {
+function LoginPopUp() {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [values, setValues] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false); // Track popup state
 
   const togglePopup = () => setIsOpen(!isOpen);
-
-  const JWTtoken = localStorage.getItem("token");
-
-  const [values, setValues] = useState({ username: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
-
-  const [betAcceptValues, setBetAcceptValues] = useState({
-    accept: "",
-    password: "",
-  });
 
   const handleChanges = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  // Submit the bet details to the backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -37,32 +31,7 @@ function AcceptBetButton() {
       if (response.status === 200) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
-        navigate("/");
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || "An error occurred");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setErrorMessage("Error occurred while submitting the user.");
-    }
-  };
-
-  const handleBetAccept = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("http://192.168.1.52:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (response.status === 200) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
+        togglePopup();
         navigate("/");
       } else {
         const errorData = await response.json();
@@ -76,13 +45,16 @@ function AcceptBetButton() {
 
   return (
     <div>
-      <button className="accept-button" onClick={togglePopup}>
-        Accept Bet!
+      {/* Bet Button */}
+      <button className="bet-button" onClick={togglePopup}>
+        Login/Register
       </button>
 
-      {isOpen && !JWTtoken && (
-        <div className="accept-popup">
-          <div className="accept-popup-content">
+      {/* Popup Form */}
+      {isOpen && (
+        <div className="bet-popup">
+          <div className="bet-popup-content">
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="username">Username</label>
@@ -102,28 +74,15 @@ function AcceptBetButton() {
                   onChange={handleChanges}
                 />
               </div>
-              <button>Submit!</button>
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
             </form>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div>
               <p>No Account?</p>
               <Link to="/register">Register</Link>
             </div>
-
-            <button className="close-button" onClick={togglePopup}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
-      {isOpen && JWTtoken && (
-        <div className="accept-popup">
-          <div className="accept-popup-content">
-            <p>Are you sure you want to accept the bet?</p>
-            <button className="close-button" onClick={togglePopup}>
-              Yes
-            </button>
             <button className="close-button" onClick={togglePopup}>
               Close
             </button>
@@ -134,4 +93,4 @@ function AcceptBetButton() {
   );
 }
 
-export default AcceptBetButton;
+export default LoginPopUp;

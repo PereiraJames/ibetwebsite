@@ -42,6 +42,8 @@ async function getUserIdFromToken(req) {
   }
 }
 
+// USER AUTHENTICATION APIs
+
 app.get("/auth/get-username", async (req, res) => {
   try {
       const userId = await getUserIdFromToken(req);
@@ -68,76 +70,6 @@ app.get("/auth/get-username", async (req, res) => {
   } catch (error) {
       console.error("Error fetching username:", error);
       res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-// GET | Grab all the bets in the database
-app.get("/api/bets", (req, res) => {
-  db.query("SELECT * FROM bets", (err, results) => {
-    if (err) {
-      console.error("Error fetching bets:", err);
-      res.status(500).send("Error fetching data");
-      return;
-    }
-    res.json(results);
-  });
-});
-
-// POST | Creating a Bet
-app.post("/api/bets", (req, res) => {
-  const { text, betAmount, startDate, endDate, bettor, conditionals } = req.body;
-
-  if (!text || !betAmount || !startDate ||  !endDate || !bettor) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-
-  const query = "INSERT INTO bets (text, betAmount, startDate, endDate, bettor, conditionals) VALUES (?, ?, ?, ?, ?, ?)";
-  db.query(query, [text, betAmount, startDate, endDate, bettor, conditionals], (err, result) => {
-    if (err) {
-      console.error("Error inserting bet:", err);
-      res.status(500).json({ message: "Error creating bet" });
-      return;
-    }
-    res.status(201).json({ message: "Bet created successfully!", betId: result.insertId });
-  });
-});
-
-app.post("/api/bets/like", (req, res) => {
-  const { betId } = req.body;
-
-  if (!betId) {
-    return res.status(400).json({ message: "Missing bet ID" });
-  }
-
-  const query = "UPDATE bets SET likes = likes + 1 WHERE id = ?";
-  db.query(query, [betId], (err, result) => {
-    if (err) {
-      console.error("Error updating likes:", err);
-      res.status(500).json({ message: "Error updating likes" });
-      return;
-    }
-    res.json({ message: "Bet liked successfully!" });
-  });
-});
-
-app.post("/bets/accept-bet", (req,res) => {
-  const {username, userid} = req.body;
-
-  if (!userid) {
-    return res.status(400).json({message: "Need to be logged in."})
-  };
-
-  try{
-    const BetInfoQuery = "SELECT * FROM bets WHERE id = ?";
-    db.query(BetInfoQuery, [betId], (err, result) => {
-      if (err){
-        return res.status(500).json("Database Error!");
-      }
-      return res.status(200).json({message : "Successfully accepted bet!"})
-    });
-  } catch (err){
-    console.error("Unexpected error:", err);
-    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -220,6 +152,87 @@ app.post("/auth/login", (req, res) => {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
   }
+});
+
+
+// BET APIs
+
+app.post("/bet/accept-bet", (req, res) => {
+  const {}
+
+  //add the persons name to the bet acceptor.
+
+  //make sure it is able for other to accept the bet.
+})
+
+app.post("/bets/accept-bet", (req,res) => {
+  const {username, userid} = req.body;
+
+  if (!userid) {
+    return res.status(400).json({message: "Need to be logged in."})
+  };
+
+  try{
+    const BetInfoQuery = "SELECT * FROM bets WHERE id = ?";
+    db.query(BetInfoQuery, [betId], (err, result) => {
+      if (err){
+        return res.status(500).json("Database Error!");
+      }
+      return res.status(200).json({message : "Successfully accepted bet!"})
+    });
+  } catch (err){
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// GET | Grab all the bets in the database
+app.get("/api/bets", (req, res) => {
+  db.query("SELECT * FROM bets", (err, results) => {
+    if (err) {
+      console.error("Error fetching bets:", err);
+      res.status(500).send("Error fetching data");
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// POST | Creating a Bet
+app.post("/api/bets", (req, res) => {
+  const { text, betAmount, startDate, endDate, bettor, conditionals } = req.body;
+
+  if (!text || !betAmount || !startDate ||  !endDate || !bettor) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  const query = "INSERT INTO bets (text, betAmount, startDate, endDate, bettor, conditionals) VALUES (?, ?, ?, ?, ?, ?)";
+  db.query(query, [text, betAmount, startDate, endDate, bettor, conditionals], (err, result) => {
+    if (err) {
+      console.error("Error inserting bet:", err);
+      res.status(500).json({ message: "Error creating bet" });
+      return;
+    }
+    res.status(201).json({ message: "Bet created successfully!", betId: result.insertId });
+  });
+});
+
+app.post("/api/bets/like", (req, res) => {
+  const { betId } = req.body;
+
+  if (!betId) {
+    return res.status(400).json({ message: "Missing bet ID" });
+  }
+
+  const query = "UPDATE bets SET likes = likes + 1 WHERE id = ?";
+  db.query(query, [betId], (err, result) => {
+    if (err) {
+      console.error("Error updating likes:", err);
+      res.status(500).json({ message: "Error updating likes" });
+      return;
+    }
+    res.json({ message: "Bet liked successfully!" });
+  });
 });
 
 const PORT = process.env.PORT || 3000;

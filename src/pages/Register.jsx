@@ -1,31 +1,37 @@
-import "../css/BestBets.css";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 function Register() {
-  // Define the initial state values for all form fields
   const [values, setValues] = useState({
     username: "",
     realname: "",
-    phoneNo: "",
     password: "",
     confirmPassword: "",
   });
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const navigate = useNavigate();
 
-  // Handle changes for all input fields
   const handleChanges = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if the password and confirm password match
-    if (values.password !== values.confirmPassword) {
-      alert("Passwords do not match!");
+    // Validate fields
+    const errors = {};
+    if (!values.username) errors.username = "Username is required";
+    if (!values.realname) errors.realname = "Real name is required";
+    if (!values.password) errors.password = "Password is required";
+    if (!values.confirmPassword)
+      errors.confirmPassword = "Confirm password is required";
+    if (values.password !== values.confirmPassword)
+      errors.confirmPassword = "Passwords do not match";
+
+    setFieldErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
       return;
     }
 
@@ -41,13 +47,12 @@ function Register() {
       if (response.status === 201) {
         navigate("/login");
       } else {
-        console.log(response.status);
-        console.log(response);
-        // Handle the error or show a message
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "An error occurred");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error occurred while submitting the user.");
+      setErrorMessage("Error occurred while submitting the user.");
     }
   };
 
@@ -64,6 +69,9 @@ function Register() {
               value={values.username}
               onChange={handleChanges}
             />
+            {fieldErrors.username && (
+              <p className="error-message">{fieldErrors.username}</p>
+            )}
           </div>
 
           <div>
@@ -75,17 +83,9 @@ function Register() {
               value={values.realname}
               onChange={handleChanges}
             />
-          </div>
-
-          <div>
-            <label htmlFor="phoneNo">Phone No.</label>
-            <input
-              type="text"
-              placeholder="Enter Phone Number"
-              name="phoneNo"
-              value={values.phoneNo}
-              onChange={handleChanges}
-            />
+            {fieldErrors.realname && (
+              <p className="error-message">{fieldErrors.realname}</p>
+            )}
           </div>
 
           <div>
@@ -97,6 +97,9 @@ function Register() {
               value={values.password}
               onChange={handleChanges}
             />
+            {fieldErrors.password && (
+              <p className="error-message">{fieldErrors.password}</p>
+            )}
           </div>
 
           <div>
@@ -108,9 +111,14 @@ function Register() {
               value={values.confirmPassword}
               onChange={handleChanges}
             />
+            {fieldErrors.confirmPassword && (
+              <p className="error-message">{fieldErrors.confirmPassword}</p>
+            )}
           </div>
+
           <button>Submit!</button>
         </form>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div>
           <p>Already have an account?</p>
           <Link to="/login">Login</Link>
