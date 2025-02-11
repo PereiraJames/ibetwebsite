@@ -36,7 +36,6 @@ function NavBar() {
         }
 
         const data = await response.json();
-        console.log("Fetched user data:", data); // Debugging log
 
         setUsername(data.userData.toUpperCase());
       } catch (error) {

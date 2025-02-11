@@ -212,6 +212,27 @@ app.get("/user/user-acceptedbets", async (req,res) => {
   }
 });
 
+
+app.get("/user/bet-liked", async (req,res) => {
+  const userID = await getUserIdFromToken(req);
+
+  try{
+    const userBetsQuery = "SELECT * FROM betlikes WHERE user_id = ?";
+    
+    db.query(userBetsQuery, [userID], (err,results) => {
+      if (err) {
+        console.error("Database Error:", err);
+        return res.status(500).json("Database Error!");
+      }
+      return res.json(results);
+    })
+
+  }catch (err) {
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 app.get("/user/user-profileinfo", async (req,res) => {
   const userID = await getUserIdFromToken(req);
 
@@ -234,6 +255,70 @@ app.get("/user/user-profileinfo", async (req,res) => {
   
 })
 
+app.post("/user/bet-like", async (req, res) => {
+  const { betId } = req.body;
+
+  const userID = await getUserIdFromToken(req);
+
+  if (!betId) {
+    return res.status(400).json({ message: "Missing bet ID" });
+  }
+
+  try{
+    const checkLikeExistQuery = "SELECT * FROM betlikes WHERE bet_id = ? AND user_id = ?";
+    
+    db.query(checkLikeExistQuery, [betId, userID], (err,results) => {
+      if (err) {
+        console.error("Database Error:", err);
+        return res.status(500).json("Database Error!");
+      }
+
+      if (results.length > 0) {
+        const unlikeQuery = "DELETE FROM betlikes WHERE user_id = ? AND bet_id = ?";
+
+        db.query(unlikeQuery, [userID, betId], (err,results) => {
+          if (err){
+            console.error("Database Error:", err);
+            return res.status(500).json("Database Error!");
+          }
+
+          console.log(`User ID ${userID} has unliked Bet ID ${betId}`);
+
+          res.json({ success: true, liked: false });
+        })
+      }
+
+      else{
+        const likeQuery = "INSERT INTO betlikes (user_id, bet_id) VALUES (?, ?)";
+
+        db.query(likeQuery, [userID, betId], (err,results) => {
+          if (err){
+            console.error("Database Error:", err);
+            return res.status(500).json("Database Error!");
+          }
+
+          console.log(`User ID ${userID} has liked Bet ID ${betId}`);
+          res.json({ success: true, liked: true });
+        })
+      }
+    })
+  }catch (err) {
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+  
+
+
+  // const query = "UPDATE bets SET likes = likes + 1 WHERE bet_id = ?";
+  // db.query(query, [betId], (err, result) => {
+  //   if (err) {
+  //     console.error("Error updating likes:", err);
+  //     res.status(500).json({ message: "Error updating likes" });
+  //     return;
+  //   }
+  //   res.json({ message: "Bet liked successfully!" });
+  // });
+});
 
 // BET APIs
 
@@ -274,7 +359,27 @@ app.post("/bet/accept-bet", async (req, res) => {
 
 // GET | Grab all the bets in the database
 app.get("/api/bets", (req, res) => {
-  db.query("SELECT * FROM bets", (err, results) => {
+  db.query(`SELECT 
+    b.bet_id, 
+    b.text, 
+    b.betamount, 
+    b.startdate,
+    b.enddate,
+    b.bettor_id,
+    b.conditionals,
+    COUNT(bl.like_id) AS likes_count
+FROM bets b
+LEFT JOIN betlikes bl 
+    ON b.bet_id = bl.bet_id
+GROUP BY 
+    b.bet_id,  
+    b.text, 
+    b.betamount, 
+    b.startdate,
+    b.enddate,
+    b.bettor_id,
+    b.conditionals;
+`, (err, results) => {
     if (err) {
       console.error("Error fetching bets:", err);
       res.status(500).send("Error fetching data");

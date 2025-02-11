@@ -2,26 +2,41 @@ import { useState, useEffect } from "react";
 import "../css/BetCard.css";
 import AcceptBetButton from "./AcceptBetButton";
 import LoginPopUp from "./LoginPopUp";
+import { faDatabase } from "@fortawesome/free-solid-svg-icons/faDatabase";
 
 function BetCard({ bet: initialBet }) {
   const [bet, setBet] = useState(initialBet); // Track bet state
-  const [likes, setLikes] = useState(initialBet.likes);
+  const [likes, setLikes] = useState(initialBet.likes_count);
+  const [isLiked, setIsLiked] = useState(initialBet.isLiked);
 
   useEffect(() => {
     setBet(initialBet);
-    setLikes(initialBet.likes);
+    setLikes(initialBet.likes_count);
+    setIsLiked(initialBet.isLiked);
   }, [initialBet]);
 
   async function onLike() {
+    const JWTtoken = localStorage.getItem("token");
     try {
-      const response = await fetch("http://192.168.1.52:3000/api/bets/like", {
+      const response = await fetch("http://192.168.1.52:3000/user/bet-like", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ betId: bet.id }),
+        headers: {
+          Authorization: `Bearer ${JWTtoken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ betId: bet.bet_id }),
       });
 
       if (response.ok) {
-        setLikes((prevLikes) => prevLikes + 1);
+        const data = await response.json();
+        // console.log(data);
+        if (data.liked) {
+          setLikes((prevLikes) => prevLikes + 1);
+          setIsLiked(true);
+        } else {
+          setLikes((prevLikes) => prevLikes - 1);
+          setIsLiked(false);
+        }
       } else {
         console.error("Failed to like bet");
       }
@@ -43,7 +58,7 @@ function BetCard({ bet: initialBet }) {
       </div>
       <div className="interaction-bar">
         <button
-          className={`favorite-btn ${likes > initialBet.likes ? "active" : ""}`}
+          className={`favorite-btn ${isLiked ? "active" : ""}`}
           onClick={onLike}
         >
           ♥ {likes}

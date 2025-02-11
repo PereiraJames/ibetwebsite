@@ -12,54 +12,63 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [acceptedBets, setIsAccepted] = useState([]);
+  const [likedBets, setLikedBets] = useState([]);
 
   const JWTtoken = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchBetsAndAcceptedStatus = async () => {
+    const fetchBetsAndStatuses = async () => {
       try {
-        console.log("Fetching bets and accepted bets...");
+        // console.log("Fetching bets, accepted bets, and liked bets...");
 
-        const [fetchedBets, response] = await Promise.all([
-          getAllBets(),
-          JWTtoken &&
-            fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${JWTtoken}`,
-                "Content-Type": "application/json",
-              },
-            }),
-        ]);
+        const [fetchedBets, acceptedResponse, likedResponse] =
+          await Promise.all([
+            getAllBets(),
+            JWTtoken &&
+              fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${JWTtoken}`,
+                  "Content-Type": "application/json",
+                },
+              }),
+            JWTtoken &&
+              fetch("http://192.168.1.52:3000/user/bet-liked", {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${JWTtoken}`,
+                  "Content-Type": "application/json",
+                },
+              }),
+          ]);
 
-        console.log("Raw bets data:", fetchedBets);
+        // console.log("Raw bets data:", fetchedBets);
 
-        if (response) {
-          const data = await response.json();
-          console.log("Raw accepted bets data:", data);
+        const acceptedBets = acceptedResponse
+          ? await acceptedResponse.json()
+          : [];
+        const likedBets = likedResponse ? await likedResponse.json() : [];
 
-          const acceptedBets = data || []; // Ensure it's an array
-          console.log("Processed accepted bets array:", acceptedBets);
+        // console.log("Processed accepted bets:", acceptedBets);
+        // console.log("Processed liked bets:", likedBets);
 
-          // Merge `isAccepted` into bets
-          const updatedBets = fetchedBets.map((bet) => {
-            const isAccepted = acceptedBets.some(
-              (accepted) => accepted.bet_id === bet.bet_id
-            );
-            console.log(`Bet ID: ${bet.id}, isAccepted: ${isAccepted}`);
-            return { ...bet, isAccepted };
-          });
-
-          console.log(
-            "Final updated bets with acceptance status:",
-            updatedBets
+        // Merge `isAccepted` and `isLiked` into bets
+        const updatedBets = fetchedBets.map((bet) => {
+          const isAccepted = acceptedBets.some(
+            (accepted) => accepted.bet_id === bet.bet_id
+          );
+          const isLiked = likedBets.some(
+            (liked) => liked.bet_id === bet.bet_id
           );
 
-          setBets(updatedBets);
-        } else {
-          // Handle the case where the user is not logged in (no JWT)
-          setBets(fetchedBets); // Just set the bets without the accepted status
-        }
+          // console.log(
+          //   `Bet ID: ${bet.bet_id}, isAccepted: ${isAccepted}, isLiked: ${isLiked}`
+          // );
+
+          return { ...bet, isAccepted, isLiked };
+        });
+
+        setBets(updatedBets);
       } catch (err) {
         console.error("Error fetching bets:", err);
         setError("Failed to load bets...");
@@ -69,9 +78,9 @@ const Home = () => {
     };
 
     if (JWTtoken) {
-      fetchBetsAndAcceptedStatus();
+      fetchBetsAndStatuses();
     } else {
-      // If no JWT, simply fetch the bets without checking accepted bets
+      // If no JWT, simply fetch the bets without checking accepted or liked bets
       getAllBets()
         .then((fetchedBets) => {
           setBets(fetchedBets);
@@ -83,7 +92,8 @@ const Home = () => {
           setLoading(false);
         });
     }
-  }, [JWTtoken]); // Ensure `JWTtoken` is available before making the request
+  }, [JWTtoken]); // Make sure to run this effect whenever JWTtoken changes
+  // Ensure `JWTtoken` is available before making the request
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -119,7 +129,7 @@ const Home = () => {
               bet.text.toLowerCase().includes(searchQuery.toLowerCase())
             )
             .map((bet) => (
-              <BetCard bet={bet} key={bet.id} />
+              <BetCard bet={bet} key={bet.bet_id} />
             ))}
         </div>
       )}

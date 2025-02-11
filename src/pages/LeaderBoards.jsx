@@ -23,8 +23,6 @@ const Home = () => {
   useEffect(() => {
     const fetchBetsAndAcceptedStatus = async () => {
       try {
-        console.log("Fetching bets and accepted bets...");
-
         const [fetchedBets, response] = await Promise.all([
           getLeaderboardBets(),
           JWTtoken &&
@@ -37,28 +35,18 @@ const Home = () => {
             }),
         ]);
 
-        console.log("Raw bets data:", fetchedBets);
-
         if (response) {
           const data = await response.json();
-          console.log("Raw accepted bets data:", data);
 
           const acceptedBets = data || []; // Ensure it's an array
-          console.log("Processed accepted bets array:", acceptedBets);
 
           // Merge `isAccepted` into bets
           const updatedBets = fetchedBets.map((bet) => {
             const isAccepted = acceptedBets.some(
               (accepted) => accepted.bet_id === bet.bet_id
             );
-            console.log(`Bet ID: ${bet.bet_id}, isAccepted: ${isAccepted}`);
             return { ...bet, isAccepted };
           });
-
-          console.log(
-            "Final updated bets with acceptance status:",
-            updatedBets
-          );
 
           setBets(updatedBets);
         } else {
@@ -98,9 +86,6 @@ const Home = () => {
 
         setBettors(bettorsData);
         setAcceptors(acceptorsData);
-
-        console.log("Bettors leaderboard:", bettorsData);
-        console.log("Acceptors leaderboard:", acceptorsData);
       } catch (err) {
         console.error("Error fetching leaderboard data:", err);
         setError("Failed to load leaderboard data...");
