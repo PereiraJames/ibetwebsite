@@ -78,22 +78,20 @@ function BetButton() {
 
     const prefixBet = `I bet Mark and Majella will ${betDetails.text}`;
     const formattedEndDate = formatDate(betDetails.endDate);
-    const bettorFromToken = await fetchUserName();
-
-    console.log(bettorFromToken, formattedEndDate, prefixBet);
+    const JWTtoken = localStorage.getItem("token");
 
     // Update betDetails with the formatted endDate
     const updatedBetDetails = {
       ...betDetails,
       endDate: formattedEndDate,
-      bettor: bettorFromToken,
       text: prefixBet,
     };
 
     try {
-      const response = await fetch("http://192.168.1.52:3000/api/bets", {
+      const response = await fetch("http://192.168.1.52:3000/bet/create-bet", {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${JWTtoken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedBetDetails),

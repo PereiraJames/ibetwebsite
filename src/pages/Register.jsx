@@ -31,6 +31,8 @@ function Register() {
 
     setFieldErrors(errors);
 
+    console.log(values);
+
     if (Object.keys(errors).length > 0) {
       return;
     }

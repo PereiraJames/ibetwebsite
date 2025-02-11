@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import "./css/App.css";
 import UserProfile from "./pages/UserProfile";
 import LikedBets from "./pages/LikedBets";
+import Leaderboards from "./pages/LeaderBoards";
+import HowToPlay from "./pages/HowToPlay";
 
 function App() {
   const [refresh, setRefresh] = useState(false); // Track page changes for re-render
@@ -33,6 +35,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/likedbets" element={<LikedBets />} />
+          <Route path="/leaderboards" element={<Leaderboards />} />
+          <Route path="/howtoplay" element={<HowToPlay />} />
         </Routes>
       </main>
     </div>

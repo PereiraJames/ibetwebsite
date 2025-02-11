@@ -52,7 +52,7 @@ app.get("/auth/get-username", async (req, res) => {
       }
 
       // Fetch username from database
-      const getUserNameQuery = "SELECT username FROM users WHERE id = ?"
+      const getUserNameQuery = "SELECT username FROM users WHERE user_id = ?"
 
       db.query(getUserNameQuery, [userId], (err, result) => {
         if (err) {
@@ -81,7 +81,7 @@ app.get("/auth/get-userinfo", async (req, res) => {
       }
 
       // Fetch username from database
-      const getUserNameQuery = "SELECT * FROM users WHERE id = ?"
+      const getUserNameQuery = "SELECT * FROM users WHERE user_id = ?"
 
       db.query(getUserNameQuery, [userId], (err, result) => {
         if (err) {
@@ -104,10 +104,18 @@ app.get("/auth/get-userinfo", async (req, res) => {
 
 //Creating an account
 app.post("/auth/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, realname } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ message: "Username and password are required" });
+  if (!password) {
+    return res.status(400).json({ message: "Password is required" });
+  }
+
+  if (!username) {
+    return res.status(400).json({ message: "Username is required" });
+  }
+
+  if (!realname){
+    return res.status(400).json({ message: "Realname is required" });
   }
 
   try {
@@ -124,8 +132,8 @@ app.post("/auth/register", async (req, res) => {
       }
 
       // Insert new user
-      const userInsertQuery = "INSERT INTO users (username, password) VALUES (?,?)";
-      db.query(userInsertQuery, [username, password], (err, result) => {
+      const userInsertQuery = "INSERT INTO users (username, password, realname) VALUES (?,?,?)";
+      db.query(userInsertQuery, [username, password, realname], (err, result) => {
         if (err) {
           console.error("Error inserting user:", err);
           return res.status(500).json({ message: "Error creating user" });
@@ -172,8 +180,8 @@ app.post("/auth/login", (req, res) => {
       }
 
       // Creating JWT Token
-      const generatedToken = jwt.sign({ id: user.id }, process.env.JWT_KEY, { expiresIn: "3h" });
-      console.log(`${user.id} | ${user.username} has successfully logged in.`)
+      const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
+      console.log(`${user.user_id} | ${user.username} has successfully logged in.`)
       return res.status(200).json({token: generatedToken});
     });
 
@@ -184,47 +192,11 @@ app.post("/auth/login", (req, res) => {
 });
 
 
-// BET APIs
-
-app.post("/bet/accept-bet", async (req, res) => {
-  const { betID } = req.body;
-  const userID = await getUserIdFromToken(req);
-
-  try {
-    // Check if the user has already accepted the bet
-    const checkBetQuery = "SELECT * FROM betaccepts WHERE betid = ? AND userid = ?";
-    db.query(checkBetQuery, [betID, userID], (err, result) => {
-      if (err) {
-        console.error("Database Error:", err);
-        return res.status(500).json("Database Error!");
-      }
-
-      // If a record exists, the user has already accepted the bet
-      if (result.length > 0) {
-        return res.status(400).json({ message: "You have already accepted this bet!" });
-      }
-
-      // If no record exists, proceed with inserting the new entry
-      const UserAcceptBetQuery = "INSERT INTO betaccepts (betid, userid) VALUES (?, ?)";
-      db.query(UserAcceptBetQuery, [betID, userID], (err, result) => {
-        if (err) {
-          console.error("Database Error:", err);
-          return res.status(500).json("Database Error!");
-        }
-        return res.status(200).json({ message: "Successfully accepted bet!" });
-      });
-    });
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-app.get("/bet/user-acceptedbets", async (req,res) => {
+app.get("/user/user-acceptedbets", async (req,res) => {
   const userID = await getUserIdFromToken(req);
 
   try{
-    const userBetsQuery = "SELECT * FROM betaccepts WHERE userid = ?";
+    const userBetsQuery = "SELECT * FROM betaccepts WHERE user_id = ?";
     
     db.query(userBetsQuery, [userID], (err,results) => {
       if (err) {
@@ -240,6 +212,66 @@ app.get("/bet/user-acceptedbets", async (req,res) => {
   }
 });
 
+app.get("/user/user-profileinfo", async (req,res) => {
+  const userID = await getUserIdFromToken(req);
+
+  const profileData = [];
+
+  try{
+    const userProfileQuery = "SELECT * FROM users WHERE id = ?"
+    
+    db.query(userProfileQuery, [userID], (err,results) => {
+      if (err) {
+        console.error("Database Error:", err);
+        return res.status(500).json("Database Error!");
+      }
+      return res.json(results);
+    })
+  }catch (err) {
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+  
+})
+
+
+// BET APIs
+
+app.post("/bet/accept-bet", async (req, res) => {
+  const { betID } = req.body;
+  const userID = await getUserIdFromToken(req);
+
+  try {
+    // Check if the user has already accepted the bet
+    const checkBetQuery = "SELECT * FROM betaccepts WHERE bet_id = ? AND user_id = ?";
+    db.query(checkBetQuery, [betID, userID], (err, result) => {
+      if (err) {
+        console.error("Database Error:", err);
+        return res.status(500).json("Database Error!");
+      }
+
+      // If a record exists, the user has already accepted the bet
+      if (result.length > 0) {
+        return res.status(400).json({ message: "You have already accepted this bet!" });
+      }
+
+      // If no record exists, proceed with inserting the new entry
+      const UserAcceptBetQuery = "INSERT INTO betaccepts (bet_id, user_id) VALUES (?, ?)";
+      db.query(UserAcceptBetQuery, [betID, userID], (err, result) => {
+        if (err) {
+          console.error("Database Error:", err);
+          return res.status(500).json("Database Error!");
+        }
+        return res.status(200).json({ message: "Successfully accepted bet!" });
+      });
+    });
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 // GET | Grab all the bets in the database
 app.get("/api/bets", (req, res) => {
   db.query("SELECT * FROM bets", (err, results) => {
@@ -252,16 +284,69 @@ app.get("/api/bets", (req, res) => {
   });
 });
 
+app.get("/bet/leaderboard-bets", (req, res) => {
+  db.query("SELECT * FROM bets ORDER BY likes DESC LIMIT 10", (err, results) => {
+    if (err) {
+      console.error("Error fetching bets:", err);
+      res.status(500).send("Error fetching data");
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.get("/bet/leaderboard-bettors", (req, res) => {
+  db.query(`
+   SELECT u.username, b.bettor_id, COUNT(b.bettor_id) AS total_bets
+FROM bets b
+JOIN users u ON b.bettor_id = u.user_id
+GROUP BY b.bettor_id, u.username
+ORDER BY total_bets DESC
+LIMIT 10;
+    `, (err, results) => {
+    if (err) {
+      console.error("Error fetching bets:", err);
+      res.status(500).send("Error fetching data");
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
+app.get("/bet/leaderboard-acceptors", (req, res) => {
+  db.query(`
+   SELECT u.username, ba.user_id, COUNT(ba.user_id) AS total_accepts
+FROM betaccepts ba
+JOIN users u ON ba.user_id = u.user_id
+GROUP BY ba.user_id, u.username
+ORDER BY total_accepts DESC
+LIMIT 10;
+`, (err, results) => {
+    if (err) {
+      console.error("Error fetching bets:", err);
+      res.status(500).send("Error fetching data");
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
 // POST | Creating a Bet
-app.post("/api/bets", (req, res) => {
+app.post("/bet/create-bet", async (req, res) => {
   const { text, betAmount, startDate, endDate, bettor, conditionals } = req.body;
 
-  if (!text || !betAmount || !startDate ||  !endDate || !bettor) {
+  const bettorID = await getUserIdFromToken(req); 
+
+  console.log(bettorID);
+
+  if (!text || !betAmount || !startDate ||  !endDate || !bettorID) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  const query = "INSERT INTO bets (text, betAmount, startDate, endDate, bettor, conditionals) VALUES (?, ?, ?, ?, ?, ?)";
-  db.query(query, [text, betAmount, startDate, endDate, bettor, conditionals], (err, result) => {
+  const query = "INSERT INTO bets (text, betAmount, startDate, endDate, bettor_id, conditionals) VALUES (?, ?, ?, ?, ?, ?)";
+  db.query(query, [text, betAmount, startDate, endDate, bettorID, conditionals], (err, result) => {
     if (err) {
       console.error("Error inserting bet:", err);
       res.status(500).json({ message: "Error creating bet" });
@@ -278,7 +363,7 @@ app.post("/api/bets/like", (req, res) => {
     return res.status(400).json({ message: "Missing bet ID" });
   }
 
-  const query = "UPDATE bets SET likes = likes + 1 WHERE id = ?";
+  const query = "UPDATE bets SET likes = likes + 1 WHERE bet_id = ?";
   db.query(query, [betId], (err, result) => {
     if (err) {
       console.error("Error updating likes:", err);

@@ -36,7 +36,8 @@ function NavBar() {
         }
 
         const data = await response.json();
-        // console.log("Fetched user data:", data); // Debugging log
+        console.log("Fetched user data:", data); // Debugging log
+
         setUsername(data.userData.toUpperCase());
       } catch (error) {
         console.error("Failed to fetch username:", error);
@@ -96,8 +97,11 @@ function NavBar() {
         <Link to="/" className="navbar-left-items">
           HOME
         </Link>
-        <Link to="/bestbets" className="navbar-left-items">
+        <Link to="/leaderboards" className="navbar-left-items">
           LEADERBOARDS
+        </Link>
+        <Link to="/howtoplay" className="navbar-left-items">
+          HOW TO PLAY
         </Link>
         <LoginPopUp />
       </div>

@@ -23,7 +23,7 @@ const Home = () => {
         const [fetchedBets, response] = await Promise.all([
           getAllBets(),
           JWTtoken &&
-            fetch("http://192.168.1.52:3000/bet/user-acceptedbets", {
+            fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
               method: "GET",
               headers: {
                 Authorization: `Bearer ${JWTtoken}`,
@@ -44,7 +44,7 @@ const Home = () => {
           // Merge `isAccepted` into bets
           const updatedBets = fetchedBets.map((bet) => {
             const isAccepted = acceptedBets.some(
-              (accepted) => accepted.betid === bet.id
+              (accepted) => accepted.bet_id === bet.bet_id
             );
             console.log(`Bet ID: ${bet.id}, isAccepted: ${isAccepted}`);
             return { ...bet, isAccepted };
@@ -123,7 +123,6 @@ const Home = () => {
             ))}
         </div>
       )}
-      <div className="bet-card-dropdown">test</div>
     </div>
   );
 };
