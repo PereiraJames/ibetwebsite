@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "../css/BetCard.css";
 import AcceptBetButton from "./AcceptBetButton";
+import LoginPopUp from "./LoginPopUp";
 
 function BetCard({ bet: initialBet }) {
   const [bet, setBet] = useState(initialBet); // Track bet state
@@ -54,6 +55,7 @@ function BetCard({ bet: initialBet }) {
           <div>You Have Accepted This Bet</div>
         )}
       </div>
+      {/* <LoginPopUp /> */}
     </div>
   );
 }

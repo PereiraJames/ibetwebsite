@@ -1,7 +1,7 @@
 .bet-card {
   position: relative;
   border-radius: 8px;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: #1a1a1a;
   transition: transform 0.2s;
   height: 400px;
@@ -34,7 +34,7 @@
   height: 100%;
   object-fit: cover;
 }
-
+/* 
 .bet-overlay {
   position: absolute;
   top: 0;
@@ -52,7 +52,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 1rem;
-}
+} */
 
 .bet-card:hover .bet-overlay {
   opacity: 1;
