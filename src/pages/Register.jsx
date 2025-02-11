@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../css/Register.css";
 
 function Register() {
   const [values, setValues] = useState({
@@ -7,6 +8,7 @@ function Register() {
     realname: "",
     password: "",
     confirmPassword: "",
+    phonenumber: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
@@ -21,9 +23,15 @@ function Register() {
 
     // Validate fields
     const errors = {};
+
     if (!values.username) errors.username = "Username is required";
     if (!values.realname) errors.realname = "Real name is required";
     if (!values.password) errors.password = "Password is required";
+    if (!values.phonenumber) errors.phonenumber = "Phone Number is required";
+
+    if (!/^[89]\d{7}$/.test(values.phonenumber)) {
+      errors.phonenumber = "Enter a valid 8-digit phone number";
+    }
     if (!values.confirmPassword)
       errors.confirmPassword = "Confirm password is required";
     if (values.password !== values.confirmPassword)
@@ -56,8 +64,9 @@ function Register() {
   };
 
   return (
-    <div>
-      <div>
+    <div class="register-container">
+      <div className="navbar-space"></div>
+      <div class="register-form">
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="username">Username</label>
@@ -84,6 +93,20 @@ function Register() {
             />
             {fieldErrors.realname && (
               <p className="error-message">{fieldErrors.realname}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="phonenumber">Phone Number</label>
+            <input
+              type="text"
+              placeholder="Enter Phone No."
+              name="phonenumber"
+              value={values.phonenumber}
+              onChange={handleChanges}
+            />
+            {fieldErrors.phonenumber && (
+              <p className="error-message">{fieldErrors.phonenumber}</p>
             )}
           </div>
 
@@ -120,9 +143,15 @@ function Register() {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div>
           <p>Already have an account?</p>
-          <Link to="/login">Login</Link>
+          <a href="/login">Login</a>
         </div>
       </div>
+      <img
+        id="register-img"
+        src="src/css/images/photo_2025-02-11_22-24-50.jpg"
+        alt="register-img"
+        class="register-img"
+      />
     </div>
   );
 }

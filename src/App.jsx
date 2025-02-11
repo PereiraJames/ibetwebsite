@@ -10,6 +10,7 @@ import UserProfile from "./pages/UserProfile";
 import LikedBets from "./pages/LikedBets";
 import Leaderboards from "./pages/LeaderBoards";
 import HowToPlay from "./pages/HowToPlay";
+import AcceptedBets from "./pages/AcceptedBets";
 
 function App() {
   const [refresh, setRefresh] = useState(false); // Track page changes for re-render
@@ -37,6 +38,7 @@ function App() {
           <Route path="/likedbets" element={<LikedBets />} />
           <Route path="/leaderboards" element={<Leaderboards />} />
           <Route path="/howtoplay" element={<HowToPlay />} />
+          <Route path="/acceptedbets" element={<AcceptedBets />} />
         </Routes>
       </main>
     </div>

@@ -46,7 +46,7 @@ function AcceptBetButton({ bet, onBetAccepted }) {
           Authorization: `Bearer ${JWTtoken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ betID: bet.id }),
+        body: JSON.stringify({ betID: bet.bet_id }),
       });
 
       if (response.ok) {

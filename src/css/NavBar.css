@@ -7,6 +7,7 @@
   width: 100%;
   top: 0;
   left: 0;
+  position: fixed;
   z-index: 1000;
   background-color: rgba(0, 28, 28, 1); /* Solid background when not scrolled */
 }
@@ -20,8 +21,6 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow when scrolled */
   transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
 }
-
-
 
 .navbar-right, .navbar-left{
   display: flex;

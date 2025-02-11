@@ -17,31 +17,36 @@ function BetCard({ bet: initialBet }) {
 
   async function onLike() {
     const JWTtoken = localStorage.getItem("token");
-    try {
-      const response = await fetch("http://192.168.1.52:3000/user/bet-like", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${JWTtoken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ betId: bet.bet_id }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        // console.log(data);
-        if (data.liked) {
-          setLikes((prevLikes) => prevLikes + 1);
-          setIsLiked(true);
+    if (JWTtoken) {
+      try {
+        const response = await fetch("http://192.168.1.52:3000/user/bet-like", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${JWTtoken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ betId: bet.bet_id }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // console.log(data);
+          if (data.liked) {
+            setLikes((prevLikes) => prevLikes + 1);
+            setIsLiked(true);
+          } else {
+            setLikes((prevLikes) => prevLikes - 1);
+            setIsLiked(false);
+          }
         } else {
-          setLikes((prevLikes) => prevLikes - 1);
-          setIsLiked(false);
+          console.error("Failed to like bet");
         }
-      } else {
-        console.error("Failed to like bet");
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } else {
+      console.log("Log-in First");
     }
   }
 

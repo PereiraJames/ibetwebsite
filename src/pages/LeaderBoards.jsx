@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../css/Home.css"; // Make sure this is linked
+import "../css/Leaderboard.css"; // Make sure this is linked
 import { getLeaderboardBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
-import BetButton from "../components/BetButton";
-import FrontPageBanner from "../components/FrontBanner";
-import Carousell from "../components/Carousell";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,36 +20,54 @@ const Home = () => {
   useEffect(() => {
     const fetchBetsAndAcceptedStatus = async () => {
       try {
-        const [fetchedBets, response] = await Promise.all([
-          getLeaderboardBets(),
-          JWTtoken &&
-            fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${JWTtoken}`,
-                "Content-Type": "application/json",
-              },
-            }),
-        ]);
+        const [fetchedBets, acceptedResponse, likedResponse] =
+          await Promise.all([
+            getLeaderboardBets(),
+            JWTtoken &&
+              fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${JWTtoken}`,
+                  "Content-Type": "application/json",
+                },
+              }),
+            JWTtoken &&
+              fetch("http://192.168.1.52:3000/user/bet-liked", {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${JWTtoken}`,
+                  "Content-Type": "application/json",
+                },
+              }),
+          ]);
 
-        if (response) {
-          const data = await response.json();
+        // console.log("Raw bets data:", fetchedBets);
 
-          const acceptedBets = data || []; // Ensure it's an array
+        const acceptedBets = acceptedResponse
+          ? await acceptedResponse.json()
+          : [];
+        const likedBets = likedResponse ? await likedResponse.json() : [];
 
-          // Merge `isAccepted` into bets
-          const updatedBets = fetchedBets.map((bet) => {
-            const isAccepted = acceptedBets.some(
-              (accepted) => accepted.bet_id === bet.bet_id
-            );
-            return { ...bet, isAccepted };
-          });
+        // console.log("Processed accepted bets:", acceptedBets);
+        // console.log("Processed liked bets:", likedBets);
 
-          setBets(updatedBets);
-        } else {
-          // Handle the case where the user is not logged in (no JWT)
-          setBets(fetchedBets); // Just set the bets without the accepted status
-        }
+        // Merge `isAccepted` and `isLiked` into bets
+        const updatedBets = fetchedBets.map((bet) => {
+          const isAccepted = acceptedBets.some(
+            (accepted) => accepted.bet_id === bet.bet_id
+          );
+          const isLiked = likedBets.some(
+            (liked) => liked.bet_id === bet.bet_id
+          );
+
+          // console.log(
+          //   `Bet ID: ${bet.bet_id}, isAccepted: ${isAccepted}, isLiked: ${isLiked}`
+          // );
+
+          return { ...bet, isAccepted, isLiked };
+        });
+
+        setBets(updatedBets);
       } catch (err) {
         console.error("Error fetching bets:", err);
         setError("Failed to load bets...");
@@ -100,49 +115,55 @@ const Home = () => {
 
   return (
     <div className="home">
+      <div className="navbar-offset"></div>
       {error && <div className="error-message">{error}</div>}
-      <p>TOP BETTORS</p>
-      {bettorloading ? (
-        <div className="loading">Loading Bettors...</div>
-      ) : (
-        <div className="bet-grid">
-          {bettors.map((bettor) => (
-            <div className="bettor-card" key={bettor.id}>
-              <h3>{bettor.username}</h3>
-              <p>Total Bets: {bettor.total_bets}</p>
-              {/* Add more details from the `bettor` object as needed */}
-            </div>
-          ))}
-        </div>
-      )}
-      <p>TOP Acceptors</p>
-      {acceptorloading ? (
-        <div className="loading">Loading...</div>
-      ) : (
-        <div className="bet-grid">
-          {acceptors.map((acceptors) => (
-            <div className="bettor-card" key={acceptors.id}>
-              <h3>{acceptors.username}</h3>
-              <p>Total Bets: {acceptors.total_accepts}</p>
-              {/* Add more details from the `bettor` object as needed */}
-            </div>
-          ))}
-        </div>
-      )}
-      <p>TOP BETS</p>
-      {leaderboardloading ? (
-        <div className="loading">Loading...</div>
-      ) : (
-        <div className="bet-grid">
-          {bets
-            .filter((bet) =>
-              bet.text.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map((bet) => (
-              <BetCard bet={bet} key={bet.bet_id} />
+      <div className="top-players-container">
+        <p className="player-title">TOP BETTORS</p>
+        {bettorloading ? (
+          <div className="loading">Loading Bettors...</div>
+        ) : (
+          <div className="player-grid">
+            {bettors.map((bettor) => (
+              <div className="bettor-card" key={bettor.bettor_id}>
+                <h3>{bettor.username}</h3>
+                <p>Total Bets: {bettor.total_bets}</p>
+                {/* Add more details from the `bettor` object as needed */}
+              </div>
             ))}
-        </div>
-      )}
+          </div>
+        )}
+        <p className="player-title">TOP Acceptors</p>
+        {acceptorloading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <div className="player-grid">
+            {acceptors.map((acceptors) => (
+              <div className="bettor-card" key={acceptors.user_id}>
+                <h3>{acceptors.username}</h3>
+                <p>Total Bets: {acceptors.total_accepts}</p>
+                {/* Add more details from the `bettor` object as needed */}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="top-bets-container">
+        <p className="bet-title">TOP BETS</p>
+        {leaderboardloading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <div className="bet-grid">
+            {bets
+              .filter((bet) =>
+                bet.text.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((bet) => (
+                <BetCard bet={bet} key={bet.bet_id} />
+              ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../css/Login.css";
 
 function Login() {
   const [values, setValues] = useState({ username: "", password: "" });
@@ -37,8 +38,9 @@ function Login() {
   };
 
   return (
-    <div>
-      <div>
+    <div className="login-container">
+      <div className="navbar-space"></div>
+      <div className="login-form">
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="username">Username</label>
@@ -58,7 +60,7 @@ function Login() {
               onChange={handleChanges}
             />
           </div>
-          <button>Submit!</button>
+          <button type="submit">Submit!</button>
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div>
@@ -66,6 +68,11 @@ function Login() {
           <Link to="/register">Register</Link>
         </div>
       </div>
+      <img
+        src="src/css/images/login2.jpg"
+        alt="login-img"
+        className="login-img"
+      />
     </div>
   );
 }

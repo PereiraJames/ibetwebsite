@@ -104,7 +104,7 @@ app.get("/auth/get-userinfo", async (req, res) => {
 
 //Creating an account
 app.post("/auth/register", async (req, res) => {
-  const { username, password, realname } = req.body;
+  const { username, password, realname, phonenumber } = req.body;
 
   if (!password) {
     return res.status(400).json({ message: "Password is required" });
@@ -116,6 +116,10 @@ app.post("/auth/register", async (req, res) => {
 
   if (!realname){
     return res.status(400).json({ message: "Realname is required" });
+  }
+
+  if (!phonenumber){
+    return res.status(400).json({ message: "Phone Number is required" });
   }
 
   try {
@@ -131,17 +135,28 @@ app.post("/auth/register", async (req, res) => {
         return res.status(459).json({ message: "User Already Exists!" });
       }
 
-      // Insert new user
-      const userInsertQuery = "INSERT INTO users (username, password, realname) VALUES (?,?,?)";
-      db.query(userInsertQuery, [username, password, realname], (err, result) => {
+      const phonenumberCheckQuery = "SELECT * FROM users WHERE phone_number = ?";
+      db.query(phonenumberCheckQuery, [phonenumber], async (err, result) => {
         if (err) {
-          console.error("Error inserting user:", err);
-          return res.status(500).json({ message: "Error creating user" });
+          console.error("Error checking user:", err);
+          return res.status(500).json({ message: "Database error" });
         }
-        console.log(`Successfully added new account ${username}`)
-        return res.status(201).json({ message: "User Added Successfully!" });
+  
+        if (result.length > 0) {
+          return res.status(459).json({ message: "Phone Number Exists!" });
+        }
+
+        const userInsertQuery = "INSERT INTO users (username, password, realname, phone_number) VALUES (?,?,?,?)";
+        db.query(userInsertQuery, [username, password, realname,phonenumber], (err, result) => {
+          if (err) {
+            console.error("Error inserting user:", err);
+            return res.status(500).json({ message: "Error creating user" });
+          }
+          console.log(`Successfully added new account ${username}`)
+          return res.status(201).json({ message: "User Added Successfully!" });
+        });
       });
-    });
+    });    
   } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
@@ -390,7 +405,29 @@ GROUP BY
 });
 
 app.get("/bet/leaderboard-bets", (req, res) => {
-  db.query("SELECT * FROM bets ORDER BY likes DESC LIMIT 10", (err, results) => {
+  db.query(`
+    SELECT 
+    b.bet_id, 
+    b.text, 
+    b.betamount, 
+    b.startdate,
+    b.enddate,
+    b.bettor_id,
+    b.conditionals,
+    COUNT(bl.like_id) AS likes_count
+FROM bets b
+LEFT JOIN betlikes bl 
+    ON b.bet_id = bl.bet_id
+GROUP BY 
+    b.bet_id,  
+    b.text, 
+    b.betamount, 
+    b.startdate,
+    b.enddate,
+    b.bettor_id,
+    b.conditionals
+ORDER BY likes_count DESC
+LIMIT 10;`, (err, results) => {
     if (err) {
       console.error("Error fetching bets:", err);
       res.status(500).send("Error fetching data");

@@ -3,7 +3,7 @@ import "../css/BestBets.css";
 function HowToPlay() {
   return (
     <div className="bestbets-empty">
-      <h1>User Profile</h1>
+      <h1>How To Play</h1>
       <p>Coming soon...</p>
     </div>
   );

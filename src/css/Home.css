@@ -4,6 +4,10 @@
     box-sizing: border-box;
     background-color: black;
   }
+
+  .navbar-offset{
+    height: 80px;
+  }
   
   .search-form {
     max-width: 600px;
@@ -112,11 +116,6 @@
     width: 100%;
     z-index: 2; /* Ensure it's above the overlay */
     transition: font-size 0.2s ease-in-out; /* Smooth transition for font size */
-  }
-  
-  /* Hover effect to increase text size */
-  .front-img-container:hover .front-img-text {
-    font-size: 32px; /* Increase the text size */
   }
   
   .bet-card-dropdown{

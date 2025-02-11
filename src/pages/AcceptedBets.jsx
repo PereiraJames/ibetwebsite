@@ -3,7 +3,7 @@ import "../css/Home.css"; // Make sure this is linked
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
 
-const LikedBets = () => {
+const AcceptedBets = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [bets, setBets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,26 +13,41 @@ const LikedBets = () => {
   useEffect(() => {
     const fetchBetsAndStatuses = async () => {
       try {
-        const [fetchedBets, likedResponse] = await Promise.all([
-          getAllBets(),
-          JWTtoken &&
-            fetch("http://192.168.1.52:3000/user/bet-liked", {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${JWTtoken}`,
-                "Content-Type": "application/json",
-              },
-            }),
-        ]);
+        const [fetchedBets, acceptedResponse, likedResponse] =
+          await Promise.all([
+            getAllBets(),
+            JWTtoken &&
+              fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${JWTtoken}`,
+                  "Content-Type": "application/json",
+                },
+              }),
+            JWTtoken &&
+              fetch("http://192.168.1.52:3000/user/bet-liked", {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${JWTtoken}`,
+                  "Content-Type": "application/json",
+                },
+              }),
+          ]);
 
+        const acceptedBets = acceptedResponse
+          ? await acceptedResponse.json()
+          : [];
         const likedBets = likedResponse ? await likedResponse.json() : [];
 
         const updatedBets = fetchedBets.map((bet) => {
+          const isAccepted = acceptedBets.some(
+            (accepted) => accepted.bet_id === bet.bet_id
+          );
           const isLiked = likedBets.some(
             (liked) => liked.bet_id === bet.bet_id
           );
 
-          return { ...bet, isLiked };
+          return { ...bet, isAccepted, isLiked };
         });
 
         setBets(updatedBets);
@@ -61,7 +76,7 @@ const LikedBets = () => {
   }, [JWTtoken]);
 
   const filteredBets = bets
-    .filter((bet) => bet.isLiked) // Filter to show only liked bets
+    .filter((bet) => bet.isAccepted) // Filter to show only liked bets
     .filter((bet) =>
       bet.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -77,7 +92,7 @@ const LikedBets = () => {
         <div className="bet-grid">
           {filteredBets.length === 0 ? (
             <div className="no-bets-message">
-              You have not liked any bets yet.
+              You have not accepted any bets yet.
             </div>
           ) : (
             filteredBets.map((bet) => <BetCard bet={bet} key={bet.bet_id} />)
@@ -88,4 +103,4 @@ const LikedBets = () => {
   );
 };
 
-export default LikedBets;
+export default AcceptedBets;

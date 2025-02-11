@@ -103,6 +103,7 @@ const Home = () => {
 
   return (
     <div className="home">
+      <div className="navbar-offset"></div>
       <FrontPageBanner />
       <Carousell />
       <form onSubmit={handleSearch} className="search-form">

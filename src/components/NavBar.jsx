@@ -53,6 +53,7 @@ function NavBar() {
     localStorage.removeItem("token");
     setUsername(null);
     setLoading(true);
+    setDropdownOpen(false);
   };
 
   // Function to handle clicks outside dropdown
@@ -102,7 +103,7 @@ function NavBar() {
         <Link to="/howtoplay" className="navbar-left-items">
           HOW TO PLAY
         </Link>
-        <LoginPopUp />
+        {/* <LoginPopUp /> */}
       </div>
       <div className="navbar-center">
         <img
@@ -123,11 +124,26 @@ function NavBar() {
               </button>
               {dropdownOpen && (
                 <div className="dropdown-menu">
-                  <Link to="/userprofile" className="dropdown-item">
+                  <Link
+                    to="/userprofile"
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                  >
                     Profile
                   </Link>
-                  <Link to="/likedbets" className="dropdown-item">
-                    Best Bets
+                  <Link
+                    to="/likedbets"
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                  >
+                    Favourite Bets
+                  </Link>
+                  <Link
+                    to="/acceptedbets"
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                  >
+                    Accepted Bets
                   </Link>
                   <button onClick={handleLogout} className="dropdown-item">
                     Logout
