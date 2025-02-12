@@ -115,7 +115,7 @@ const Leaderboards = () => {
 
   return (
     <div className="leaderboard">
-      <div className="navbar-offset"></div>
+      {/* <div className="navbar-offset"></div> */}
       {error && <div className="error-message">{error}</div>}
       <div className="top-players-container">
         <p className="player-title">TOP BETTORS</p>

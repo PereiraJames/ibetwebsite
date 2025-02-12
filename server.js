@@ -381,11 +381,14 @@ app.get("/api/bets", (req, res) => {
     b.startdate,
     b.enddate,
     b.bettor_id,
+    u.username,  -- Add the username field from the users table
     b.conditionals,
     COUNT(bl.like_id) AS likes_count
 FROM bets b
 LEFT JOIN betlikes bl 
     ON b.bet_id = bl.bet_id
+LEFT JOIN users u  -- Join with users table
+    ON b.bettor_id = u.user_id  -- Match bettor_id with user_id
 GROUP BY 
     b.bet_id,  
     b.text, 
@@ -393,7 +396,9 @@ GROUP BY
     b.startdate,
     b.enddate,
     b.bettor_id,
-    b.conditionals;
+    u.username,  -- Include username in GROUP BY
+    b.conditionals
+ORDER BY b.bet_id DESC;  -- Order by bet_id in descending order
 `, (err, results) => {
     if (err) {
       console.error("Error fetching bets:", err);
@@ -413,11 +418,14 @@ app.get("/bet/leaderboard-bets", (req, res) => {
     b.startdate,
     b.enddate,
     b.bettor_id,
+    u.username,  -- Add the username field from the users table
     b.conditionals,
     COUNT(bl.like_id) AS likes_count
 FROM bets b
 LEFT JOIN betlikes bl 
     ON b.bet_id = bl.bet_id
+LEFT JOIN users u  -- Join with the users table to get the username
+    ON b.bettor_id = u.user_id  -- Match bettor_id with user_id
 GROUP BY 
     b.bet_id,  
     b.text, 
@@ -425,9 +433,11 @@ GROUP BY
     b.startdate,
     b.enddate,
     b.bettor_id,
+    u.username,  -- Include username in GROUP BY
     b.conditionals
 ORDER BY likes_count DESC
-LIMIT 10;`, (err, results) => {
+LIMIT 10;
+`, (err, results) => {
     if (err) {
       console.error("Error fetching bets:", err);
       res.status(500).send("Error fetching data");
@@ -481,8 +491,6 @@ app.post("/bet/create-bet", async (req, res) => {
 
   const bettorID = await getUserIdFromToken(req); 
 
-  console.log(bettorID);
-
   if (!text || !betAmount || !startDate ||  !endDate || !bettorID) {
     return res.status(400).json({ message: "Missing required fields" });
   }
@@ -494,6 +502,7 @@ app.post("/bet/create-bet", async (req, res) => {
       res.status(500).json({ message: "Error creating bet" });
       return;
     }
+    console.log(`User ID ${bettorID} just made a bet || ${text}`)
     res.status(201).json({ message: "Bet created successfully!", betId: result.insertId });
   });
 });

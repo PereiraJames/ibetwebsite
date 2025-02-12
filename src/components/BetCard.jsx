@@ -52,8 +52,10 @@ function BetCard({ bet: initialBet }) {
     <div className="bet-card">
       <div className="bet-info">
         <h3 className="text-resize">{bet.text}</h3>
-        <p className="text-resize">Bet Placed By: {bet.bettor}</p>
-        <p className="text-resize">Bet Accepted By: {bet.acceptor || "-"}</p>
+        <p className="text-resize">
+          Bet Placed By: {bet.username.toUpperCase()}
+        </p>
+        {/* <p className="text-resize">Bet Accepted By: {bet.acceptor || "-"}</p> */}
         <p className="text-resize">Wager: ${bet.betamount}</p>
         <p className="text-resize">Start Date: {bet.startdate}</p>
         <p className="text-resize">Due Date: {bet.enddate}</p>

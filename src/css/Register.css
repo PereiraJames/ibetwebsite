@@ -107,7 +107,7 @@
     height: 100%;
     object-fit: cover; /* Ensure the image covers the entire container */
     z-index: 1; /* Keep it behind the form */
-    background-image: url('src/css/images/photo_2025-02-11_22-24-50.jpg');
+    background-image: url('src/css/images/register.jpg');
     background-size: cover;
     background-position: center;
   }

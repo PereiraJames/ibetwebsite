@@ -153,8 +153,8 @@ function NavBar() {
           </div>
         ) : (
           <>
-            <Link to="/login" className="nav-link">
-              Login
+            <Link to="/login" className="nav-login">
+              LOGIN
             </Link>
           </>
         )}

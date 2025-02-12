@@ -24,7 +24,7 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 300px;
+    width: 100vh;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
@@ -65,3 +65,11 @@
     margin-top: 10px;
   }
   
+  .bet-text-group{
+    display: flex;
+    justify-content: center;
+  }
+
+  .bet-text-prefix{
+    width:50%
+  }

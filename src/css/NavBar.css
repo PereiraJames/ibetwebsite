@@ -58,6 +58,11 @@
   margin-right: 25px;
 }
 
+.nav-login{
+  color:#ffc943;
+  
+}
+
 .dropdown-username{
   position: relative;
   display: inline-block;

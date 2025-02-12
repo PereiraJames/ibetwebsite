@@ -95,7 +95,7 @@ const Home = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    alert(searchQuery);
+    // alert(searchQuery);
     setSearchQuery("I bet mark and majella will");
   };
 

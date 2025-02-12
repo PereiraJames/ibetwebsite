@@ -19,6 +19,8 @@ function BetButton() {
     phoneNo: "",
     startDate: formatteddate,
   });
+  const [errorMessage, setErrorMessage] = useState(""); // Track error message
+  const [isLoading, setIsLoading] = useState(false); // Track loading state
 
   const togglePopup = () => setIsOpen(!isOpen);
 
@@ -74,7 +76,10 @@ function BetButton() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Format endDate before sending it to the backend
+    // Prevent further submissions if already loading
+    if (isLoading) return;
+
+    setIsLoading(true); // Set loading to true when submission starts
 
     const prefixBet = `I bet Mark and Majella will ${betDetails.text}`;
     const formattedEndDate = formatDate(betDetails.endDate);
@@ -98,20 +103,24 @@ function BetButton() {
       });
 
       if (response.ok) {
-        alert("Bet created successfully!");
+        console.log("Bet Successfully Created!");
         setBetDetails({
           text: "",
           betAmount: "",
           endDate: "",
           conditionals: "",
         });
-        setIsOpen(false); // Close popup after submit
+        setIsOpen(false);
+        setErrorMessage(""); // Clear error message on success
       } else {
-        alert(`Failed to create bet. ${response.status}`);
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Failed to create bet.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error occurred while submitting the bet.");
+      setErrorMessage("Error occurred while submitting the bet.");
+    } finally {
+      setIsLoading(false); // Set loading to false once the process completes
     }
   };
 
@@ -126,19 +135,26 @@ function BetButton() {
       {isOpen && (
         <div className="bet-popup">
           <div className="bet-popup-content">
-            <h2>Create a New Bet</h2>
+            <h2 className="bet-popup-title">Create a New Bet</h2>
+
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Bet Text</label>
-                <input
-                  placeholder="I bet Mark and Majella..."
-                  type="text"
-                  name="text"
-                  value={betDetails.text}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="bet-text-group">
+                  <span className="bet-text-prefix">
+                    I bet Mark and Majella will...
+                  </span>
+                  <input
+                    placeholder="have 2 boys and a girl"
+                    type="text"
+                    name="text"
+                    value={betDetails.text}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </div>
+
               <div className="form-group">
                 <label>Bet Amount</label>
                 <input
@@ -164,16 +180,22 @@ function BetButton() {
               <div className="form-group">
                 <label>Conditionals</label>
                 <input
-                  placeholder="If this bet comes true..."
+                  placeholder="If one is gay, then cancel the bet"
                   type="text"
                   name="conditionals"
                   value={betDetails.conditionals}
                   onChange={handleChange}
                 />
               </div>
-              <button type="submit" className="submit-button">
-                Submit
+              <button
+                type="submit"
+                className="submit-button"
+                disabled={isLoading} // Disable submit button while loading
+              >
+                {isLoading ? "Submitting..." : "Submit"}{" "}
+                {/* Show loading text */}
               </button>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
             </form>
             <button className="close-button" onClick={togglePopup}>
               Close

@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Bellefair&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Questrial&display=swap');
 
 .bet-card {
-  background: #3DADFF;
-  color: #3DADFF;
-  border: 4px solid #FFC943;
+  background: #000;
+  color: #fff;
+  border: 3px solid #FFC943;
   padding: 20px;
-  border-radius: 12px;
-  font-family: 'Bellefair', serif;
+  border-radius: 20px;
+  font-family: 'Cinzel', serif;
   text-align: center;
-  box-shadow: 0px 6px 20px rgba(255, 201, 67, 0.8);
+  box-shadow: 0px 10px 30px rgba(255, 201, 67, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -19,29 +19,23 @@
 
 .bet-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0px 8px 25px rgba(255, 201, 67, 1);
+  box-shadow: 0px 12px 40px rgba(255, 201, 67, 1);
 }
 
 .bet-info h3 {
-  font-family: 'Teko', sans-serif;
-  font-size: 22px;
-  border-bottom: 3px solid #3DADFF;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  font-family: 'Questrial', sans-serif;
+  font-size: 24px;
+  border-bottom: 3px solid #FFC943;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  color: #FFC943;
 }
 
 .bet-info p {
   font-size: 14px;
-  margin: 4px 0;
-}
-
-.text-resize {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: min(14px, 3vw);
+  margin: 5px 0;
 }
 
 .interaction-bar {
@@ -51,48 +45,50 @@
   margin-top: 15px;
 }
 
+.favorite-btn, .accept-bet-btn {
+  padding: 10px 15px;
+  font-family: 'Questrial', sans-serif;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
 .favorite-btn {
   background: transparent;
-  border: 2px solid #3DADFF;
-  color: grey;
-  padding: 8px 12px;
-  font-family: 'Teko', sans-serif;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border-radius: 5px;
-  font-size: 18px;
+  color: #FFC943;
+  border: 2px solid #FFC943;
 }
 
 .favorite-btn.active {
-  color:  red;
+  color: red;
   border: 2px solid red;
 }
 
 .accept-bet-btn {
   background: #FFC943;
-  border: 2px solid #3DADFF;
-  color: #101820;
-  padding: 8px 12px;
-  font-family: 'Teko', sans-serif;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border-radius: 5px;
-  font-size: 18px;
+  color: #000;
+  border: 2px solid #FFC943;
 }
 
 .accept-bet-btn:hover {
-  background: #101820;
+  background: #000;
   color: #FFC943;
 }
 
 .accepted {
   font-size: 16px;
   font-weight: bold;
-  color: #3DADFF;
+  color: #FFC943;
+}
+
+.interaction-bar i {
+  margin-right: 8px;
 }
 
 /* Responsive Design */
-@media (max-width: 400px) {
+@media (max-width: 350px) {
   .bet-card {
     width: 100%;
     height: auto;
