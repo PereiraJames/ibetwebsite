@@ -27,7 +27,7 @@ function App() {
   return (
     <div>
       <NavBar />
-      <main className="main-context">
+      <main>
         {/* Pass refresh state as a prop if needed to other components */}
         <Routes key={location.pathname}>
           <Route path="/" element={<Home />} />

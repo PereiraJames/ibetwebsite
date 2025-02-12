@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../css/NavBar.css";
 import BetButton from "./BetButton";
-import LoginPopUp from "./LoginPopUp";
 
 function NavBar() {
   const [username, setUsername] = useState(null);

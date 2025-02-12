@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/Home.css"; // Make sure this is linked
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
-import BetButton from "../components/BetButton";
 import FrontPageBanner from "../components/FrontBanner";
-import Carousell from "../components/Carousell";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -105,7 +103,7 @@ const Home = () => {
     <div className="home">
       <div className="navbar-offset"></div>
       <FrontPageBanner />
-      <Carousell />
+      {/* <Carousell /> */}
       <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"

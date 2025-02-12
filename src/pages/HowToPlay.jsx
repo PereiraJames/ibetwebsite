@@ -1,8 +1,8 @@
-import "../css/BestBets.css";
+import "../css/HowToPlay.css";
 
 function HowToPlay() {
   return (
-    <div className="bestbets-empty">
+    <div className="background-color">
       <h1>How To Play</h1>
       <p>Coming soon...</p>
     </div>

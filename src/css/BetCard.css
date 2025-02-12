@@ -1,165 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Bellefair&display=swap');
+
 .bet-card {
-  position: relative;
-  border-radius: 8px;
-  /* overflow: hidden; */
-  background-color: #1a1a1a;
-  transition: transform 0.2s;
-  height: 400px;
-  width: 350px;
+  background: #3DADFF;
+  color: #3DADFF;
+  border: 4px solid #FFC943;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: 'Bellefair', serif;
+  text-align: center;
+  box-shadow: 0px 6px 20px rgba(255, 201, 67, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  outline: #FFD700;
-  outline-width: 3px;
-  outline-style: solid;
+  width: 350px;
+  height: 500px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .bet-card:hover {
   transform: translateY(-5px);
-  background-color: #4a4a4a;
-  border-radius: 4px;
-  outline: #ffffff;
-  outline-width: 3px;
-  outline-style: solid;
-}
-
-.bet-poster {
-  position: relative;
-  aspect-ratio: 2/3;
-  width: 100%;
-}
-
-.bet-poster img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-/* 
-.bet-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.8)
-  );
-  opacity: 0;
-  transition: opacity 0.2s;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1rem;
-} */
-
-.bet-card:hover .bet-overlay {
-  opacity: 1;
-} 
-
-.favorite-btn {
-  color: white;
-  font-size: 1.5rem;
-  padding: 4;
-  margin-top: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-}
-
-.favorite-btn:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.favorite-btn.active {
-  color: #ff4757;
-}
-
-.rating-select {
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 0.5rem;
-}
-
-.bet-info {
-  padding: 1rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  box-shadow: 0px 8px 25px rgba(255, 201, 67, 1);
 }
 
 .bet-info h3 {
-  font-size: 1rem;
-  color: #fff;
-  margin: 0;
+  font-family: 'Teko', sans-serif;
+  font-size: 22px;
+  border-bottom: 3px solid #3DADFF;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .bet-info p {
-  color: #ddd;
-  font-size: 0.9rem;
+  font-size: 14px;
+  margin: 4px 0;
 }
 
-.user-rating {
-  color: #ffd700;
-  font-size: 0.9rem;
-  margin-top: auto;
+.text-resize {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: min(14px, 3vw);
 }
 
 .interaction-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
-  border-top: 1px solid #ddd;
-  background-color: #1a1a1a;
+  margin-top: 15px;
 }
 
-.favorite-btn,
-.accept-bet {
-  background: none;
-  border: none;
+.favorite-btn {
+  background: transparent;
+  border: 2px solid #3DADFF;
+  color: grey;
+  padding: 8px 12px;
+  font-family: 'Teko', sans-serif;
   cursor: pointer;
-  font-size: 16px;
-  padding: 8px;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-
-.favorite-btn:hover,
-.accept-bet:hover {
-  background-color: #f0f0f0;
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
+  font-size: 18px;
 }
 
 .favorite-btn.active {
-  color: #e74c3c;
+  color:  red;
+  border: 2px solid red;
 }
 
-.accept-bet {
-  background-color: #2ecc71;
-  color: #fff;
+.accept-bet-btn {
+  background: #FFC943;
+  border: 2px solid #3DADFF;
+  color: #101820;
+  padding: 8px 12px;
+  font-family: 'Teko', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
+  font-size: 18px;
 }
 
-.accept-bet:hover {
-  background-color: #27ae60;
+.accept-bet-btn:hover {
+  background: #101820;
+  color: #FFC943;
 }
 
-@media (max-width: 768px) {
+.accepted {
+  font-size: 16px;
+  font-weight: bold;
+  color: #3DADFF;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
   .bet-card {
-    font-size: 0.9rem;
+    width: 100%;
+    height: auto;
+    padding: 15px;
   }
 
-  .bet-info {
-    padding: 0.75rem;
+  .interaction-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .favorite-btn, .accept-bet-btn {
+    width: 100%;
   }
 }

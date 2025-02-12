@@ -1,9 +1,10 @@
 .bet-button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #3DADFF;
+    color: #FFC943;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 20px;
+    font-weight: bold;
   }
   
   .bet-popup {
@@ -55,7 +56,7 @@
   
   .close-button {
     background-color: #f44336;
-    color: white;
+    color: black;
     padding: 8px;
     border: none;
     border-radius: 5px;

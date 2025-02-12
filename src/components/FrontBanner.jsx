@@ -1,4 +1,4 @@
-import "../css/Home.css";
+import "../css/FrontPageBanner.css";
 
 function FrontPageBanner() {
   return (
@@ -10,9 +10,10 @@ function FrontPageBanner() {
         alt="front-page-img"
       />
       <div className="front-img-text">
+        <h5>JAMES PEREIRA PRESENTS</h5>
         <h1>I BET MARK AND MAJELLA</h1>
-        <h2>Their gate way to financial freedom</h2>
-        <div>Think of their children! Make a Bet!</div>
+        <p>Place Your Bets—Because Kids Need Financial Freedom Too!</p>
+        <p>Don’t Just Watch Their Kids Grow, Watch Your Bets Grow Too!</p>
       </div>
     </div>
   );

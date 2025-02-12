@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/BetButton.css"; // Optional: For styling
+import "../css/BetButton.css";
 
 function BetButton() {
   const date = new Date();

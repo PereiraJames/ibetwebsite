@@ -3,7 +3,7 @@ import "../css/Leaderboard.css"; // Make sure this is linked
 import { getLeaderboardBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
 
-const Home = () => {
+const Leaderboards = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [bets, setBets] = useState([]);
   const [bettors, setBettors] = useState([]);
@@ -114,7 +114,7 @@ const Home = () => {
   }, [JWTtoken]); // Depend on JWTtoken, but only for fetching bets and accepted status
 
   return (
-    <div className="home">
+    <div className="leaderboard">
       <div className="navbar-offset"></div>
       {error && <div className="error-message">{error}</div>}
       <div className="top-players-container">
@@ -124,8 +124,8 @@ const Home = () => {
         ) : (
           <div className="player-grid">
             {bettors.map((bettor) => (
-              <div className="bettor-card" key={bettor.bettor_id}>
-                <h3>{bettor.username}</h3>
+              <div className="player-card" key={bettor.bettor_id}>
+                <h3>{bettor.username.toUpperCase()}</h3>
                 <p>Total Bets: {bettor.total_bets}</p>
                 {/* Add more details from the `bettor` object as needed */}
               </div>
@@ -138,10 +138,10 @@ const Home = () => {
         ) : (
           <div className="player-grid">
             {acceptors.map((acceptors) => (
-              <div className="bettor-card" key={acceptors.user_id}>
-                <h3>{acceptors.username}</h3>
+              <div className="player-card" key={acceptors.user_id}>
+                <h3>{acceptors.username.toUpperCase()}</h3>
                 <p>Total Bets: {acceptors.total_accepts}</p>
-                {/* Add more details from the `bettor` object as needed */}
+                {/* Add more details from the `bettor` object  as needed */}
               </div>
             ))}
           </div>
@@ -168,4 +168,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Leaderboards;

@@ -2,28 +2,23 @@ import "../css/Carousell.css";
 
 function Carousell() {
   const phrases = [
-    "Breaking News: New event released!",
-    "Don't miss out on the latest update!",
+    "Mark the Date: 8th November 2025",
+    "Countdown: 0",
     "Join us for an exciting adventure.",
     "The new feature is now live!",
     "Get ready for the upcoming challenge!",
   ];
 
   return (
-    <div className="carousell-container">
-      <div className="carousell-item-container">
-        {phrases.map((phrase, index) => (
-          <div className="carousell-item" key={index}>
-            {phrase}
-          </div>
-        ))}
-        {/* Duplicate the phrases to create the seamless loop */}
-        {phrases.map((phrase, index) => (
-          <div className="carousell-item" key={`repeat-${index}`}>
-            {phrase}
-          </div>
-        ))}
-      </div>
+    <div className="carousell-item-container">
+      <div className="carousell-item item1"></div>
+      <div className="carousell-item item2"></div>
+      <div className="carousell-item item3"></div>
+      <div className="carousell-item item4"></div>
+      <div className="carousell-item item5"></div>
+      <div className="carousell-item item6"></div>
+      <div className="carousell-item item7"></div>
+      <div className="carousell-item item8"></div>
     </div>
   );
 }

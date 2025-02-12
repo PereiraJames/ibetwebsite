@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import "../css/BetCard.css";
 import AcceptBetButton from "./AcceptBetButton";
-import LoginPopUp from "./LoginPopUp";
-import { faDatabase } from "@fortawesome/free-solid-svg-icons/faDatabase";
 
 function BetCard({ bet: initialBet }) {
   const [bet, setBet] = useState(initialBet); // Track bet state
@@ -53,13 +51,13 @@ function BetCard({ bet: initialBet }) {
   return (
     <div className="bet-card">
       <div className="bet-info">
-        <h3>{bet.text}</h3>
-        <p>Bet Placed By: {bet.bettor}</p>
-        <p>Bet Accepted By: {bet.acceptor || "-"}</p>
-        <p>Wager: ${bet.betamount}</p>
-        <p>Start Date: {bet.startdate}</p>
-        <p>Due Date: {bet.enddate}</p>
-        <p>Conditionals: {bet.conditionals}</p>
+        <h3 className="text-resize">{bet.text}</h3>
+        <p className="text-resize">Bet Placed By: {bet.bettor}</p>
+        <p className="text-resize">Bet Accepted By: {bet.acceptor || "-"}</p>
+        <p className="text-resize">Wager: ${bet.betamount}</p>
+        <p className="text-resize">Start Date: {bet.startdate}</p>
+        <p className="text-resize">Due Date: {bet.enddate}</p>
+        <p className="text-resize">Conditionals: {bet.conditionals}</p>
       </div>
       <div className="interaction-bar">
         <button
