@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/Home.css"; // Make sure this is linked
+import "../css/LikedBets.css"; // Make sure this is linked
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
 
@@ -67,12 +67,18 @@ const LikedBets = () => {
     );
 
   return (
-    <div className="home">
+    <div className="likedbets">
       <div className="navbar-offset"></div>
       {error && <div className="error-message">{error}</div>}
-
+      <div className="liked-bets-banner ">
+        <div className="liked-bets-title">
+          <h1>YOUR FAVOURITE BETS</h1>
+        </div>
+      </div>
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div className="loading-container-bets">
+          <div className="loading-bets"></div>
+        </div>
       ) : (
         <div className="bet-grid">
           {filteredBets.length === 0 ? (

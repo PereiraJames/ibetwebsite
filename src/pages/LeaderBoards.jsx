@@ -115,55 +115,51 @@ const Leaderboards = () => {
 
   return (
     <div className="leaderboard">
-      {/* <div className="navbar-offset"></div> */}
-      {error && <div className="error-message">{error}</div>}
-      <div className="top-players-container">
-        <p className="player-title">TOP BETTORS</p>
-        {bettorloading ? (
-          <div className="loading">Loading Bettors...</div>
-        ) : (
-          <div className="player-grid">
-            {bettors.map((bettor) => (
-              <div className="player-card" key={bettor.bettor_id}>
-                <h3>{bettor.username.toUpperCase()}</h3>
-                <p>Total Bets: {bettor.total_bets}</p>
-                {/* Add more details from the `bettor` object as needed */}
-              </div>
-            ))}
-          </div>
-        )}
-        <p className="player-title">TOP Acceptors</p>
-        {acceptorloading ? (
-          <div className="loading">Loading...</div>
-        ) : (
-          <div className="player-grid">
-            {acceptors.map((acceptors) => (
-              <div className="player-card" key={acceptors.user_id}>
-                <h3>{acceptors.username.toUpperCase()}</h3>
-                <p>Total Bets: {acceptors.total_accepts}</p>
-                {/* Add more details from the `bettor` object  as needed */}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <div className="navbar-offset"></div>
+      {bettorloading || acceptorloading || leaderboardloading ? (
+        <div className="loading-container-leaderboard">
+          <div className="loading-leaderboard"></div>
+        </div>
+      ) : (
+        <>
+          {error && <div className="error-message">{error}</div>}
 
-      <div className="top-bets-container">
-        <p className="bet-title">TOP BETS</p>
-        {leaderboardloading ? (
-          <div className="loading">Loading...</div>
-        ) : (
-          <div className="bet-grid">
-            {bets
-              .filter((bet) =>
-                bet.text.toLowerCase().includes(searchQuery.toLowerCase())
-              )
-              .map((bet) => (
-                <BetCard bet={bet} key={bet.bet_id} />
+          <div className="top-players-container">
+            <p className="player-title">TOP BETTORS</p>
+            <div className="player-grid">
+              {bettors.map((bettor) => (
+                <div className="player-card" key={bettor.bettor_id}>
+                  <h3>{bettor.username.toUpperCase()}</h3>
+                  <p>Total Bets: {bettor.total_bets}</p>
+                </div>
               ))}
+            </div>
+
+            <p className="player-title">TOP ACCEPTORS</p>
+            <div className="player-grid">
+              {acceptors.map((acceptor) => (
+                <div className="player-card" key={acceptor.user_id}>
+                  <h3>{acceptor.username.toUpperCase()}</h3>
+                  <p>Total Bets: {acceptor.total_accepts}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        )}
-      </div>
+
+          <div className="top-bets-container">
+            <p className="bet-title">TOP BETS</p>
+            <div className="bet-grid">
+              {bets
+                .filter((bet) =>
+                  bet.text.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+                .map((bet) => (
+                  <BetCard bet={bet} key={bet.bet_id} />
+                ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

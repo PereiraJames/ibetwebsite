@@ -81,24 +81,6 @@
     z-index: 2; /* Ensure it's above the overlay */
     transition: font-size 0.2s ease-in-out; /* Smooth transition for font size */
   }
-  
-  .bet-card-dropdown{
-    padding: 10px;
-    /* margin: 15px; */
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #1a1a1a;
-    transition: transform 0.2s;
-    /* height: 100%; */
-    height: 120px;
-    width: 350px;
-    display: flex;
-    outline: #FFD700;
-    outline-width: 3px;
-    outline-style: solid;
-    flex-direction: row;
-  }
 
   .home-info-banner{
     background-color: white;
@@ -106,4 +88,30 @@
     display: flex;
     align-content: center;
     justify-content: center;
+  }
+
+  .loading-container-home {
+    margin: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+  }
+  
+  .loading-home {
+    width: fit-content;
+    font-size: 40px;
+    font-family: monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff0;
+    -webkit-text-stroke: 1px #FFC943;
+    background: conic-gradient(#3DADFF 0 0) 0/0 100% no-repeat text;
+    animation: l11 2s steps(23,jump-none) infinite;
+  }
+  .loading-home:before {
+    content: "Loading Bets";
+  }
+  @keyframes l11 {
+    to {background-size: 100% 100%}
   }

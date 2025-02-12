@@ -104,32 +104,37 @@ const Home = () => {
       <div className="navbar-offset"></div>
       <FrontPageBanner />
       {/* <Carousell /> */}
-      <form onSubmit={handleSearch} className="search-form">
-        <input
-          type="text"
-          placeholder="Search for a bet"
-          className="search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="submit" className="search-button">
-          Search
-        </button>
-      </form>
 
       {error && <div className="error-message">{error}</div>}
 
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div className="loading-container-home">
+          <div className="loading-home"></div>
+        </div>
       ) : (
-        <div className="bet-grid">
-          {bets
-            .filter((bet) =>
-              bet.text.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map((bet) => (
-              <BetCard bet={bet} key={bet.bet_id} />
-            ))}
+        <div>
+          <form onSubmit={handleSearch} className="search-form">
+            <input
+              type="text"
+              placeholder="Search for a bet"
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit" className="search-button">
+              Search
+            </button>
+          </form>
+
+          <div className="bet-grid">
+            {bets
+              .filter((bet) =>
+                bet.text.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((bet) => (
+                <BetCard bet={bet} key={bet.bet_id} />
+              ))}
+          </div>
         </div>
       )}
     </div>

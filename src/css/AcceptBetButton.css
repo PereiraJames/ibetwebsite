@@ -7,7 +7,7 @@
 }
 
 .accept-popup {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -62,4 +62,8 @@ input {
   cursor: pointer;
   width: 100%;
   margin-top: 10px;
+}
+
+.accept-popup-text{
+  color: black;
 }

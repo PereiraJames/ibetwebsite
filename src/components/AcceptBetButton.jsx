@@ -73,8 +73,10 @@ function AcceptBetButton({ bet, onBetAccepted }) {
           <div className="accept-popup-content">
             {isTokenValid ? (
               <>
-                <p>Are you sure you want to accept the bet?</p>
-                <p>{bet.text}</p>
+                <p className="accept-popup-text">
+                  Are you sure you want to accept the bet?
+                </p>
+                <p className="accept-popup-text">{bet.text}</p>
                 {errorMessage && (
                   <p className="error-message">{errorMessage}</p>
                 )}

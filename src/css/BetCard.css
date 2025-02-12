@@ -17,11 +17,6 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.bet-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 12px 40px rgba(255, 201, 67, 1);
-}
-
 .bet-info h3 {
   font-family: 'Questrial', sans-serif;
   font-size: 24px;
@@ -57,8 +52,8 @@
 
 .favorite-btn {
   background: transparent;
-  color: #FFC943;
-  border: 2px solid #FFC943;
+  color: grey;
+  border: 2px solid grey;
 }
 
 .favorite-btn.active {
@@ -70,11 +65,6 @@
   background: #FFC943;
   color: #000;
   border: 2px solid #FFC943;
-}
-
-.accept-bet-btn:hover {
-  background: #000;
-  color: #FFC943;
 }
 
 .accepted {

@@ -6,7 +6,6 @@
   font-family: 'Arial', sans-serif;
   display: flex; /* Use flexbox for layout */
   flex-direction: column; /* Stack containers vertically */
-  gap: 2rem; /* Space between sections */
 }
 
 /* Space between navbar and content */
@@ -15,9 +14,13 @@
 }
 
 .top-players-container {
-  padding: 2rem 1rem;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  background-image: url('src/css/images/web/leaderboard.jpg');
+  /* background-image: url('src/css/images/web/leaderboard.jpg'); */
+  background: 
+        linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%), /* Gradient overlay */
+        url('src/css/images/web/leaderboard.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -28,7 +31,7 @@
 
 /* Title style */
 .player-title {
-  color: #ffc943;
+  color: #3DADFF;
   font-size: 1.5rem;
   font-weight: bold;
   letter-spacing: 2px;
@@ -74,7 +77,7 @@
 
 .player-card p {
   font-size: 1rem;
-  color: #ddd;
+  color: black;
 }
 
 /* Loading spinner */
@@ -91,7 +94,7 @@
 
 /* Title for top bets */
 .bet-title {
-  color: #ff4c4c;
+  color: #3DADFF;
   padding: 1rem;
   font-size: 1.5rem;
   font-weight: bold;
@@ -111,16 +114,29 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Bet card style */
-.bet-card {
-  background-color: #333;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.loading-container-leaderboard {
+  height: 80vh;
+  margin: 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
 }
 
-.bet-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+.loading-leaderboard {
+  width: fit-content;
+  font-size: 40px;
+  font-family: monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff0;
+  -webkit-text-stroke: 1px #FFC943;
+  background: conic-gradient(#3DADFF 0 0) 0/0 100% no-repeat text;
+  animation: l11 2s steps(21,jump-none) infinite;
+}
+.loading-leaderboard:before {
+  content: "Loading leaderboards";
+}
+@keyframes l11 {
+  to {background-size: 100% 100%}
 }

@@ -69,7 +69,7 @@ function Login() {
         </div>
       </div>
       <img
-        src="src/css/images/login2.jpg"
+        src="src/css/images/web/login.jpg"
         alt="login-img"
         className="login-img"
       />

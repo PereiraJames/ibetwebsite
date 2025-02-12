@@ -104,13 +104,7 @@ function NavBar() {
         </Link>
         {/* <LoginPopUp /> */}
       </div>
-      <div className="navbar-center">
-        <img
-          src="src/css/images/mmmm.svg"
-          className="mnm-logo"
-          alt="mnm-logo"
-        />
-      </div>
+      <div className="navbar-center"></div>
       <div className="navbar-right">
         {JWTtoken && username ? (
           <div>
