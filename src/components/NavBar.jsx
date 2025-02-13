@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../css/NavBar.css";
 import BetButton from "./BetButton";
+import logo from "../css/images/mnm_logo.png"; // Import the logo image
 
 function NavBar() {
   const [username, setUsername] = useState(null);
@@ -20,7 +21,7 @@ function NavBar() {
 
       try {
         const response = await fetch(
-          "http://192.168.1.52:3000/auth/get-username",
+          `${import.meta.env.VITE_ENDPOINT_URL}/auth/get-username`,
           {
             method: "GET",
             headers: {
@@ -104,7 +105,9 @@ function NavBar() {
         </Link>
         {/* <LoginPopUp /> */}
       </div>
-      <div className="navbar-center"></div>
+      <div className="navbar-center">
+        <img src={logo} alt="MNM Logo" className="navbar-logo" />
+      </div>
       <div className="navbar-right">
         {JWTtoken && username ? (
           <div>

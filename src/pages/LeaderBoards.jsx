@@ -148,7 +148,7 @@ const Leaderboards = () => {
 
           <div className="top-bets-container">
             <p className="bet-title">TOP BETS</p>
-            <div className="bet-grid">
+            <div className="top-bet-grid">
               {bets
                 .filter((bet) =>
                   bet.text.toLowerCase().includes(searchQuery.toLowerCase())

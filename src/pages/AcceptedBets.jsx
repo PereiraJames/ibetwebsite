@@ -4,6 +4,7 @@ import { getAllBets } from "../services/database"; // Update this based on your 
 import BetCard from "../components/BetCard";
 
 const AcceptedBets = () => {
+  console.log(import.meta.env.VITE_ENDPOINT_URL);
   const [searchQuery, setSearchQuery] = useState("");
   const [bets, setBets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,15 +18,18 @@ const AcceptedBets = () => {
           await Promise.all([
             getAllBets(),
             JWTtoken &&
-              fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
-                method: "GET",
-                headers: {
-                  Authorization: `Bearer ${JWTtoken}`,
-                  "Content-Type": "application/json",
-                },
-              }),
+              fetch(
+                `${import.meta.env.VITE_ENDPOINT_URL}/user/user-acceptedbets`,
+                {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${JWTtoken}`,
+                    "Content-Type": "application/json",
+                  },
+                }
+              ),
             JWTtoken &&
-              fetch("http://192.168.1.52:3000/user/bet-liked", {
+              fetch(`${import.meta.env.VITE_ENDPOINT_URL}/user/bet-liked`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -76,7 +80,7 @@ const AcceptedBets = () => {
   }, [JWTtoken]);
 
   const filteredBets = bets
-    .filter((bet) => bet.isAccepted) // Filter to show only liked bets
+    .filter((bet) => bet.isAccepted) // Filter to show only accepted bets
     .filter((bet) =>
       bet.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
