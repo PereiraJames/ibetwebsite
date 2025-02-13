@@ -1,14 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora&display=swap');
 
 .bet-card {
-  background: #000;
+  background: #008080;
   color: #fff;
-  border: 3px solid #FFC943;
-  padding: 20px;
-  border-radius: 20px;
-  font-family: 'Cinzel', serif;
+  border: 3px solid #D4AF37;  /* Subtle gold */
+  padding: 25px;
+  border-radius: 10px;  /* Less rounded for a more angular feel */
+  font-family: 'Bebas Neue', sans-serif; /* Art Deco-inspired font */
   text-align: center;
-  box-shadow: 0px 10px 30px rgba(255, 201, 67, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,19 +17,20 @@
 }
 
 .bet-info h3 {
-  font-family: 'Questrial', sans-serif;
-  font-size: 24px;
-  border-bottom: 3px solid #FFC943;
-  padding-bottom: 10px;
+  font-family: 'Lora', serif;  /* Classy, elegant font for headers */
+  font-size: 26px;
+  border-bottom: 2px solid #D4AF37;  /* Lighter gold */
+  padding-bottom: 8px;
   margin-bottom: 15px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: #FFC943;
+  color: #D4AF37;
 }
 
 .bet-info p {
   font-size: 14px;
   margin: 5px 0;
+  font-family: 'Lora', serif;
 }
 
 .interaction-bar {
@@ -41,36 +41,37 @@
 }
 
 .favorite-btn, .accept-bet-btn {
-  padding: 10px 15px;
-  font-family: 'Questrial', sans-serif;
+  padding: 12px 20px;
+  font-family: 'Lora', serif;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 5px;  /* Sharper corners */
   cursor: pointer;
-  border: none;
-  transition: all 0.3s ease-in-out;
+  border: 2px solid #D4AF37;
+  background: transparent;
+  color: #D4AF37;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.favorite-btn {
-  background: transparent;
-  color: grey;
-  border: 2px solid grey;
+.favorite-btn:hover, .accept-bet-btn:hover {
+  background-color: #D4AF37;
+  color: #000;
 }
 
 .favorite-btn.active {
-  color: red;
-  border: 2px solid red;
+  color: #9B6A2C; /* Deep gold for active */
+  border: 2px solid #9B6A2C;
 }
 
 .accept-bet-btn {
-  background: #FFC943;
+  background: #D4AF37;
   color: #000;
-  border: 2px solid #FFC943;
+  border: none;
 }
 
 .accepted {
   font-size: 16px;
   font-weight: bold;
-  color: #FFC943;
+  color: #D4AF37;
 }
 
 .interaction-bar i {
@@ -82,7 +83,7 @@
   .bet-card {
     width: 100%;
     height: auto;
-    padding: 15px;
+    padding: 20px;
   }
 
   .interaction-bar {
