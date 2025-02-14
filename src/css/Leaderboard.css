@@ -24,7 +24,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 600px; /* Ensure section can expand */
+  min-height: 800px; /* Ensure section can expand */
   background-color: rgba(0, 0, 0, 0.5);
 }
 
