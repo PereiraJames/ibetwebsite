@@ -9,7 +9,7 @@ dotenv.config(); // Load environment variables
 const allowedIps = ['127.0.0.1'];
 
 const corsOptions = {
-  origin: 'http://ibetmarkandmajella.com/', // Replace with your frontend's domain
+  origin: 'http://ibetmarkandmajella.com', // Replace with your frontend's domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
