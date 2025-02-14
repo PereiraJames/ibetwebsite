@@ -59,6 +59,20 @@ async function getUserIdFromToken(req) {
   }
 }
 
+app.post("/log/client-access", (req, res) => {
+  const { ip, userAgent, timestamp, url, referrer } = req.body;
+
+  const logQuery = "INSERT INTO access_logs (ip, user_agent, timestamp, url, referrer) VALUES (?, ?, ?, ?, ?)";
+  db.query(logQuery, [ip, userAgent, timestamp, url, referrer], (err, result) => {
+    if (err) {
+      console.error("Error logging access data:", err);
+      return res.status(500).json({ message: "Error logging access data" });
+    }
+    console.log("user entered");
+    res.status(201).json({ message: "Access data logged successfully" });
+  });
+});
+
 // USER AUTHENTICATION APIs
 
 app.get("/auth/get-username", async (req, res) => {

@@ -71,3 +71,25 @@ export const getAllBets = async () => {
       throw error; // Rethrow the error to be handled by the caller
     }
   };
+
+  export const logClientAccess = async () => {
+    const ip = await fetch('https://api.ipify.org?format=json').then(response => response.json()).then(data => data.ip);
+    const userAgent = navigator.userAgent;
+    const timestamp = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format timestamp
+    const url = window.location.href;
+    const referrer = document.referrer;
+  
+    const logData = { ip, userAgent, timestamp, url, referrer };
+  
+    try {
+      await fetch(`${import.meta.env.VITE_ENDPOINT_URL}/log/client-access`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(logData),
+      });
+    } catch (error) {
+      console.error("Error logging client access:", error);
+    }
+  };

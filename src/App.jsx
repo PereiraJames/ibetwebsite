@@ -11,6 +11,7 @@ import LikedBets from "./pages/LikedBets";
 import Leaderboards from "./pages/LeaderBoards";
 import HowToPlay from "./pages/HowToPlay";
 import AcceptedBets from "./pages/AcceptedBets";
+import { logClientAccess } from "./services/database";
 
 function App() {
   const [refresh, setRefresh] = useState(false); // Track page changes for re-render
@@ -23,6 +24,10 @@ function App() {
     const timer = setTimeout(() => setRefresh(false), 0);
     return () => clearTimeout(timer);
   }, [location]); // Re-run effect on route change
+
+  useEffect(() => {
+    logClientAccess();
+  }, []);
 
   return (
     <div>
