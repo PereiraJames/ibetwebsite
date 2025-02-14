@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 
 dotenv.config(); // Load environment variables
 
+const allowedIps = ['127.0.0.1'];
+
 const corsOptions = {
   origin: 'http://ibetmarkandmajella.com/', // Replace with your frontend's domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -14,6 +16,13 @@ const corsOptions = {
 
 const app = express();
 app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  const clientIp = req.ip; // Get the client IP
+  if (!allowedIps.includes(clientIp)) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+  next(); // Allow request to continue
+});
 app.use(express.json());
 
 
