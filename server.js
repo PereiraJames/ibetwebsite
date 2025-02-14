@@ -15,7 +15,7 @@ dotenv.config(); // Load environment variables
 // };
 
 const app = express();
-// app.use(cors(corsOptions));
+app.use(cors());
 // app.use((req, res, next) => {
 //   const clientIp = req.ip; // Get the client IP
 //   if (!allowedIps.includes(clientIp)) {
