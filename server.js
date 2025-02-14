@@ -6,9 +6,17 @@ import jwt from "jsonwebtoken";
 
 dotenv.config(); // Load environment variables
 
+const corsOptions = {
+  origin: 'http://ibetmarkandmajella.com/', // Replace with your frontend's domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
+
+
 
 // Connect to Jason Database
 const db = mysql.createConnection({
