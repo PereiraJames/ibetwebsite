@@ -3,7 +3,7 @@ import "../css/CountdownTimer.css";
 
 const CountdownTimer = () => {
   // Set your target date here in 'DD-MMM-YYYY HH:MM' format
-  const targetDate = "08-Nov-2025 00:00"; // Change this to your desired target date and time
+  const targetDate = "08-Nov-2025 10:00"; // Change this to your desired target date and time
 
   const calculateTimeLeft = () => {
     const target = new Date(`${targetDate}:00`);

@@ -68,7 +68,6 @@ app.post("/log/client-access", (req, res) => {
       console.error("Error logging access data:", err);
       return res.status(500).json({ message: "Error logging access data" });
     }
-    console.log("user entered");
     res.status(201).json({ message: "Access data logged successfully" });
   });
 });
