@@ -151,7 +151,7 @@ function Register() {
         id="register-img"
         src="src/css/images/web/register.jpg"
         alt="register-img"
-        class="register-img"
+        className="register-img"
       />
     </div>
   );

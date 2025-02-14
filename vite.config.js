@@ -1,11 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import dotenv from "dotenv";
 
-// https://vite.dev/config/
+
+dotenv.config()
+
 export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-    port: 80, // Change to the port you prefer
+    port: process.env.NETWORK_PORT, // Change to the port you prefer
   },
 });
