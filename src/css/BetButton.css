@@ -46,7 +46,7 @@
   
   .submit-button {
     background-color: #4CAF50;
-    color: white;
+    color: black;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -71,5 +71,10 @@
   }
 
   .bet-text-prefix{
-    width:50%
+    width:50%;
+    color: black;
+  }
+
+  .bet-popup-title{
+    color: black;
   }

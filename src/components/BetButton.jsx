@@ -3,6 +3,7 @@ import "../css/BetButton.css";
 
 function BetButton() {
   const date = new Date();
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const formatteddate = date.toLocaleDateString("en-GB", {
     year: "numeric",
@@ -55,7 +56,7 @@ function BetButton() {
   const fetchUserName = async () => {
     const JWTtoken = localStorage.getItem("token");
 
-    const response = await fetch("http://192.168.1.52:3000/auth/get-username", {
+    const response = await fetch(`${ENDPOINT_URL}/auth/get-username`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${JWTtoken}`,
@@ -93,7 +94,7 @@ function BetButton() {
     };
 
     try {
-      const response = await fetch("http://192.168.1.52:3000/bet/create-bet", {
+      const response = await fetch(`${ENDPOINT_URL}/bet/create-bet`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${JWTtoken}`,

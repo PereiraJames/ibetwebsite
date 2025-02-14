@@ -87,7 +87,7 @@ const AcceptedBets = () => {
 
   return (
     <div className="acceptedbets">
-      <div className="navbar-offset"></div>
+      {/* <div className="navbar-offset"></div> */}
       {error && <div className="error-message">{error}</div>}
       <div className="accepted-bets-banner ">
         <div className="accepted-bets-title">

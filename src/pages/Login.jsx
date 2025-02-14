@@ -6,6 +6,7 @@ function Login() {
   const [values, setValues] = useState({ username: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const handleChanges = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -15,7 +16,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://192.168.1.52:3000/auth/login", {
+      const response = await fetch(`${ENDPOINT_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

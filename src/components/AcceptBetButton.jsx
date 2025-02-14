@@ -7,6 +7,7 @@ function AcceptBetButton({ bet, onBetAccepted }) {
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
 
@@ -40,7 +41,7 @@ function AcceptBetButton({ bet, onBetAccepted }) {
     }
 
     try {
-      const response = await fetch("http://192.168.1.52:3000/bet/accept-bet", {
+      const response = await fetch(`${ENDPOINT_URL}/bet/accept-bet`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${JWTtoken}`,

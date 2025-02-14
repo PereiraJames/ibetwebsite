@@ -1,6 +1,8 @@
+const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
+
 export const getAllBets = async () => {
     try {
-      const response = await fetch(`http://192.168.1.52:3000/api/bets`);
+      const response = await fetch(`${ENDPOINT_URL}/api/bets`);
   
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -18,7 +20,7 @@ export const getAllBets = async () => {
   
   export const getLeaderboardBets = async () => {
     try {
-      const response = await fetch(`http://192.168.1.52:3000/bet/leaderboard-bets`);
+      const response = await fetch(`${ENDPOINT_URL}/bet/leaderboard-bets`);
   
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -36,7 +38,7 @@ export const getAllBets = async () => {
   
   export const getLeaderboardBettors = async () => {
     try {
-      const response = await fetch(`http://192.168.1.52:3000/bet/leaderboard-bettors`);
+      const response = await fetch(`${ENDPOINT_URL}/bet/leaderboard-bettors`);
   
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -54,7 +56,7 @@ export const getAllBets = async () => {
 
   export const getLeaderboardAcceptors = async () => {
     try {
-      const response = await fetch(`http://192.168.1.52:3000/bet/leaderboard-acceptors`);
+      const response = await fetch(`${ENDPOINT_URL}/bet/leaderboard-acceptors`);
   
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);

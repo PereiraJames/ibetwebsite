@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora&display=swap');
 
 .bet-card {
-  background: #008080;
-  color: #fff;
-  border: 3px solid #D4AF37;  /* Subtle gold */
+  background-image: url('src/css/images/items/card-back.png');
+  background-size: 350px;
+  color: #008080;
   padding: 25px;
   border-radius: 10px;  /* Less rounded for a more angular feel */
   font-family: 'Bebas Neue', sans-serif; /* Art Deco-inspired font */

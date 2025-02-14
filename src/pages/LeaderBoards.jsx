@@ -14,6 +14,7 @@ const Leaderboards = () => {
   const [acceptorloading, setAcceptorLoading] = useState(true);
   const [error, setError] = useState("");
   const [acceptedBets, setIsAccepted] = useState([]);
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
 
@@ -24,7 +25,7 @@ const Leaderboards = () => {
           await Promise.all([
             getLeaderboardBets(),
             JWTtoken &&
-              fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
+              fetch(`${ENDPOINT_URL}/user/user-acceptedbets`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -32,7 +33,7 @@ const Leaderboards = () => {
                 },
               }),
             JWTtoken &&
-              fetch("http://192.168.1.52:3000/user/bet-liked", {
+              fetch(`${ENDPOINT_URL}/user/bet-liked`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -82,13 +83,13 @@ const Leaderboards = () => {
     const fetchLeaderboardData = async () => {
       try {
         const [fetchedBettors, fetchedAcceptors] = await Promise.all([
-          fetch("http://192.168.1.52:3000/bet/leaderboard-bettors", {
+          fetch(`${ENDPOINT_URL}/bet/leaderboard-bettors`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           }),
-          fetch("http://192.168.1.52:3000/bet/leaderboard-acceptors", {
+          fetch(`${ENDPOINT_URL}/bet/leaderboard-acceptors`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -115,7 +116,7 @@ const Leaderboards = () => {
 
   return (
     <div className="leaderboard">
-      <div className="navbar-offset"></div>
+      {/* <div className="navbar-offset"></div> */}
       {bettorloading || acceptorloading || leaderboardloading ? (
         <div className="loading-container-leaderboard">
           <div className="loading-leaderboard"></div>

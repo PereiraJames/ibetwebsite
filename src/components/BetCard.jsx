@@ -6,6 +6,7 @@ function BetCard({ bet: initialBet }) {
   const [bet, setBet] = useState(initialBet); // Track bet state
   const [likes, setLikes] = useState(initialBet.likes_count);
   const [isLiked, setIsLiked] = useState(initialBet.isLiked);
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   useEffect(() => {
     setBet(initialBet);
@@ -18,7 +19,7 @@ function BetCard({ bet: initialBet }) {
 
     if (JWTtoken) {
       try {
-        const response = await fetch("http://192.168.1.52:3000/user/bet-like", {
+        const response = await fetch(`${ENDPOINT_URL}/user/bet-like`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${JWTtoken}`,
@@ -72,7 +73,7 @@ function BetCard({ bet: initialBet }) {
         {!bet.isAccepted ? (
           <AcceptBetButton bet={bet} onBetAccepted={setBet} />
         ) : (
-          <div>You Have Accepted This Bet</div>
+          <div>Accepted</div>
         )}
       </div>
       {/* <LoginPopUp /> */}

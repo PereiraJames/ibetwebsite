@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../css/NavBar.css";
 import BetButton from "./BetButton";
 import logo from "../css/images/mnm_logo.png"; // Import the logo image
@@ -11,6 +11,8 @@ function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false); // Track scroll state
   const JWTtoken = localStorage.getItem("token");
   const dropdownRef = useRef(null); // Reference to the dropdown
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
+  const location = useLocation(); // Get current route
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -20,16 +22,13 @@ function NavBar() {
       }
 
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_ENDPOINT_URL}/auth/get-username`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${JWTtoken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${ENDPOINT_URL}/auth/get-username`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${JWTtoken}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP Error: ${response.status}`);
@@ -92,70 +91,54 @@ function NavBar() {
   }, []);
 
   return (
-    <nav className={`navbar-container ${isScrolled ? "navbar-scrolled" : ""}`}>
+    <nav className="navbar-scrolled">
       <div className="navbar-left">
-        <Link to="/" className="navbar-left-items">
+        <Link to="/" className="nav-item">
           HOME
         </Link>
-        <Link to="/leaderboards" className="navbar-left-items">
+        <Link to="/leaderboards" className="nav-item">
           LEADERBOARDS
         </Link>
-        <Link to="/howtoplay" className="navbar-left-items">
+        <Link to="/howtoplay" className="nav-item">
           HOW TO PLAY
         </Link>
-        {/* <LoginPopUp /> */}
       </div>
+
       <div className="navbar-center">
         <img src={logo} alt="MNM Logo" className="navbar-logo" />
       </div>
+
       <div className="navbar-right">
         {JWTtoken && username ? (
-          <div>
-            <div className="dropdown-username" ref={dropdownRef}>
-              <button
-                className="dropdown-toggle"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                {loading ? "Loading..." : username ? username : "Unknown"}
-              </button>
-              {dropdownOpen && (
-                <div className="dropdown-menu">
-                  <Link
-                    to="/userprofile"
-                    className="dropdown-item"
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                  >
-                    Profile
-                  </Link>
-                  <Link
-                    to="/likedbets"
-                    className="dropdown-item"
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                  >
-                    Favourite Bets
-                  </Link>
-                  <Link
-                    to="/acceptedbets"
-                    className="dropdown-item"
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                  >
-                    Accepted Bets
-                  </Link>
-                  <button onClick={handleLogout} className="dropdown-item">
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
+          <div className="dropdown-username" ref={dropdownRef}>
+            <button
+              className="dropdown-toggle"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              {loading ? "Loading..." : username}
+            </button>
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <Link to="/userprofile" className="dropdown-item">
+                  Profile
+                </Link>
+                <Link to="/likedbets" className="dropdown-item">
+                  Favourite Bets
+                </Link>
+                <Link to="/acceptedbets" className="dropdown-item">
+                  Accepted Bets
+                </Link>
+                <button onClick={handleLogout} className="dropdown-item">
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         ) : (
-          <>
-            <Link to="/login" className="nav-login">
-              LOGIN
-            </Link>
-          </>
+          <Link to="/login" className="nav-login">
+            LOGIN
+          </Link>
         )}
-
         {JWTtoken && username && !loading && <BetButton />}
       </div>
     </nav>

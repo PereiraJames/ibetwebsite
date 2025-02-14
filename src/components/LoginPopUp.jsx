@@ -6,6 +6,7 @@ function LoginPopUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const [values, setValues] = useState({ username: "", password: "" });
   const navigate = useNavigate();
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const [isOpen, setIsOpen] = useState(false); // Track popup state
 
@@ -20,7 +21,7 @@ function LoginPopUp() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://192.168.1.52:3000/auth/login", {
+      const response = await fetch(`${ENDPOINT_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -13,6 +13,7 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
   const navigate = useNavigate();
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const handleChanges = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -43,7 +44,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch("http://192.168.1.52:3000/auth/register", {
+      const response = await fetch(`${ENDPOINT_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

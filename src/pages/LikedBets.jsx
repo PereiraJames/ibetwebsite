@@ -9,6 +9,7 @@ const LikedBets = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const JWTtoken = localStorage.getItem("token");
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   useEffect(() => {
     const fetchBetsAndStatuses = async () => {
@@ -16,7 +17,7 @@ const LikedBets = () => {
         const [fetchedBets, likedResponse] = await Promise.all([
           getAllBets(),
           JWTtoken &&
-            fetch("http://192.168.1.52:3000/user/bet-liked", {
+            fetch(`${ENDPOINT_URL}/user/bet-liked`, {
               method: "GET",
               headers: {
                 Authorization: `Bearer ${JWTtoken}`,
@@ -68,7 +69,7 @@ const LikedBets = () => {
 
   return (
     <div className="likedbets">
-      <div className="navbar-offset"></div>
+      {/* <div className="navbar-offset"></div> */}
       {error && <div className="error-message">{error}</div>}
       <div className="liked-bets-banner ">
         <div className="liked-bets-title">

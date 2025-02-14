@@ -11,9 +11,10 @@ const Home = () => {
   const [error, setError] = useState("");
   const [acceptedBets, setIsAccepted] = useState([]);
   const [likedBets, setLikedBets] = useState([]);
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
-
+  console.log();
   useEffect(() => {
     const fetchBetsAndStatuses = async () => {
       try {
@@ -23,7 +24,7 @@ const Home = () => {
           await Promise.all([
             getAllBets(),
             JWTtoken &&
-              fetch("http://192.168.1.52:3000/user/user-acceptedbets", {
+              fetch(`${ENDPOINT_URL}/user/user-acceptedbets`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -31,7 +32,7 @@ const Home = () => {
                 },
               }),
             JWTtoken &&
-              fetch("http://192.168.1.52:3000/user/bet-liked", {
+              fetch(`${ENDPOINT_URL}/user/bet-liked`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -101,7 +102,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="navbar-offset"></div>
       <FrontPageBanner />
       {/* <Carousell /> */}
 

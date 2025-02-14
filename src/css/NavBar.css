@@ -1,117 +1,113 @@
-/* Default navbar styles */
-.navbar-container {
-  height: 80px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  top: 0;
-  left: 0;
-  position: fixed;
-  z-index: 1000;
-  background-color: rgba(0, 28, 28, 1); /* Solid background when not scrolled */
-}
-
-/* Styles when scrolled */
+/* Navbar using Grid for perfect centering */
 .navbar-scrolled {
   position: fixed;
   top: 0;
   left: 0;
-  background: linear-gradient(to top, rgba(0, 130, 130, 0.8), rgba(0, 28, 28, 1)); /* Translucent background when scrolled */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow when scrolled */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  width: 100%;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* Ensures left & right take equal space */
+  align-items: center;
+  background: linear-gradient(to top, rgba(0, 130, 130, 0.8), rgba(0, 28, 28, 1));
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+  z-index: 1000;
 }
 
-.navbar-left, .navbar-right {
+.navbar-left {
   display: flex;
   align-items: center;
-  padding: 0 30px;
 }
 
+/* Center section with logo */
 .navbar-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
+/* Logo always centered */
 .navbar-logo {
-  max-width: 300px; /* Adjust the size as needed */
+  max-width: 250px;
   height: auto;
 }
 
-.navbar-left-items {
-  font-size: 15px;
-  border-radius: 6px;
-  padding: 0px 20px;
-  color: #3DADFF;
-  transition: background-color 0.2s;
-  background-color: #ffc943;
-  outline: #ffc943;
-  outline-style: solid;
-  margin-right: 25px;
+/* Right section */
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
 }
 
-.navbar-right-items {
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  height: 45px;
-  color: #3DADFF;
-  transition: background-color 0.2s;
-  outline: #ffc943;
-  outline-width: 3px;
-  outline-style: solid;
-  margin-right: 25px;
+/* Nav items */
+.nav-item, .nav-login, .dropdown-toggle, .bet-button {
+  font-size: 16px;
+  padding: 10px 30px;
+  color: #e6da92;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  background-color: transparent;
+  border: none;  
 }
 
-.nav-login {
+/* Prevent blue color on button click (focus and active states) */
+.nav-item:focus, .nav-login:focus, .dropdown-toggle:focus, .bet-button:focus,
+.nav-item:active, .nav-login:active, .dropdown-toggle:active, .bet-button:active {
+  outline: none;  /* Removes the outline (blue border) */
+  background-color: transparent;  /* Ensure no background color is applied */
+  color: #e6da92; /* Keep the original color when clicked */
+}
+
+.nav-item:hover, .nav-login:hover, .dropdown-toggle:hover, .bet-button:hover {
   color: #ffc943;
 }
 
+/* Dropdown styles */
 .dropdown-username {
   position: relative;
   display: inline-block;
-}
-
-.dropdown-toggle {
-  font-size: 15px;
-  border-radius: 6px;
-  padding: 0px 20px;
-  color: #3DADFF;
-  transition: background-color 0.2s;
-  background-color: #ffc943;
-  outline: #ffc943;
-  outline-style: solid;
-  margin-right: 25px;
+  background-color: transparent; /* Make sure it's transparent */
+  border: none; /* Remove borders if any */
+  padding: 0; /* Remove padding if any */
+  margin: 0; /* Remove margins if any */
 }
 
 .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #333;
-  min-width: 150px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 28, 28, 0.95);
+  min-width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   z-index: 10;
   display: flex;
   flex-direction: column;
 }
 
-.dropdown-item {
-  padding: 10px;
+.navbar-right .dropdown-item {
+  padding: 12px;
   color: white;
   text-decoration: none;
   text-align: left;
-  background: none;
-  border: none;
-  width: 100%;
   cursor: pointer;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  transition: background 0.3s ease, border 0.3s ease;
+  font-size: 15px;
 }
 
-.dropdown-item:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+/* Hover effect with more specificity */
+.navbar-right .dropdown-item:hover {
+  color: #007bff;  /* Blue shade on hover */
+  border: none;  /* No border on hover */
+}
+
+/* Remove focus outline or border */
+.navbar-right .dropdown-item:focus {
+  outline: none;
+  border: none;
 }
