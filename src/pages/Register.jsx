@@ -65,9 +65,9 @@ function Register() {
   };
 
   return (
-    <div class="register-container">
+    <div className="register-container">
       <div className="navbar-space"></div>
-      <div class="register-form">
+      <div className="register-form">
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="username">Username</label>
