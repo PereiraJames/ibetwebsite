@@ -46,20 +46,20 @@ db.connect((err) => {
 async function getUserIdFromToken(req) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return null;
+    return null;
   }
-  
+
   const token = authHeader.split(' ')[1];
   try {
-      const decoded = jwt.verify(token, process.env.JWT_KEY);
-      return decoded.id; // Ensure your JWT includes an 'id' field
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    return decoded.id; // Ensure your JWT includes an 'id' field
   } catch (error) {
-      console.error('Invalid token:', error.message);
-      return null;
+    console.error('Invalid token:', error.message);
+    return null;
   }
 }
 
-app.post("/log/client-access", (req, res) => {
+app.post("/api/log/client-access", (req, res) => {
   const { ip, userAgent, timestamp, url, referrer } = req.body;
 
   const logQuery = "INSERT INTO access_logs (ip, user_agent, timestamp, url, referrer) VALUES (?, ?, ?, ?, ?)";
@@ -69,71 +69,72 @@ app.post("/log/client-access", (req, res) => {
       return res.status(500).json({ message: "Error logging access data" });
     }
     res.status(201).json({ message: "Access data logged successfully" });
+    console.log(`${ip} has successfully browsed to ${url}`)
   });
 });
 
 // USER AUTHENTICATION APIs
 
-app.get("/auth/get-username", async (req, res) => {
+app.get("/api/auth/get-username", async (req, res) => {
   try {
-      const userId = await getUserIdFromToken(req);
-      if (!userId) {
-          return res.status(401).json({ error: "Unauthorized" });
+    const userId = await getUserIdFromToken(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    // Fetch username from database
+    const getUserNameQuery = "SELECT username FROM users WHERE user_id = ?"
+
+    db.query(getUserNameQuery, [userId], (err, result) => {
+      if (err) {
+        console.error("Error fetching username:", err);
+        return res.status(500).send("Error fetching data");
       }
 
-      // Fetch username from database
-      const getUserNameQuery = "SELECT username FROM users WHERE user_id = ?"
+      if (result.length === 0) {
+        return res.status(404).json({ message: "User Not Found" });
+      }
 
-      db.query(getUserNameQuery, [userId], (err, result) => {
-        if (err) {
-          console.error("Error fetching username:", err);
-          return res.status(500).send("Error fetching data");
-        }
-
-        if (result.length === 0) {
-          return res.status(404).json({ message: "User Not Found" });
-        }
-
-        res.json({ userData: result[0].username });
-      });
+      res.json({ userData: result[0].username });
+    });
 
   } catch (error) {
-      console.error("Error fetching username:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error fetching username:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-app.get("/auth/get-userinfo", async (req, res) => {
+app.get("/api/auth/get-userinfo", async (req, res) => {
   try {
-      const userId = await getUserIdFromToken(req);
-      if (!userId) {
-          return res.status(401).json({ error: "Unauthorized" });
+    const userId = await getUserIdFromToken(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    // Fetch username from database
+    const getUserNameQuery = "SELECT * FROM users WHERE user_id = ?"
+
+    db.query(getUserNameQuery, [userId], (err, result) => {
+      if (err) {
+        console.error("Error fetching username:", err);
+        return res.status(500).send("Error fetching data");
       }
 
-      // Fetch username from database
-      const getUserNameQuery = "SELECT * FROM users WHERE user_id = ?"
+      if (result.length === 0) {
+        return res.status(404).json({ message: "User Not Found" });
+      }
 
-      db.query(getUserNameQuery, [userId], (err, result) => {
-        if (err) {
-          console.error("Error fetching username:", err);
-          return res.status(500).send("Error fetching data");
-        }
-
-        if (result.length === 0) {
-          return res.status(404).json({ message: "User Not Found" });
-        }
-
-        res.json({ userData: result[0] });
-      });
+      res.json({ userData: result[0] });
+    });
 
   } catch (error) {
-      console.error("Error fetching username:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error fetching username:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 //Creating an account
-app.post("/auth/register", async (req, res) => {
+app.post("/api/auth/register", async (req, res) => {
   const { username, password, realname, phonenumber } = req.body;
 
   if (!password) {
@@ -144,11 +145,11 @@ app.post("/auth/register", async (req, res) => {
     return res.status(400).json({ message: "Username is required" });
   }
 
-  if (!realname){
+  if (!realname) {
     return res.status(400).json({ message: "Realname is required" });
   }
 
-  if (!phonenumber){
+  if (!phonenumber) {
     return res.status(400).json({ message: "Phone Number is required" });
   }
 
@@ -171,13 +172,13 @@ app.post("/auth/register", async (req, res) => {
           console.error("Error checking user:", err);
           return res.status(500).json({ message: "Database error" });
         }
-  
+
         if (result.length > 0) {
           return res.status(459).json({ message: "Phone Number Exists!" });
         }
 
         const userInsertQuery = "INSERT INTO users (username, password, realname, phone_number) VALUES (?,?,?,?)";
-        db.query(userInsertQuery, [username, password, realname,phonenumber], (err, result) => {
+        db.query(userInsertQuery, [username, password, realname, phonenumber], (err, result) => {
           if (err) {
             console.error("Error inserting user:", err);
             return res.status(500).json({ message: "Error creating user" });
@@ -186,7 +187,7 @@ app.post("/auth/register", async (req, res) => {
           return res.status(201).json({ message: "User Added Successfully!" });
         });
       });
-    });    
+    });
   } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
@@ -194,7 +195,7 @@ app.post("/auth/register", async (req, res) => {
 });
 
 //Logining into account
-app.post("/auth/login", (req, res) => {
+app.post("/api/auth/login", (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -204,7 +205,7 @@ app.post("/auth/login", (req, res) => {
   try {
     // Check if user exists
     const usernameCheckQuery = "SELECT * FROM users WHERE username = ?";
-    
+
     db.query(usernameCheckQuery, [username], (err, result) => {
       if (err) {
         console.error("Error checking user:", err);
@@ -227,7 +228,7 @@ app.post("/auth/login", (req, res) => {
       // Creating JWT Token
       const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
       console.log(`${user.user_id} | ${user.username} has successfully logged in.`)
-      return res.status(200).json({token: generatedToken});
+      return res.status(200).json({ token: generatedToken });
     });
 
   } catch (err) {
@@ -237,13 +238,13 @@ app.post("/auth/login", (req, res) => {
 });
 
 
-app.get("/user/user-acceptedbets", async (req,res) => {
+app.get("/api/user/user-acceptedbets", async (req, res) => {
   const userID = await getUserIdFromToken(req);
 
-  try{
+  try {
     const userBetsQuery = "SELECT * FROM betaccepts WHERE user_id = ?";
-    
-    db.query(userBetsQuery, [userID], (err,results) => {
+
+    db.query(userBetsQuery, [userID], (err, results) => {
       if (err) {
         console.error("Database Error:", err);
         return res.status(500).json("Database Error!");
@@ -251,20 +252,20 @@ app.get("/user/user-acceptedbets", async (req,res) => {
       return res.json(results);
     })
 
-  }catch (err) {
+  } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
 
-app.get("/user/bet-liked", async (req,res) => {
+app.get("/api/user/bet-liked", async (req, res) => {
   const userID = await getUserIdFromToken(req);
 
-  try{
+  try {
     const userBetsQuery = "SELECT * FROM betlikes WHERE user_id = ?";
-    
-    db.query(userBetsQuery, [userID], (err,results) => {
+
+    db.query(userBetsQuery, [userID], (err, results) => {
       if (err) {
         console.error("Database Error:", err);
         return res.status(500).json("Database Error!");
@@ -272,35 +273,35 @@ app.get("/user/bet-liked", async (req,res) => {
       return res.json(results);
     })
 
-  }catch (err) {
+  } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-app.get("/user/user-profileinfo", async (req,res) => {
+app.get("/api/user/user-profileinfo", async (req, res) => {
   const userID = await getUserIdFromToken(req);
 
   const profileData = [];
 
-  try{
+  try {
     const userProfileQuery = "SELECT * FROM users WHERE id = ?"
-    
-    db.query(userProfileQuery, [userID], (err,results) => {
+
+    db.query(userProfileQuery, [userID], (err, results) => {
       if (err) {
         console.error("Database Error:", err);
         return res.status(500).json("Database Error!");
       }
       return res.json(results);
     })
-  }catch (err) {
+  } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
   }
-  
+
 })
 
-app.post("/user/bet-like", async (req, res) => {
+app.post("/api/user/bet-like", async (req, res) => {
   const { betId } = req.body;
 
   const userID = await getUserIdFromToken(req);
@@ -309,10 +310,10 @@ app.post("/user/bet-like", async (req, res) => {
     return res.status(400).json({ message: "Missing bet ID" });
   }
 
-  try{
+  try {
     const checkLikeExistQuery = "SELECT * FROM betlikes WHERE bet_id = ? AND user_id = ?";
-    
-    db.query(checkLikeExistQuery, [betId, userID], (err,results) => {
+
+    db.query(checkLikeExistQuery, [betId, userID], (err, results) => {
       if (err) {
         console.error("Database Error:", err);
         return res.status(500).json("Database Error!");
@@ -321,8 +322,8 @@ app.post("/user/bet-like", async (req, res) => {
       if (results.length > 0) {
         const unlikeQuery = "DELETE FROM betlikes WHERE user_id = ? AND bet_id = ?";
 
-        db.query(unlikeQuery, [userID, betId], (err,results) => {
-          if (err){
+        db.query(unlikeQuery, [userID, betId], (err, results) => {
+          if (err) {
             console.error("Database Error:", err);
             return res.status(500).json("Database Error!");
           }
@@ -333,11 +334,11 @@ app.post("/user/bet-like", async (req, res) => {
         })
       }
 
-      else{
+      else {
         const likeQuery = "INSERT INTO betlikes (user_id, bet_id) VALUES (?, ?)";
 
-        db.query(likeQuery, [userID, betId], (err,results) => {
-          if (err){
+        db.query(likeQuery, [userID, betId], (err, results) => {
+          if (err) {
             console.error("Database Error:", err);
             return res.status(500).json("Database Error!");
           }
@@ -347,11 +348,11 @@ app.post("/user/bet-like", async (req, res) => {
         })
       }
     })
-  }catch (err) {
+  } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ message: "Server error" });
   }
-  
+
 
 
   // const query = "UPDATE bets SET likes = likes + 1 WHERE bet_id = ?";
@@ -367,7 +368,7 @@ app.post("/user/bet-like", async (req, res) => {
 
 // BET APIs
 
-app.post("/bet/accept-bet", async (req, res) => {
+app.post("/api/bet/accept-bet", async (req, res) => {
   const { betID } = req.body;
   const userID = await getUserIdFromToken(req);
 
@@ -439,7 +440,7 @@ ORDER BY b.bet_id DESC;  -- Order by bet_id in descending order
   });
 });
 
-app.get("/bet/leaderboard-bets", (req, res) => {
+app.get("/api/bet/leaderboard-bets", (req, res) => {
   db.query(`
     SELECT 
     b.bet_id, 
@@ -477,7 +478,7 @@ LIMIT 10;
   });
 });
 
-app.get("/bet/leaderboard-bettors", (req, res) => {
+app.get("/api/bet/leaderboard-bettors", (req, res) => {
   db.query(`
    SELECT u.username, b.bettor_id, COUNT(b.bettor_id) AS total_bets
 FROM bets b
@@ -496,7 +497,7 @@ LIMIT 10;
 });
 
 
-app.get("/bet/leaderboard-acceptors", (req, res) => {
+app.get("/api/bet/leaderboard-acceptors", (req, res) => {
   db.query(`
    SELECT u.username, ba.user_id, COUNT(ba.user_id) AS total_accepts
 FROM betaccepts ba
@@ -516,12 +517,12 @@ LIMIT 10;
 
 
 // POST | Creating a Bet
-app.post("/bet/create-bet", async (req, res) => {
+app.post("/api/bet/create-bet", async (req, res) => {
   const { text, betAmount, startDate, endDate, bettor, conditionals } = req.body;
 
-  const bettorID = await getUserIdFromToken(req); 
+  const bettorID = await getUserIdFromToken(req);
 
-  if (!text || !betAmount || !startDate ||  !endDate || !bettorID) {
+  if (!text || !betAmount || !startDate || !endDate || !bettorID) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -537,7 +538,7 @@ app.post("/bet/create-bet", async (req, res) => {
   });
 });
 
-app.post("/api/bets/like", (req, res) => {
+app.post("/api/api/bets/like", (req, res) => {
   const { betId } = req.body;
 
   if (!betId) {

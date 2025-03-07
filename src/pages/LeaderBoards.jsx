@@ -83,13 +83,13 @@ const Leaderboards = () => {
     const fetchLeaderboardData = async () => {
       try {
         const [fetchedBettors, fetchedAcceptors] = await Promise.all([
-          fetch(`${ENDPOINT_URL}/bet/leaderboard-bettors`, {
+          fetch(`${ENDPOINT_URL}/api/bet/leaderboard-bettors`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           }),
-          fetch(`${ENDPOINT_URL}/bet/leaderboard-acceptors`, {
+          fetch(`${ENDPOINT_URL}/api/bet/leaderboard-acceptors`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
