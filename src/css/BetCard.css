@@ -2,34 +2,66 @@
 
 .bet-card {
   background-image: url('src/css/images/items/card-back.png');
-  background-size: 350px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #008080;
-  padding: 25px;
+  padding: 20px;
+  /* Slightly reduced padding */
   border-radius: 10px;
-  /* Less rounded for a more angular feel */
   font-family: 'Bebas Neue', sans-serif;
-  /* Art Deco-inspired font */
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 350px;
-  height: 500px;
+  width: 100%;
+  max-width: 320px;
+  /* Reduced max width */
+  min-width: 280px;
+  /* Reduced min width */
+  aspect-ratio: 1467 / 2140;
   transition: transform 0.3s ease-in-out;
 }
 
+.text-resize {
+  font-size: clamp(14px, 2vw, 18px);
+  /* Dynamically adjusts font size */
+  line-height: 1.4;
+  /* Adjust line height for better readability */
+  word-wrap: break-word;
+  /* Allows words to wrap onto the next line */
+  white-space: normal;
+  /* Ensures text wraps and doesn’t overflow */
+  max-width: 100%;
+}
+
 .bet-info h3 {
-  font-family: 'Lora', serif;
-  /* Classy, elegant font for headers */
-  font-size: 26px;
+  font-size: clamp(18px, 3vw, 26px);
+  /* Dynamically adjusts font size for the heading */
+  font-weight: bold;
   border-bottom: 2px solid #D4AF37;
-  /* Lighter gold */
   padding-bottom: 8px;
   margin-bottom: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #D4AF37;
+  text-align: center;
+  word-wrap: break-word;
+  /* Ensures long words wrap */
 }
+
+/* Responsive Scaling */
+@media (max-width: 350px) {
+  .text-resize {
+    font-size: min(4vw, 16px);
+    /* Smaller font for small screens */
+  }
+
+  .bet-info h3 {
+    font-size: min(5vw, 22px);
+  }
+}
+
 
 .bet-info p {
   font-size: 14px;
@@ -42,6 +74,7 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
+  padding: 20px;
 }
 
 /* .favorite-btn, */
