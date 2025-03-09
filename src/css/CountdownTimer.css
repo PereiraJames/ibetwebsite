@@ -1,63 +1,51 @@
 /* CountdownTimer.css */
-
-.countdown-container {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    position: relative;
-}
-
-.countdown-timer-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .countdown-timer-text {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-right: 15px; /* Add space between countdown and status */
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .time-unit {
-    display: flex; /* This ensures the number and label are in a row */
-    flex-direction: row;
-    align-items: center;
-    margin: 0 10px;
     text-align: center;
 }
 
 .time-unit span {
-    display: block;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold;
-    color: white; /* Green color for numbers */
-    margin-right: 5px; /* Space between number and label */
+    display: block;
+    color: #ffffff;
 }
 
 .time-unit p {
-    font-size: 1.2rem;
-    font-weight: normal;
-    color: white;
+    font-size: 1rem;
+    margin-top: 5px;
+    color: #b0bec5;
 }
 
 .timer-status {
-    font-size: 1.5rem;
-    color: #333;
+    font-size: 1.2rem;
+    margin-top: 15px;
     font-weight: bold;
+    color: #ff9800;
+    text-align: center;
 }
 
-@media screen and (max-width: 600px) {
+/* Responsive Design */
+@media (max-width: 600px) {
+    .countdown-timer-text {
+        gap: 10px;
+    }
+
     .time-unit span {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
+    }
+
+    .time-unit p {
+        font-size: 0.9rem;
     }
 
     .timer-status {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 }
