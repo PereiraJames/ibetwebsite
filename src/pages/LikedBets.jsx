@@ -17,7 +17,7 @@ const LikedBets = () => {
         const [fetchedBets, likedResponse] = await Promise.all([
           getAllBets(),
           JWTtoken &&
-            fetch(`${ENDPOINT_URL}/user/bet-liked`, {
+            fetch(`${ENDPOINT_URL}/api/user/bet-liked`, {
               method: "GET",
               headers: {
                 Authorization: `Bearer ${JWTtoken}`,

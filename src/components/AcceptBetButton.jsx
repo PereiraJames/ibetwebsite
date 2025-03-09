@@ -41,7 +41,7 @@ function AcceptBetButton({ bet, onBetAccepted }) {
     }
 
     try {
-      const response = await fetch(`${ENDPOINT_URL}/bet/accept-bet`, {
+      const response = await fetch(`${ENDPOINT_URL}/api/bet/accept-bet`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${JWTtoken}`,

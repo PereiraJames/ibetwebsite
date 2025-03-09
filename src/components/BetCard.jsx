@@ -19,7 +19,7 @@ function BetCard({ bet: initialBet }) {
 
     if (JWTtoken) {
       try {
-        const response = await fetch(`${ENDPOINT_URL}/user/bet-like`, {
+        const response = await fetch(`${ENDPOINT_URL}/api/user/bet-like`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${JWTtoken}`,

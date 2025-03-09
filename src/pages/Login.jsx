@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${ENDPOINT_URL}/auth/login`, {
+      const response = await fetch(`${ENDPOINT_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
