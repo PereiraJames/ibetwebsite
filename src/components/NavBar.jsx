@@ -104,8 +104,10 @@ function NavbarMobile() {
         </Link>
       </div>
 
-      <button className="hamburger" onClick={toggleMenu}>
-        ☰
+      <button class="mobile-hamburger-icon" onClick={toggleMenu}>
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
 
       <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>

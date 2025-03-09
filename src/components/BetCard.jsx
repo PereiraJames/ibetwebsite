@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
 import "../css/BetCard.css";
 import AcceptBetButton from "./AcceptBetButton";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+
 
 function BetCard({ bet: initialBet }) {
   const [bet, setBet] = useState(initialBet); // Track bet state
   const [likes, setLikes] = useState(initialBet.likes_count);
   const [isLiked, setIsLiked] = useState(initialBet.isLiked);
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
+  const JWTtoken = localStorage.getItem("token");
 
   useEffect(() => {
     setBet(initialBet);
     setLikes(initialBet.likes_count);
+
     setIsLiked(initialBet.isLiked);
   }, [initialBet]);
 
@@ -18,6 +23,7 @@ function BetCard({ bet: initialBet }) {
     const JWTtoken = localStorage.getItem("token");
 
     if (JWTtoken) {
+      console.log("clicked")
       try {
         const response = await fetch(`${ENDPOINT_URL}/api/user/bet-like`, {
           method: "POST",
@@ -45,7 +51,7 @@ function BetCard({ bet: initialBet }) {
         console.error("Error:", error);
       }
     } else {
-      console.log("Log-in First");
+      console.log("Liking Requires You To Be Logged-In");
     }
   }
 
@@ -63,18 +69,21 @@ function BetCard({ bet: initialBet }) {
         <p className="text-resize">Conditionals: {bet.conditionals}</p>
       </div>
       <div className="interaction-bar">
-        <button
-          className={`favorite-btn ${isLiked ? "active" : ""}`}
-          onClick={onLike}
-        >
-          ♥ {likes}
-        </button>
+      <button
+        className={`favorite-btn ${isLiked ? "active" : ""}`}
+        onClick={onLike}
+      >
+        <FontAwesomeIcon icon={faHeart} className={`heart-icon ${isLiked ? "liked" : ""}`} />
+        <span className="like-count">{likes}</span>
+      </button>
 
-        {!bet.isAccepted ? (
+
+      {!bet.isAccepted ? (
           <AcceptBetButton bet={bet} onBetAccepted={setBet} />
         ) : (
           <div>Accepted</div>
         )}
+        
       </div>
       {/* <LoginPopUp /> */}
     </div>

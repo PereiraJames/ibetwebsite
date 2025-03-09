@@ -5,8 +5,10 @@
   background-size: 350px;
   color: #008080;
   padding: 25px;
-  border-radius: 10px;  /* Less rounded for a more angular feel */
-  font-family: 'Bebas Neue', sans-serif; /* Art Deco-inspired font */
+  border-radius: 10px;
+  /* Less rounded for a more angular feel */
+  font-family: 'Bebas Neue', sans-serif;
+  /* Art Deco-inspired font */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -17,9 +19,11 @@
 }
 
 .bet-info h3 {
-  font-family: 'Lora', serif;  /* Classy, elegant font for headers */
+  font-family: 'Lora', serif;
+  /* Classy, elegant font for headers */
   font-size: 26px;
-  border-bottom: 2px solid #D4AF37;  /* Lighter gold */
+  border-bottom: 2px solid #D4AF37;
+  /* Lighter gold */
   padding-bottom: 8px;
   margin-bottom: 15px;
   letter-spacing: 1px;
@@ -40,27 +44,61 @@
   margin-top: 15px;
 }
 
-.favorite-btn, .accept-bet-btn {
+/* .favorite-btn, */
+.accept-bet-btn {
   padding: 12px 20px;
   font-family: 'Lora', serif;
   font-size: 16px;
-  border-radius: 5px;  /* Sharper corners */
+  border-radius: 5px;
+  /* Sharper corners */
   cursor: pointer;
-  border: 2px solid #D4AF37;
+  border: 2px solid black;
   background: transparent;
   color: #D4AF37;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.favorite-btn:hover, .accept-bet-btn:hover {
-  background-color: #D4AF37;
-  color: #000;
+.favorite-btn {
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  /* Default color */
 }
 
 .favorite-btn.active {
-  color: #9B6A2C; /* Deep gold for active */
-  border: 2px solid #9B6A2C;
+  color: #ff3366;
+  /* Active color */
+  transform: scale(1.2);
+  /* Slightly enlarge when liked */
 }
+
+.favorite-btn .heart-icon {
+  transition: transform 0.3s ease;
+  margin-right: 8px;
+  /* Add margin to the right of the heart */
+}
+
+.favorite-btn.active .heart-icon {
+  transform: rotate(360deg);
+  /* Rotating heart when clicked */
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  /* Slight hover effect */
+}
+
+.like-count {
+  font-size: 20px;
+  /* Adjust the font size if needed */
+}
+
 
 .accept-bet-btn {
   background: #D4AF37;
@@ -91,7 +129,8 @@
     gap: 10px;
   }
 
-  .favorite-btn, .accept-bet-btn {
+  .favorite-btn,
+  .accept-bet-btn {
     width: 100%;
   }
 }

@@ -66,7 +66,7 @@ function AcceptBetButton({ bet, onBetAccepted }) {
   return (
     <div>
       <button className="accept-button" onClick={togglePopup}>
-        Accept Bet!
+        ACCEPT BET!
       </button>
 
       {isOpen && (
@@ -92,7 +92,7 @@ function AcceptBetButton({ bet, onBetAccepted }) {
               <>
                 <p>Please log in to accept the bet.</p>
                 <Link to="/login">
-                  <button>Go to Login</button>
+                  <button className="popup-login">Go to Login</button>
                 </Link>
                 <button className="close-button" onClick={togglePopup}>
                   Close

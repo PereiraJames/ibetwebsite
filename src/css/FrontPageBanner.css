@@ -58,3 +58,20 @@ h5 {
   margin-top: 10px;
   color: #FFC943;
 }
+
+.front-img-container {
+  position: relative;
+}
+
+.front-banner {
+  width: 100%;
+  height: auto;
+}
+
+/* For mobile screens */
+@media screen and (max-width: 768px) {
+  .front-banner {
+    content: url('src/css/images/mobile/front-banner.jpg');
+    /* Replace with your mobile image path */
+  }
+}

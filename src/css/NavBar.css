@@ -277,3 +277,59 @@ body.menu-open {
   outline: none;
   /* Remove the default outline */
 }
+
+/* .mobile-hamburger {
+  border-radius: 8px;
+  border: 1px solid #1a1a1a;
+  background: rgba(74, 74, 74, 0.39);
+  mix-blend-mode: luminosity;
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.20);
+  backdrop-filter: blur(15px);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.mobile-hamburger-icon {
+  border: 5px solid #1a1a1a;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform .4s;
+  border: none;
+  background: none;
+  padding: 2px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mobile-hamburger-icon span {
+  width: 100%;
+  height: 0.25rem;
+  border-radius: 0.125rem;
+  background-color: #D4AF37;
+  box-shadow: 0 .5px 2px 0 hsla(0, 0%, 0%, .2);
+  transition: width .4s, transform .4s, background-color .4s;
+}
+
+.mobile-hamburger-icon :nth-child(1) {
+  width: 75%;
+}
+
+.mobile-hamburger-icon :nth-child(2) {
+  width: 50%;
+}
+
+.mobile-hamburger-icon:hover {
+  transform: rotate(-90deg);
+}
+
+.mobile-hamburger-icon:hover span {
+  width: .25rem;
+  transform: translateX(10px);
+  background-color: rgb(255, 59, 48);
+}

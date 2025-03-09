@@ -4,8 +4,10 @@
   box-sizing: border-box;
   background-color: black;
   font-family: 'Arial', sans-serif;
-  display: flex; /* Use flexbox for layout */
-  flex-direction: column; /* Stack containers vertically */
+  display: flex;
+  /* Use flexbox for layout */
+  flex-direction: column;
+  /* Stack containers vertically */
 }
 
 /* Space between navbar and content */
@@ -17,16 +19,32 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* background-image: url('src/css/images/web/leaderboard.jpg'); */
-  background: 
-        linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%), /* Gradient overlay */
-        url('src/css/images/web/leaderboard.jpg');
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
+    /* Gradient overlay */
+    url('src/css/images/web/leaderboard.jpg');
+  /* Default background for larger screens */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 800px; /* Ensure section can expand */
+  min-height: 800px;
+  /* Ensure section can expand */
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+/* For mobile screens */
+@media screen and (max-width: 768px) {
+  .top-players-container {
+    background:
+      linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
+      /* Gradient overlay */
+      url('src/css/images/mobile/leaderboard.jpg');
+    /* Mobile background image */
+    background-position: -10px center;
+    /* Move the image 10px to the left */
+  }
+}
+
 
 
 /* Title style */
@@ -44,11 +62,12 @@
 /* Player grid container */
 .player-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ensure it adapts on smaller screens */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Ensure it adapts on smaller screens */
   gap: 1.5rem;
   padding: 1rem;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7); 
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -101,18 +120,20 @@
   letter-spacing: 1px;
 }
 
-.top-bet-grid{
+.top-bet-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Adjust the gap as needed */
-  justify-content: center; /* Center the cards horizontally */
-  background-color: #002f2b;
+  gap: 20px;
+  /* Adjust the gap as needed */
+  justify-content: center;
+  /* Center the cards horizontally */
+  background-color: #001814;
 }
 
 /* Bet grid container */
 .leaderboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   padding: 1rem;
   width: 100%;
@@ -125,7 +146,7 @@
 .loading-container-leaderboard {
   height: 80vh;
   margin: 0;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   background-color: #001814;
@@ -140,11 +161,15 @@
   color: #fff0;
   -webkit-text-stroke: 1px #FFC943;
   background: conic-gradient(#3DADFF 0 0) 0/0 100% no-repeat text;
-  animation: l11 2s steps(21,jump-none) infinite;
+  animation: l11 2s steps(21, jump-none) infinite;
 }
+
 .loading-leaderboard:before {
   content: "Loading leaderboards";
 }
+
 @keyframes l11 {
-  to {background-size: 100% 100%}
+  to {
+    background-size: 100% 100%
+  }
 }
