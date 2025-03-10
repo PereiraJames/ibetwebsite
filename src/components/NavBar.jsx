@@ -289,9 +289,10 @@ function NavbarDesktop() {
                 <Link to="/acceptedbets" className="dropdown-item">
                   Accepted Bets
                 </Link>
-                <button onClick={handleLogout} className="dropdown-item">
+                <Link to="/" className="dropdown-item" onClick={handleLogout}>
                   Logout
-                </button>
+                </Link>
+    
               </div>
             )}
           </div>

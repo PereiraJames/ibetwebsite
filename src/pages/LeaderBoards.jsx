@@ -123,6 +123,11 @@ const Leaderboards = () => {
         </div>
       ) : (
         <>
+          <div className="leaderboard-banner ">
+            <div className="leaderboard-title">
+              <h1>LEADERBOARDS</h1>
+            </div>
+          </div>
           {error && <div className="error-message">{error}</div>}
 
           <div className="top-players-container">
