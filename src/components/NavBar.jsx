@@ -54,6 +54,10 @@ function NavbarMobile() {
         });
 
         if (!response.ok) {
+          if (response.status !== 401) {
+            // Log other errors if needed
+            console.error("HTTP Error:", response.status);
+          }
           throw new Error(`HTTP Error: ${response.status}`);
         }
 
@@ -61,6 +65,7 @@ function NavbarMobile() {
         setUsername(data.userData.toUpperCase());
       } catch (error) {
         console.error("Failed to fetch username:", error);
+
       } finally {
         setLoading(false);
       }
@@ -104,7 +109,7 @@ function NavbarMobile() {
         </Link>
       </div>
 
-      <button class="mobile-hamburger-icon" onClick={toggleMenu}>
+      <button className="mobile-hamburger-icon" onClick={toggleMenu}>
         <span></span>
         <span></span>
         <span></span>

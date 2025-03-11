@@ -54,7 +54,7 @@ async function getUserIdFromToken(req) {
     const decoded = jwt.verify(token, process.env.JWT_KEY);
     return decoded.id; // Ensure your JWT includes an 'id' field
   } catch (error) {
-    console.error('Invalid token:', error.message);
+    // console.error('Invalid token:', error.message);
     return null;
   }
 }
@@ -317,6 +317,11 @@ app.post("/api/user/bet-like", async (req, res) => {
       if (err) {
         console.error("Database Error:", err);
         return res.status(500).json("Database Error!");
+      }
+
+      if (!betId || !userID) {
+        console.error("Invalid")
+        return res.status(404).json("Unauthorized | Not logged!")
       }
 
       if (results.length > 0) {

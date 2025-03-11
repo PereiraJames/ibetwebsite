@@ -11,6 +11,7 @@ import LikedBets from "./pages/LikedBets";
 import Leaderboards from "./pages/LeaderBoards";
 import HowToPlay from "./pages/HowToPlay";
 import AcceptedBets from "./pages/AcceptedBets";
+import GoogleLogin from "./pages/GoogleLogin";
 import { logClientAccess } from "./services/database";
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/bestbets" element={<BestBets />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<GoogleLogin />} />
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/likedbets" element={<LikedBets />} />
           <Route path="/leaderboards" element={<Leaderboards />} />

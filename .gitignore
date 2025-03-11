@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.git/config
 
 ibetmnm_key.pem
