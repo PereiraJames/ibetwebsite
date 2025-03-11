@@ -194,6 +194,46 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
+app.post("/api/auth/google-register", async (req, res) => {
+  const { name, email, firstName, lastName, emailVerified, registeredMethod } = req.body;
+
+  try {
+    // Check if user already exists
+    const emailCheckQuery = "SELECT * FROM googleUsersDev WHERE email = ?";
+    db.query(emailCheckQuery, [email], async (err, result) => {
+      if (err) {
+        console.error("Error checking user:", err);
+        return res.status(500).json({ message: "Database error" });
+      }
+
+      if (result.length > 0) {
+        return res.status(459).json({ message: "Email Exists!" });
+      }
+
+      const userInsertQuery = "INSERT INTO googleUsers (username, email, firstName, lastName, emailVerified, registeredMethod) VALUES (?,?,?,?,?,?)";
+      db.query(userInsertQuery, [name, email, firstName, lastName, emailVerified, registeredMethod], (err, result) => {
+        if (err) {
+          console.error("Error inserting user:", err);
+          return res.status(500).json({ message: "Error creating user" });
+        }
+        console.log(`Successfully added new account ${name} | ${email}`)
+
+        console.log(result)
+        // Creating JWT Token
+        // const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
+        // console.log(`${user.user_id} | ${user.username} has successfully logged in.`)
+        // return res.status(201).json({ token: generatedToken, message: "User Added Successfully!" });
+        return res.status(201).json({ message: "User Added Successfully!" });
+      });
+
+    });
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 //Logining into account
 app.post("/api/auth/login", (req, res) => {
   const { username, password } = req.body;
@@ -237,6 +277,38 @@ app.post("/api/auth/login", (req, res) => {
   }
 });
 
+app.post("/api/auth/google-login", (req, res) => {
+  const { name, email, firstName, lastName, emailVerified, registeredMethod } = req.body;
+
+  try {
+    // Check if user exists
+    const usernameCheckQuery = "SELECT * FROM googleUsersDev WHERE email = ?";
+
+    db.query(usernameCheckQuery, [email], (err, result) => {
+      if (err) {
+        console.error("Error checking user:", err);
+        return res.status(500).json({ message: "Database error" });
+      }
+
+      if (result.length === 0) {
+        return res.status(404).json({ message: "Invalid email!" });
+      }
+
+      const user = result[0];
+
+      console.log(user)
+
+      // Creating JWT Token
+      const generatedToken = jwt.sign({ id: user.email }, process.env.JWT_KEY, { expiresIn: "3h" });
+      console.log(`${user.username} | ${user.email} has successfully logged in.`)
+      return res.status(200).json({ token: generatedToken });
+    });
+
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 app.get("/api/user/user-acceptedbets", async (req, res) => {
   const userID = await getUserIdFromToken(req);

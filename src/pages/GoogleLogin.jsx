@@ -1,27 +1,109 @@
 import "../css/Login.css";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function GoogleLogin() {
+function AuthLogin() {
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
+
+  const handleGoogleRegister = async (credentialResponse) => {
+    try {
+      const decoded = jwtDecode(credentialResponse?.credential);
+      console.log(decoded); // You can check what data you get here
+
+      const registerdata = {
+        "name": decoded.name,
+        "email": decoded.email,
+        "firstName": decoded.given_name,
+        "lastName": decoded.family_name,
+        "emailVerified": decoded.email_verified,
+        "registeredMethod": "google"
+      }
+
+      // Sending the Google credentials to your API
+      const response = await fetch(`${ENDPOINT_URL}/api/auth/google-register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerdata),
+      });
+
+      if (response.status === 201) {
+        navigate("/");
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "An error occurred");
+      }
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      setErrorMessage("Error occurred while logging in with Google.");
+    }
+  };
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const decoded = jwtDecode(credentialResponse?.credential);
+      console.log(decoded); // You can check what data you get here
+
+      const logindata = {
+        "name": decoded.name,
+        "email": decoded.email,
+        "firstName": decoded.given_name,
+        "lastName": decoded.family_name,
+        "emailVerified": decoded.email_verified,
+        "registeredMethod": "google"
+      }
+
+      // Sending the Google credentials to your API
+      const response = await fetch(`${ENDPOINT_URL}/api/auth/google-login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(logindata),
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        navigate("/");
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "An error occurred");
+      }
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      setErrorMessage("Error occurred while logging in with Google.");
+    }
+  };
+
+  
+
   return (
     <div className="userprofile-container">
       <div className="navbar-void"></div>
       <div className="bestbets-empty">
-        <h1>User Profile</h1>
-        <p>Coming soon...</p>
-        {/* <div>
-          <p>username</p>
-          <p>email</p>
-          <p>phone number</p>
-          <p>creation date</p>
-          <p>amount of bets</p>
-        </div>
+        <GoogleLogin
+          onSuccess={handleGoogleRegister}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-        <div>
-          Change Password Section
-        </div> */}
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
       </div>
     </div>
-    
   );
 }
 
-export default GoogleLogin;
+export default AuthLogin;
