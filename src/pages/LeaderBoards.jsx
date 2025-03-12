@@ -25,7 +25,7 @@ const Leaderboards = () => {
           await Promise.all([
             getLeaderboardBets(),
             JWTtoken &&
-              fetch(`${ENDPOINT_URL}/api/user/user-acceptedbets`, {
+              fetch(`${ENDPOINT_URL}/user/acceptedbets`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -33,7 +33,7 @@ const Leaderboards = () => {
                 },
               }),
             JWTtoken &&
-              fetch(`${ENDPOINT_URL}/api/user/bet-liked`, {
+              fetch(`${ENDPOINT_URL}/user/likedbets`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -83,13 +83,13 @@ const Leaderboards = () => {
     const fetchLeaderboardData = async () => {
       try {
         const [fetchedBettors, fetchedAcceptors] = await Promise.all([
-          fetch(`${ENDPOINT_URL}/api/bet/leaderboard-bettors`, {
+          fetch(`${ENDPOINT_URL}/bet/leaderboard-bettors`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           }),
-          fetch(`${ENDPOINT_URL}/api/bet/leaderboard-acceptors`, {
+          fetch(`${ENDPOINT_URL}/bet/leaderboard-acceptors`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

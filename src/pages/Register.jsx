@@ -44,7 +44,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch(`${ENDPOINT_URL}/api/auth/register`, {
+      const response = await fetch(`${ENDPOINT_URL}/auth/account-register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

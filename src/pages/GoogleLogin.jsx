@@ -24,7 +24,7 @@ function AuthLogin() {
       }
 
       // Sending the Google credentials to your API
-      const response = await fetch(`${ENDPOINT_URL}/api/auth/google-register`, {
+      const response = await fetch(`${ENDPOINT_URL}/auth/google-register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ function AuthLogin() {
       }
 
       // Sending the Google credentials to your API
-      const response = await fetch(`${ENDPOINT_URL}/api/auth/google-login`, {
+      const response = await fetch(`${ENDPOINT_URL}/auth/google-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -21,7 +21,7 @@ function LoginPopUp() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${ENDPOINT_URL}/api/auth/login`, {
+      const response = await fetch(`${ENDPOINT_URL}/auth/account-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

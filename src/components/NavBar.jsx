@@ -45,7 +45,7 @@ function NavbarMobile() {
       }
 
       try {
-        const response = await fetch(`${ENDPOINT_URL}/api/auth/get-username`, {
+        const response = await fetch(`${ENDPOINT_URL}/auth/get-username`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${JWTtoken}`,
@@ -187,7 +187,7 @@ function NavbarDesktop() {
       }
 
       try {
-        const response = await fetch(`${ENDPOINT_URL}/api/auth/get-username`, {
+        const response = await fetch(`${ENDPOINT_URL}/auth/get-username`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${JWTtoken}`,

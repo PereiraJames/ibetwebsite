@@ -2,7 +2,7 @@ const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
 export const getAllBets = async () => {
   try {
-    const response = await fetch(`${ENDPOINT_URL}/api/bets`);
+    const response = await fetch(`${ENDPOINT_URL}/bet/all-bets`);
 
     if (!response.ok) {
       throw new Error(`HTTP Error: ${response.status}`);
@@ -20,7 +20,7 @@ export const getAllBets = async () => {
 
 export const getLeaderboardBets = async () => {
   try {
-    const response = await fetch(`${ENDPOINT_URL}/api/bet/leaderboard-bets`);
+    const response = await fetch(`${ENDPOINT_URL}/bet/leaderboard-bets`);
 
     if (!response.ok) {
       throw new Error(`HTTP Error: ${response.status}`);
@@ -38,13 +38,13 @@ export const getLeaderboardBets = async () => {
 
 export const getLeaderboardBettors = async () => {
   try {
-    const response = await fetch(`${ENDPOINT_URL}/api/bet/leaderboard-bettors`);
+    const response = await fetch(`${ENDPOINT_URL}/bet/leaderboard-bettors`);
 
     if (!response.ok) {
       throw new Error(`HTTP Error: ${response.status}`);
     }
 
-    // Directly parse the array from the response
+    // Directly parse the array from the respon se
     const data = await response.json();
     // console.log("Fetched bets:", data); // Log to debug
     return data; // Directly return the array
@@ -56,7 +56,7 @@ export const getLeaderboardBettors = async () => {
 
 export const getLeaderboardAcceptors = async () => {
   try {
-    const response = await fetch(`${ENDPOINT_URL}/api/bet/leaderboard-acceptors`);
+    const response = await fetch(`${ENDPOINT_URL}/bet/leaderboard-acceptors`);
 
     if (!response.ok) {
       throw new Error(`HTTP Error: ${response.status}`);

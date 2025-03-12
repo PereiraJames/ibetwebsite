@@ -24,7 +24,7 @@ const Home = () => {
           await Promise.all([
             getAllBets(),
             JWTtoken &&
-              fetch(`${ENDPOINT_URL}/api/user/user-acceptedbets`, {
+              fetch(`${ENDPOINT_URL}/user/acceptedbets`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,
@@ -32,7 +32,7 @@ const Home = () => {
                 },
               }),
             JWTtoken &&
-              fetch(`${ENDPOINT_URL}/api/user/bet-liked`, {
+              fetch(`${ENDPOINT_URL}/user/likedbets`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,

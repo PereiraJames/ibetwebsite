@@ -80,7 +80,7 @@ router.get("/get-userinfo", async (req, res) => {
     }
 });
 
-router.get("/default-register", async (req, res) => {
+router.get("/account-register", async (req, res) => {
     try {
         const { username, password, realname, phonenumber } = req.body;
 
@@ -176,7 +176,7 @@ router.get("/google-register", async (req, res) => {
     }
 });
 
-router.get("/default-login", async (req, res) => {
+router.get("/account-login", async (req, res) => {
     try {
         const { username, password } = req.body;
 

@@ -16,6 +16,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/bet", betRoutes);
+app.use("/api/log", logRoutes)
 
 // Connect to Database
 const db = mysql.createConnection({

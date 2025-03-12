@@ -56,7 +56,7 @@ function BetButton() {
   const fetchUserName = async () => {
     const JWTtoken = localStorage.getItem("token");
 
-    const response = await fetch(`${ENDPOINT_URL}/api/auth/get-username`, {
+    const response = await fetch(`${ENDPOINT_URL}/auth/get-username`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${JWTtoken}`,
@@ -94,7 +94,7 @@ function BetButton() {
     };
 
     try {
-      const response = await fetch(`${ENDPOINT_URL}/api/bet/create-bet`, {
+      const response = await fetch(`${ENDPOINT_URL}/bet/create-bet`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${JWTtoken}`,
