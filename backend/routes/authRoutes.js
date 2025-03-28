@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import mysql from "mysql";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 const router = express.Router();
 
 // Connect to Database

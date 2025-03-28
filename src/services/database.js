@@ -82,7 +82,7 @@ export const logClientAccess = async () => {
   const logData = { ip, userAgent, timestamp, url, referrer };
 
   try {
-    await fetch(`${import.meta.env.VITE_ENDPOINT_URL}/api/log/client-access`, {
+    await fetch(`${import.meta.env.VITE_ENDPOINT_URL}/log/client-access`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import mysql from "mysql";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 const router = express.Router();
 
 // Connect to Database
@@ -47,3 +47,5 @@ router.get("/client-access", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+export default router;

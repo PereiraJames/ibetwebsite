@@ -310,7 +310,7 @@ app.post("/api/auth/google-login", (req, res) => {
   }
 });
 
-app.get("/api/user/user-acceptedbets", async (req, res) => {
+app.get("/api/user/acceptedbets", async (req, res) => {
   const userID = await getUserIdFromToken(req);
 
   try {
@@ -331,7 +331,7 @@ app.get("/api/user/user-acceptedbets", async (req, res) => {
 });
 
 
-app.get("/api/user/bet-liked", async (req, res) => {
+app.get("/api/user/likedbets", async (req, res) => {
   const userID = await getUserIdFromToken(req);
 
   try {
@@ -481,7 +481,7 @@ app.post("/api/bet/accept-bet", async (req, res) => {
 
 
 // GET | Grab all the bets in the database
-app.get("/api/bets", (req, res) => {
+app.get("/api/bet/all-bets", (req, res) => {
   db.query(`SELECT 
     b.bet_id, 
     b.text, 

@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import betRoutes from "./routes/betRoutes.js";
+import logRoutes from "./routes/logRoutes.js";
 
 dotenv.config({ path: "../.env" });
 
@@ -28,7 +29,7 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) console.error("Database connection failed:", err);
-  else console.log("Connected to MySQL database");
+  else console.log(`Connected to MySQL database || ${process.env.DB_HOST}`);
 });
 
 const PORT = process.env.PORT || 3000;
