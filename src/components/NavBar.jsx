@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../css/NavBar.css";
 import BetButton from "./BetButton";
-import logo from "../css/images/mnm_logo.png"; // Import the logo image
+import logo from "/images/mnm_logo.png"; // Import the logo image
 
 // Navbar for mobile view
 function NavbarMobile() {

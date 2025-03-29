@@ -50,7 +50,7 @@
   background:
     linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
     /* Gradient overlay */
-    url('src/css/images/web/accepted-bets.jpg');
+    url('/images/web/accepted-bets.jpg');
   /* Background image */
   background-size: cover;
   background-position: center 45%;

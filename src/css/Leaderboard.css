@@ -17,7 +17,7 @@
   background:
     linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
     /* Gradient overlay */
-    url('src/css/images/web/leaderboard.jpg');
+    url('/images/web/leaderboard.jpg');
   /* Background image */
   background-size: cover;
   background-position: center 40%;
@@ -73,7 +73,7 @@
     background:
       linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
       /* Gradient overlay */
-      url('src/css/images/mobile/leaderboard.jpg');
+      url('/images/mobile/leaderboard.jpg');
     /* Mobile background image */
     background-size: 160%;
     /* Shrink the image slightly to show more of the top */

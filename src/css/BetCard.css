@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora&display=swap');
 
 .bet-card {
-  background-image: url('src/css/images/items/card-back.png');
+  background-image: url('/images/items/card-back.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

@@ -5,7 +5,7 @@ function FrontPageBanner() {
   return (
     <div className="front-img-container">
   <img 
-    src="src/css/images/web/front-banner.jpg" 
+    src="/images/web/front-banner.jpg" 
     className="front-banner" 
     alt="Front Banner"
   />

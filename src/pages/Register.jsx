@@ -149,7 +149,7 @@ function Register() {
       </div>
       <img
         id="register-img"
-        src="src/css/images/web/register.jpg"
+        src="/images/web/register.jpg"
         alt="register-img"
         className="register-img"
       />

@@ -120,7 +120,7 @@
 
 @media screen and (max-width: 768px) {
   .login-img {
-    content: url('src/css/images/mobile/login.jpg');
+    content: url('/images/mobile/login.jpg');
     /* Mobile image */
     transform: translateX(40px);
     /* Moves the image 30px to the left */

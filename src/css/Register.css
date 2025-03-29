@@ -122,14 +122,14 @@ body.register-page {
   /* Ensure the image covers the entire container */
   z-index: 1;
   /* Keep it behind the form */
-  background-image: url('src/css/images/web/register.jpg');
+  background-image: url('/images/web/register.jpg');
   background-size: cover;
   background-position: center;
 }
 
 @media screen and (max-width: 768px) {
   .register-img {
-    content: url('src/css/images/mobile/register.jpg');
+    content: url('/images/mobile/register.jpg');
     /* Mobile image */
     transform: translateX(50px);
     /* Moves the image 30px to the left */
