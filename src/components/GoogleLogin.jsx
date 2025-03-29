@@ -12,7 +12,6 @@ function AuthLogin() {
   const handleGoogleRegister = async (credentialResponse) => {
     try {
       const decoded = jwtDecode(credentialResponse?.credential);
-      console.log(decoded); // You can check what data you get here
 
       const registerdata = {
         "name": decoded.name,
@@ -36,6 +35,9 @@ function AuthLogin() {
         const data = await response.json();
         localStorage.setItem("token", data.token);
         navigate("/");
+      } else if (response.status === 409){ 
+        console.log("alr exists")
+        handleGoogleLogin(credentialResponse);
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || "An error occurred");
@@ -97,12 +99,12 @@ function AuthLogin() {
         />
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-        <GoogleLogin
+        {/* <GoogleLogin
           onSuccess={handleGoogleLogin}
           onError={() => {
             console.log("Login Failed");
           }}
-        />
+        /> */}
       </div>
     </div>
   );

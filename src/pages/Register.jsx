@@ -9,6 +9,7 @@ function Register() {
     password: "",
     confirmPassword: "",
     phonenumber: "",
+    email: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
@@ -29,10 +30,16 @@ function Register() {
     if (!values.realname) errors.realname = "Real name is required";
     if (!values.password) errors.password = "Password is required";
     if (!values.phonenumber) errors.phonenumber = "Phone Number is required";
+    if (!values.email) errors.email = "Phone Number is required";
 
     if (!/^[89]\d{7}$/.test(values.phonenumber)) {
       errors.phonenumber = "Enter a valid 8-digit phone number";
     }
+
+    if (!/^[\w-\.]+@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(values.email)) {
+      errors.email = "Enter a valid email address";
+    }    
+    
     if (!values.confirmPassword)
       errors.confirmPassword = "Confirm password is required";
     if (values.password !== values.confirmPassword)
@@ -52,8 +59,10 @@ function Register() {
         body: JSON.stringify(values),
       });
 
-      if (response.status === 201) {
-        navigate("/login");
+      if (response.status === 200) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        navigate("/");
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || "An error occurred");
@@ -108,6 +117,20 @@ function Register() {
             />
             {fieldErrors.phonenumber && (
               <p className="error-message">{fieldErrors.phonenumber}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="phonenumber">Email</label>
+            <input
+              type="text"
+              placeholder="Enter Valid Email"
+              name="email"
+              value={values.email}
+              onChange={handleChanges}
+            />
+            {fieldErrors.email && (
+              <p className="error-message">{fieldErrors.email}</p>
             )}
           </div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Login.css";
+import AuthLogin from "../components/GoogleLogin";
 
 function Login() {
   const [values, setValues] = useState({ username: "", password: "" });
@@ -67,6 +68,7 @@ function Login() {
         <div>
           <p>No Account?</p>
           <Link to="/register">Register</Link>
+          <AuthLogin/>
         </div>
       </div>
       <img
@@ -75,6 +77,7 @@ function Login() {
         className="login-img"
       />
     </div>
+  
   );
 }
 

@@ -84,51 +84,91 @@ router.get("/get-userinfo", async (req, res) => {
 // Account registration
 router.post("/account-register", async (req, res) => {
     try {
-        const { username, password, realname, phonenumber } = req.body;
+        const { username, password, realname, phonenumber, email } = req.body;
 
         // Validate input
-        if (!password || !username || !realname || !phonenumber) {
+        if (!password || !username || !realname || !phonenumber || !email) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        const usernameCheckQuery = "SELECT * FROM defaultUsers WHERE username = ?";
-        db.query(usernameCheckQuery, [username], (err, result) => {
+        // // Check if username already exists
+        // const usernameExists = await checkIfExists("username", username);
+        // if (usernameExists) {
+        //     return res.status(459).json({ message: "Username Already Exists!" });
+        // }
+
+        // Check if phone number already exists
+        const phoneExists = await checkIfExists("phone_number", phonenumber);
+        if (phoneExists) {
+            return res.status(459).json({ message: "Phone Number Exists!" });
+        }
+
+        // Check if email already exists
+        const emailExists = await checkIfExists("email", email);
+        if (emailExists) {
+            return res.status(459).json({ message: "Email Already Exists!" });
+        }
+
+        // Insert new user into the database
+        const insertQuery = "INSERT INTO defaultUsers (username, password, realname, phone_number, email) VALUES (?, ?, ?, ?, ?)";
+        db.query(insertQuery, [username, password, realname, phonenumber, email], (err, result) => {
             if (err) {
-                console.error("Error checking user:", err);
-                return res.status(500).json({ message: "Database error" });
+                console.error("Error inserting user:", err);
+                return res.status(500).json({ message: "Error creating user" });
             }
 
-            if (result.length > 0) {
-                return res.status(459).json({ message: "User Already Exists!" });
-            }
+            console.log(`Successfully added new account ${username}`);
 
-            const phonenumberCheckQuery = "SELECT * FROM defaultUsers WHERE phone_number = ?";
-            db.query(phonenumberCheckQuery, [phonenumber], (err, result) => {
+            // Now insert into the central users table
+            const usersDefaultInsertQuery = "INSERT INTO users (username, email, source, registeredMethod, default_user_id) VALUES (?,?,?,?,?)";
+            db.query(usersDefaultInsertQuery, [username, email, 'default', 'default', result.insertId], (err, result) => {
                 if (err) {
-                    console.error("Error checking phone number:", err);
-                    return res.status(500).json({ message: "Database error" });
+                    console.error("Error inserting into users:", err);
+                    return res.status(500).json({ message: "Error tracking user" });
                 }
 
-                if (result.length > 0) {
-                    return res.status(459).json({ message: "Phone Number Exists!" });
-                }
+                console.log(`Successfully added user to central users table ${username} | ${email}`);
 
-                const userInsertQuery = "INSERT INTO defaultUsers (username, password, realname, phone_number) VALUES (?,?,?,?)";
-                db.query(userInsertQuery, [username, password, realname, phonenumber], (err, result) => {
+
+                const getUsersIDQuery = "SELECT * FROM users WHERE email = ?"
+                db.query(getUsersIDQuery, [email], (err, idResult) => {
                     if (err) {
-                        console.error("Error inserting user:", err);
-                        return res.status(500).json({ message: "Error creating user" });
+                        console.error("Error inserting into users:", err);
+                        return res.status(500).json({ message: "Error tracking user" });
                     }
-                    console.log(`Successfully added new account ${username}`);
-                    return res.status(201).json({ message: "User Added Successfully!" });
+
+                    const user = idResult[0];
+                    console.log(user)
+
+                    // Creating JWT Token
+                    const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
+                    console.log(`${user.username} | ${user.email} | ${user.user_id} has successfully been added and logged in.`);
+                    return res.status(200).json({ message: "User Added Successfully!", token: generatedToken });
                 });
+
             });
+
         });
     } catch (error) {
         console.error("Unexpected error:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+// Helper function to check if a value exists in the database for a given field
+async function checkIfExists(field, value) {
+    const query = `SELECT * FROM defaultUsers WHERE ${field} = ?`;
+    return new Promise((resolve, reject) => {
+        db.query(query, [value], (err, result) => {
+            if (err) {
+                console.error(`Error checking ${field}:`, err);
+                reject(err);
+            }
+            resolve(result.length > 0); // Resolve true if value exists, false otherwise
+        });
+    });
+}
+
 
 // Google registration
 router.post("/google-register", async (req, res) => {
@@ -144,12 +184,12 @@ router.post("/google-register", async (req, res) => {
             }
 
             if (result.length > 0) {
-                return res.status(459).json({ message: "Email Exists!" });
+                return res.status(409).json({ message: "Email Exists!" });
             }
 
             // Insert into googleUsers table
-            const userInsertQuery = "INSERT INTO googleUsers (username, email, firstName, lastName, emailVerified) VALUES (?,?,?,?,?)";
-            db.query(userInsertQuery, [name, email, firstName, lastName, emailVerified], (err, result) => {
+            const userGoogleInsertQuery = "INSERT INTO googleUsers (username, email, firstName, lastName, emailVerified) VALUES (?,?,?,?,?)";
+            db.query(userGoogleInsertQuery, [name, email, firstName, lastName, emailVerified], (err, result) => {
                 if (err) {
                     console.error("Error inserting user into googleUsers:", err);
                     return res.status(500).json({ message: "Error creating user" });
@@ -157,8 +197,8 @@ router.post("/google-register", async (req, res) => {
                 console.log(`Successfully added new Google account ${name} | ${email}`);
 
                 // Now insert into the central users table
-                const usersDevInsertQuery = "INSERT INTO users (username, email, source, registeredMethod, google_user_id) VALUES (?,?,?,?,?)";
-                db.query(usersDevInsertQuery, [name, email, 'google', 'google', result.insertId], (err, result) => {
+                const usersDefaultInsertQuery = "INSERT INTO users (username, email, source, registeredMethod, google_user_id) VALUES (?,?,?,?,?)";
+                db.query(usersDefaultInsertQuery, [name, email, 'google', 'google', result.insertId], (err, result) => {
                     if (err) {
                         console.error("Error inserting into users:", err);
                         return res.status(500).json({ message: "Error tracking user" });
@@ -166,9 +206,23 @@ router.post("/google-register", async (req, res) => {
 
                     console.log(`Successfully added user to central users table ${name} | ${email}`);
 
-                    // Create JWT token for the new user
-                    const generatedToken = jwt.sign({ id: result.insertId }, process.env.JWT_KEY, { expiresIn: "3h" });
-                    return res.status(201).json({ message: "User Added Successfully!", token: generatedToken });
+
+                    const getUsersIDQuery = "SELECT * FROM users WHERE email = ?"
+                    db.query(getUsersIDQuery, [email], (err, idResult) => {
+                        if (err) {
+                            console.error("Error inserting into users:", err);
+                            return res.status(500).json({ message: "Error tracking user" });
+                        }
+
+                        const user = idResult[0];
+                        console.log(user)
+
+                        // Creating JWT Token
+                        const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
+                        console.log(`${user.username} | ${user.email} | ${user.user_id} has successfully been added and logged in.`);
+                        return res.status(200).json({ message: "User Added Successfully!", token: generatedToken });
+                    });
+
                 });
             });
         });
@@ -222,7 +276,7 @@ router.post("/google-login", async (req, res) => {
     try {
         const { email } = req.body;
 
-        const usernameCheckQuery = "SELECT * FROM googleUsers WHERE email = ?";
+        const usernameCheckQuery = "SELECT * FROM users WHERE email = ?";
         db.query(usernameCheckQuery, [email], (err, result) => {
             if (err) {
                 console.error("Error checking user:", err);
@@ -235,9 +289,11 @@ router.post("/google-login", async (req, res) => {
 
             const user = result[0];
 
+            console.log(user)
+
             // Creating JWT Token
-            const generatedToken = jwt.sign({ id: user.email }, process.env.JWT_KEY, { expiresIn: "3h" });
-            console.log(`${user.username} | ${user.email} has successfully logged in.`);
+            const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
+            console.log(`${user.username} | ${user.email} | ${user.user_id} has successfully logged in.`);
             return res.status(200).json({ token: generatedToken });
         });
     } catch (error) {
