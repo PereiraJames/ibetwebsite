@@ -33,6 +33,8 @@ function AuthLogin() {
       });
 
       if (response.status === 201) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
         navigate("/");
       } else {
         const errorData = await response.json();

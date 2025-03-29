@@ -14,6 +14,7 @@ const db = mysql.createConnection({
     database: process.env.DB_NAME,
 });
 
+// Function to extract User ID from JWT
 async function getUserIdFromToken(req) {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -28,18 +29,18 @@ async function getUserIdFromToken(req) {
     }
 }
 
-// Get bets the user accepted.
+// Get username based on the userID
 router.get("/get-username", async (req, res) => {
     try {
         const userID = await getUserIdFromToken(req);
         if (!userID) return res.status(401).json({ error: "Unauthorized" });
 
-        const getUserNameQuery = "SELECT username FROM users WHERE user_id = ?"
+        const getUserNameQuery = "SELECT username FROM users WHERE user_id = ?";
 
         db.query(getUserNameQuery, [userID], (err, result) => {
             if (err) {
                 console.error("Error fetching username:", err);
-                return res.status(500).send("Error fetching data");
+                return res.status(500).send({ message: "Error fetching data" });
             }
 
             if (result.length === 0) {
@@ -49,22 +50,22 @@ router.get("/get-username", async (req, res) => {
             res.json({ userData: result[0].username });
         });
     } catch (error) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-// Get bets the user accepted.
+// Get user info based on the userID
 router.get("/get-userinfo", async (req, res) => {
     try {
         const userID = await getUserIdFromToken(req);
         if (!userID) return res.status(401).json({ error: "Unauthorized" });
 
-        const getUserInfoQuery = "SELECT * FROM users WHERE user_id = ?"
+        const getUserInfoQuery = "SELECT * FROM users WHERE user_id = ?";
 
         db.query(getUserInfoQuery, [userID], (err, result) => {
             if (err) {
-                console.error("Error fetching username:", err);
+                console.error("Error fetching user info:", err);
                 return res.status(500).send("Error fetching data");
             }
 
@@ -73,35 +74,25 @@ router.get("/get-userinfo", async (req, res) => {
             }
 
             res.json({ userData: result[0] });
-        })
+        });
     } catch (error) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-router.get("/account-register", async (req, res) => {
+// Account registration
+router.post("/account-register", async (req, res) => {
     try {
         const { username, password, realname, phonenumber } = req.body;
 
-        if (!password) {
-            return res.status(400).json({ message: "Password is required" });
+        // Validate input
+        if (!password || !username || !realname || !phonenumber) {
+            return res.status(400).json({ message: "All fields are required" });
         }
 
-        if (!username) {
-            return res.status(400).json({ message: "Username is required" });
-        }
-
-        if (!realname) {
-            return res.status(400).json({ message: "Realname is required" });
-        }
-
-        if (!phonenumber) {
-            return res.status(400).json({ message: "Phone Number is required" });
-        }
-
-        const usernameCheckQuery = "SELECT * FROM users WHERE username = ?";
-        db.query(usernameCheckQuery, [username], async (err, result) => {
+        const usernameCheckQuery = "SELECT * FROM defaultUsers WHERE username = ?";
+        db.query(usernameCheckQuery, [username], (err, result) => {
             if (err) {
                 console.error("Error checking user:", err);
                 return res.status(500).json({ message: "Database error" });
@@ -111,10 +102,10 @@ router.get("/account-register", async (req, res) => {
                 return res.status(459).json({ message: "User Already Exists!" });
             }
 
-            const phonenumberCheckQuery = "SELECT * FROM users WHERE phone_number = ?";
-            db.query(phonenumberCheckQuery, [phonenumber], async (err, result) => {
+            const phonenumberCheckQuery = "SELECT * FROM defaultUsers WHERE phone_number = ?";
+            db.query(phonenumberCheckQuery, [phonenumber], (err, result) => {
                 if (err) {
-                    console.error("Error checking user:", err);
+                    console.error("Error checking phone number:", err);
                     return res.status(500).json({ message: "Database error" });
                 }
 
@@ -122,31 +113,33 @@ router.get("/account-register", async (req, res) => {
                     return res.status(459).json({ message: "Phone Number Exists!" });
                 }
 
-                const userInsertQuery = "INSERT INTO users (username, password, realname, phone_number) VALUES (?,?,?,?)";
+                const userInsertQuery = "INSERT INTO defaultUsers (username, password, realname, phone_number) VALUES (?,?,?,?)";
                 db.query(userInsertQuery, [username, password, realname, phonenumber], (err, result) => {
                     if (err) {
                         console.error("Error inserting user:", err);
                         return res.status(500).json({ message: "Error creating user" });
                     }
-                    console.log(`Successfully added new account ${username}`)
+                    console.log(`Successfully added new account ${username}`);
                     return res.status(201).json({ message: "User Added Successfully!" });
                 });
             });
         });
     } catch (error) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-router.get("/google-register", async (req, res) => {
+// Google registration
+router.post("/google-register", async (req, res) => {
     try {
-        const { name, email, firstName, lastName, emailVerified, registeredMethod } = req.body;
+        const { name, email, firstName, lastName, emailVerified } = req.body;
 
-        const emailCheckQuery = "SELECT * FROM googleUsersDev WHERE email = ?";
-        db.query(emailCheckQuery, [email], async (err, result) => {
+        // Check if email already exists in googleUsers table
+        const emailCheckQuery = "SELECT * FROM googleUsers WHERE email = ?";
+        db.query(emailCheckQuery, [email], (err, result) => {
             if (err) {
-                console.error("Error checking user:", err);
+                console.error("Error checking email:", err);
                 return res.status(500).json({ message: "Database error" });
             }
 
@@ -154,38 +147,48 @@ router.get("/google-register", async (req, res) => {
                 return res.status(459).json({ message: "Email Exists!" });
             }
 
-            const userInsertQuery = "INSERT INTO googleUsers (username, email, firstName, lastName, emailVerified, registeredMethod) VALUES (?,?,?,?,?,?)";
-            db.query(userInsertQuery, [name, email, firstName, lastName, emailVerified, registeredMethod], (err, result) => {
+            // Insert into googleUsers table
+            const userInsertQuery = "INSERT INTO googleUsers (username, email, firstName, lastName, emailVerified) VALUES (?,?,?,?,?)";
+            db.query(userInsertQuery, [name, email, firstName, lastName, emailVerified], (err, result) => {
                 if (err) {
-                    console.error("Error inserting user:", err);
+                    console.error("Error inserting user into googleUsers:", err);
                     return res.status(500).json({ message: "Error creating user" });
                 }
-                console.log(`Successfully added new account ${name} | ${email}`)
+                console.log(`Successfully added new Google account ${name} | ${email}`);
 
-                //To-do
-                //Add a redirect to home page, meaning give it a JWT token so it auto logs in
+                // Now insert into the central users table
+                const usersDevInsertQuery = "INSERT INTO users (username, email, source, registeredMethod, google_user_id) VALUES (?,?,?,?,?)";
+                db.query(usersDevInsertQuery, [name, email, 'google', 'google', result.insertId], (err, result) => {
+                    if (err) {
+                        console.error("Error inserting into users:", err);
+                        return res.status(500).json({ message: "Error tracking user" });
+                    }
 
+                    console.log(`Successfully added user to central users table ${name} | ${email}`);
 
-                return res.status(201).json({ message: "User Added Successfully!" });
+                    // Create JWT token for the new user
+                    const generatedToken = jwt.sign({ id: result.insertId }, process.env.JWT_KEY, { expiresIn: "3h" });
+                    return res.status(201).json({ message: "User Added Successfully!", token: generatedToken });
+                });
             });
-
         });
     } catch (error) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-router.get("/account-login", async (req, res) => {
+// Account login
+router.post("/account-login", async (req, res) => {
     try {
         const { username, password } = req.body;
 
+        // Validate input
         if (!username || !password) {
             return res.status(400).json({ message: "Username and password are required" });
         }
 
-        const usernameCheckQuery = "SELECT * FROM users WHERE username = ?";
-
+        const usernameCheckQuery = "SELECT * FROM defaultUsers WHERE username = ?";
         db.query(usernameCheckQuery, [username], (err, result) => {
             if (err) {
                 console.error("Error checking user:", err);
@@ -198,31 +201,28 @@ router.get("/account-login", async (req, res) => {
 
             const user = result[0];
 
-            console.log(user)
-
-            // Plaintext password comparison (Not recommended for production)
+            // Plaintext password comparison (not recommended for production)
             if (user.password !== password) {
                 return res.status(401).json({ message: "Invalid Password!" });
             }
 
             // Creating JWT Token
             const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
-            console.log(`${user.user_id} | ${user.username} has successfully logged in.`)
+            console.log(`${user.user_id} | ${user.username} has successfully logged in.`);
             return res.status(200).json({ token: generatedToken });
         });
     } catch (error) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-router.get("/google-login", async (req, res) => {
+// Google login
+router.post("/google-login", async (req, res) => {
     try {
+        const { email } = req.body;
 
-        const { name, email, firstName, lastName, emailVerified, registeredMethod } = req.body;
-
-        const usernameCheckQuery = "SELECT * FROM googleUsersDev WHERE email = ?";
-
+        const usernameCheckQuery = "SELECT * FROM googleUsers WHERE email = ?";
         db.query(usernameCheckQuery, [email], (err, result) => {
             if (err) {
                 console.error("Error checking user:", err);
@@ -235,15 +235,13 @@ router.get("/google-login", async (req, res) => {
 
             const user = result[0];
 
-            console.log(user)
-
             // Creating JWT Token
             const generatedToken = jwt.sign({ id: user.email }, process.env.JWT_KEY, { expiresIn: "3h" });
-            console.log(`${user.username} | ${user.email} has successfully logged in.`)
+            console.log(`${user.username} | ${user.email} has successfully logged in.`);
             return res.status(200).json({ token: generatedToken });
         });
     } catch (error) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
