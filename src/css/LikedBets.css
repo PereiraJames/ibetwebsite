@@ -1,0 +1,89 @@
+.likedbets {
+  /* padding: 2rem 0; */
+  width: 100%;
+  box-sizing: border-box;
+  background-color: black;
+}
+
+.navbar-offset {
+  height: 80px;
+}
+
+.bet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* Adjust the gap as needed */
+  justify-content: center;
+  /* Center the cards horizontally */
+  background-color: #000000;
+}
+
+.liked-bets-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #3DADFF;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  z-index: 2;
+  /* Ensure it's above the overlay */
+  transition: font-size 0.2s ease-in-out;
+  /* Smooth transition for font size */
+}
+
+@media screen and (max-width: 760px) {
+  .liked-bets-title {
+    font-size: 3vw;
+    /* Still adjust to fill 80% width on medium devices */
+  }
+}
+
+.liked-bets-banner {
+  padding: 2rem 1rem;
+  text-align: center;
+  min-height: 600px;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
+    /* Gradient overlay */
+    url('/images/web/liked-bets.jpg');
+  /* Background image */
+  background-size: cover;
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.loading-container-bets {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+}
+
+.loading-bets {
+  width: fit-content;
+  font-size: 40px;
+  font-family: monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff0;
+  -webkit-text-stroke: 1px #FFC943;
+  background: conic-gradient(#3DADFF 0 0) 0/0 100% no-repeat text;
+  animation: l11 2s steps(23, jump-none) infinite;
+}
+
+.loading-bets:before {
+  content: "Loading favourite bets";
+}
+
+@keyframes l11 {
+  to {
+    background-size: 100% 100%
+  }
+}

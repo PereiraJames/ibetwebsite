@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora&display=swap');
+
+.bet-card {
+  background-image: url('/images/items/card-back.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #008080;
+  padding: 20px;
+  /* Slightly reduced padding */
+  border-radius: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+  /* Reduced max width */
+  min-width: 280px;
+  /* Reduced min width */
+  aspect-ratio: 1467 / 2140;
+  transition: transform 0.3s ease-in-out;
+}
+
+.text-resize {
+  font-size: clamp(14px, 2vw, 18px);
+  /* Dynamically adjusts font size */
+  line-height: 1.4;
+  /* Adjust line height for better readability */
+  word-wrap: break-word;
+  /* Allows words to wrap onto the next line */
+  white-space: normal;
+  /* Ensures text wraps and doesn’t overflow */
+  max-width: 100%;
+}
+
+.bet-info h3 {
+  font-size: clamp(18px, 3vw, 26px);
+  /* Dynamically adjusts font size for the heading */
+  font-weight: bold;
+  border-bottom: 2px solid #D4AF37;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #D4AF37;
+  text-align: center;
+  word-wrap: break-word;
+  /* Ensures long words wrap */
+}
+
+/* Responsive Scaling */
+@media (max-width: 350px) {
+  .text-resize {
+    font-size: min(4vw, 16px);
+    /* Smaller font for small screens */
+  }
+
+  .bet-info h3 {
+    font-size: min(5vw, 22px);
+  }
+}
+
+
+.bet-info p {
+  font-size: 14px;
+  margin: 5px 0;
+  font-family: 'Lora', serif;
+}
+
+.interaction-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding: 20px;
+}
+
+/* .favorite-btn, */
+.accept-bet-btn {
+  padding: 12px 20px;
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  border-radius: 5px;
+  /* Sharper corners */
+  cursor: pointer;
+  border: 2px solid black;
+  background: transparent;
+  color: #D4AF37;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.favorite-btn {
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  /* Default color */
+}
+
+.favorite-btn.active {
+  color: #ff3366;
+  /* Active color */
+  transform: scale(1.2);
+  /* Slightly enlarge when liked */
+}
+
+.favorite-btn .heart-icon {
+  transition: transform 0.3s ease;
+  margin-right: 8px;
+  /* Add margin to the right of the heart */
+}
+
+.favorite-btn.active .heart-icon {
+  transform: rotate(360deg);
+  /* Rotating heart when clicked */
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  /* Slight hover effect */
+}
+
+.like-count {
+  font-size: 20px;
+  /* Adjust the font size if needed */
+}
+
+
+.accept-bet-btn {
+  background: #D4AF37;
+  color: #000;
+  border: none;
+}
+
+.accepted {
+  font-size: 16px;
+  font-weight: bold;
+  color: #D4AF37;
+}
+
+.interaction-bar i {
+  margin-right: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 350px) {
+  .bet-card {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .interaction-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .favorite-btn,
+  .accept-bet-btn {
+    width: 100%;
+  }
+}

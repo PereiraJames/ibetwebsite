@@ -1,0 +1,129 @@
+/* Global reset for body and html to ensure no overflow */
+
+.navbar-offset {
+  height: 80px;
+}
+
+/* Container for the login form */
+.login-container {
+  display: flex;
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  height: 100vh;
+  /* Full viewport height */
+  background-color: #111;
+  /* Dark background for contrast */
+  position: relative;
+  /* Positioning context for the form */
+  overflow: hidden;
+  /* Prevent scrolling */
+}
+
+/* Style for the login form */
+.login-form {
+  background: rgba(0, 0, 0, 0.6);
+  /* Semi-transparent background */
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  width: 350px;
+  /* Adjust width as needed */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  /* Soft shadow for depth */
+  color: #fff;
+  font-family: 'Helvetica Neue', sans-serif;
+  z-index: 10;
+  /* Make sure form is above the image */
+}
+
+/* Modern form input styles */
+.login-form input {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 1rem 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.login-form input:focus {
+  background-color: #444;
+  /* Slightly lighter background on focus */
+}
+
+.login-form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ddd;
+}
+
+/* Submit button styles */
+.login-form button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #ff4c4c;
+  /* Bold red button */
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #e04444;
+  /* Darker red when hovering */
+}
+
+/* Error message styling */
+.error-message {
+  color: #ff4c4c;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+/* Style for the "No Account?" text and register link */
+.login-form div {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.login-form a {
+  color: #ff4c4c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-form a:hover {
+  text-decoration: underline;
+}
+
+/* Style for the background image */
+.login-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ensure the image covers the entire container and is cropped */
+  z-index: 1;
+  /* Keep it behind the form */
+}
+
+@media screen and (max-width: 768px) {
+  .login-img {
+    content: url('/images/mobile/login.jpg');
+    /* Mobile image */
+    transform: translateX(40px);
+    /* Moves the image 30px to the left */
+    overflow: visible;
+  }
+}

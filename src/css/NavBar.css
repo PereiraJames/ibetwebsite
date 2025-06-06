@@ -1,0 +1,335 @@
+/* Basic Styles */
+.navbar-mobile,
+.navbar-desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0, 130, 130, 0.8), rgba(0, 28, 28, 1));
+  color: white;
+  height: 80px;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+
+.navbar-scrolled .nav-links Link {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-mobile .mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to top, rgba(0, 130, 130, 0.8), rgba(0, 28, 28, 1));
+  width: 100%;
+  height: 100vh;
+  /* Full height */
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.navbar-mobile .mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Disable body scrolling when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+.navbar-mobile .mobile-menu Link {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.navbar-mobile .mobile-menu Link {
+  padding: 15px;
+  font-size: 24px;
+}
+
+.hamburger {
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.navbar-mobile .logo {
+  font-size: 24px;
+  z-index: 1100;
+}
+
+/* Close button */
+.close-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 36px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.nav-item {
+  padding: 10px;
+}
+
+/* Navbar using Grid for perfect centering */
+.navbar-scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  /* Ensures left & right take equal space */
+  align-items: center;
+  background: linear-gradient(to top, rgba(0, 130, 130, 0.8), rgba(0, 28, 28, 1));
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Center section with logo */
+.navbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+/* Logo always centered */
+.navbar-logo {
+  max-width: 250px;
+  height: auto;
+}
+
+/* Right section */
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Nav items */
+.nav-item,
+.nav-login,
+.dropdown-toggle,
+.bet-button {
+  font-size: 16px;
+  padding: 10px 30px;
+  color: #e6da92;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  background-color: transparent;
+  border: none;
+}
+
+/* Prevent blue color on button click (focus and active states) */
+.nav-item:focus,
+.nav-login:focus,
+.dropdown-toggle:focus,
+.bet-button:focus,
+.nav-item:active,
+.nav-login:active,
+.dropdown-toggle:active,
+.bet-button:active {
+  outline: none;
+  /* Removes the outline (blue border) */
+  background-color: transparent;
+  /* Ensure no background color is applied */
+  color: #e6da92;
+  /* Keep the original color when clicked */
+}
+
+.nav-item:hover,
+.nav-login:hover,
+.dropdown-toggle:hover,
+.bet-button:hover {
+  color: #ffc943;
+}
+
+/* Dropdown styles */
+.dropdown-username {
+  position: relative;
+  display: inline-block;
+  background-color: transparent;
+  /* Make sure it's transparent */
+  border: none;
+  /* Remove borders if any */
+  padding: 0;
+  /* Remove padding if any */
+  margin: 0;
+  /* Remove margins if any */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(0, 28, 28, 0.95);
+  min-width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-right .dropdown-item {
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  transition: background 0.3s ease, border 0.3s ease;
+  font-size: 15px;
+}
+
+/* Hover effect with more specificity */
+.navbar-right .dropdown-item:hover {
+  color: #007bff;
+  /* Blue shade on hover */
+  border: none;
+  /* No border on hover */
+}
+
+/* Remove focus outline or border */
+.navbar-right .dropdown-item:focus {
+  outline: none;
+  border: none;
+}
+
+.mobile-menu-dropdown {
+  display: grid;
+  justify-items: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  height: 80%;
+  /* Full height of the parent container */
+}
+
+.mobile-menu-name {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.mobile-menu-item {
+  padding: 10px 20px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+
+.mobile-menu-logout {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background-color: #333333;
+  color: #e6da92;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mobile-menu-logout:hover {
+  background-color: #444444;
+  /* Slightly lighter grey on hover */
+}
+
+.mobile-menu-logout:focus {
+  outline: none;
+  /* Remove the default outline */
+}
+
+/* .mobile-hamburger {
+  border-radius: 8px;
+  border: 1px solid #1a1a1a;
+  background: rgba(74, 74, 74, 0.39);
+  mix-blend-mode: luminosity;
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.20);
+  backdrop-filter: blur(15px);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.mobile-hamburger-icon {
+  border: 5px solid #1a1a1a;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform .4s;
+  border: none;
+  background: none;
+  padding: 2px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mobile-hamburger-icon span {
+  width: 100%;
+  height: 0.25rem;
+  border-radius: 0.125rem;
+  background-color: #D4AF37;
+  box-shadow: 0 .5px 2px 0 hsla(0, 0%, 0%, .2);
+  transition: width .4s, transform .4s, background-color .4s;
+}
+
+.mobile-hamburger-icon :nth-child(1) {
+  width: 75%;
+}
+
+.mobile-hamburger-icon :nth-child(2) {
+  width: 50%;
+}
+
+.mobile-hamburger-icon:hover {
+  transform: rotate(-90deg);
+}
+
+.mobile-hamburger-icon:hover span {
+  width: .25rem;
+  transform: translateX(10px);
+  background-color: rgb(255, 59, 48);
+}

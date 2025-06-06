@@ -1,0 +1,80 @@
+.bet-button {
+    background-color: #3DADFF;
+    color: #FFC943;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+  
+  .bet-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .bet-popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .submit-button {
+    background-color: #4CAF50;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .close-button {
+    background-color: #f44336;
+    color: black;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .bet-text-group{
+    display: flex;
+    justify-content: center;
+  }
+
+  .bet-text-prefix{
+    width:50%;
+    color: black;
+  }
+
+  .bet-popup-title{
+    color: black;
+  }

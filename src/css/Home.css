@@ -1,0 +1,117 @@
+  .home {
+    /* padding: 2rem 0; */
+    width: 100%;
+    box-sizing: border-box;
+    background-color: black;
+  }
+
+  .navbar-offset{
+    height: 80px;
+  }
+  
+  .search-form {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    background-color: black;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+    font-size: 1rem;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #666;
+  }
+  
+  .search-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #e50914;
+    color: white;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+  }
+  
+  .search-button:hover {
+    background-color: #f40612;
+  }
+  
+  
+  @media (max-width: 639px) {
+    .home {
+      padding: 1rem 0;
+    }
+  
+    .search-form {
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .bet-grid{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: center; /* Center the cards horizontally */
+    background-color: #001814;
+  }
+
+  /* Text Styling */
+  .front-img-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    z-index: 2; /* Ensure it's above the overlay */
+    transition: font-size 0.2s ease-in-out; /* Smooth transition for font size */
+  }
+
+  .home-info-banner{
+    background-color: white;
+    height: 60px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .loading-container-home {
+    margin: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+  }
+  
+  .loading-home {
+    width: fit-content;
+    font-size: 40px;
+    font-family: monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff0;
+    -webkit-text-stroke: 1px #FFC943;
+    background: conic-gradient(#3DADFF 0 0) 0/0 100% no-repeat text;
+    animation: l11 2s steps(23,jump-none) infinite;
+  }
+  .loading-home:before {
+    content: "Loading Bets";
+  }
+  @keyframes l11 {
+    to {background-size: 100% 100%}
+  }

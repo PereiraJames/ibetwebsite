@@ -1,0 +1,215 @@
+/* Main Leaderboard container */
+.leaderboard {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: black;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  /* Use flexbox for layout */
+  flex-direction: column;
+  /* Stack containers vertically */
+}
+
+.leaderboard-banner {
+  padding: 2rem 1rem;
+  text-align: center;
+  min-height: 500px;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
+    /* Gradient overlay */
+    url('/images/web/leaderboard.jpg');
+  /* Background image */
+  background-size: cover;
+  background-position: center 40%;
+  /* Adjusted to show the top half of the image */
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+
+.leaderboard-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #3DADFF;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  z-index: 2;
+  /* Ensure it's above the overlay */
+  transition: font-size 0.2s ease-in-out;
+  /* Smooth transition for font size */
+}
+
+@media screen and (max-width: 760px) {
+  .leaderboard-title {
+    font-size: 3vw;
+    /* Still adjust to fill 80% width on medium devices */
+  }
+}
+
+/* Space between navbar and content */
+.navbar-offset {
+  height: 80px;
+}
+
+.top-players-container {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Ensure section can expand */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* For mobile screens */
+@media screen and (max-width: 768px) {
+  .leaderboard-banner {
+    background:
+      linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%),
+      /* Gradient overlay */
+      url('/images/mobile/leaderboard.jpg');
+    /* Mobile background image */
+    background-size: 160%;
+    /* Shrink the image slightly to show more of the top */
+    background-position: center;
+    /* Move the image towards the top */
+  }
+}
+
+
+
+/* Title style */
+.player-title {
+  color: #3DADFF;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+/* Player grid container */
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Ensure it adapts on smaller screens */
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Player card style */
+.player-card {
+  background-color: #333;
+  padding: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+.player-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #ff4c4c;
+}
+
+.player-card p {
+  font-size: 1rem;
+  color: black;
+}
+
+/* Loading spinner */
+.loading {
+  color: #ff4c4c;
+  font-size: 1.2rem;
+}
+
+/* Top Bets section container */
+.top-bets-container {
+  padding: 2rem 1rem;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Title for top bets */
+.bet-title {
+  color: #3DADFF;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.top-bet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* Adjust the gap as needed */
+  justify-content: center;
+  /* Center the cards horizontally */
+  background-color: black;
+}
+
+/* Bet grid container */
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.loading-container-leaderboard {
+  height: 80vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #001814;
+}
+
+.loading-leaderboard {
+  width: fit-content;
+  font-size: 40px;
+  font-family: monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff0;
+  -webkit-text-stroke: 1px #FFC943;
+  background: conic-gradient(#3DADFF 0 0) 0/0 100% no-repeat text;
+  animation: l11 2s steps(21, jump-none) infinite;
+}
+
+.loading-leaderboard:before {
+  content: "Loading leaderboards";
+}
+
+@keyframes l11 {
+  to {
+    background-size: 100% 100%
+  }
+}
