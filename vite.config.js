@@ -10,6 +10,7 @@ export default defineConfig({
   server: {
     host: true,
     port: process.env.NETWORK_PORT, // Default to 5173 if undefined
+    allowedHosts: ['ibet.dev', "devjason.local", "devjason"],
     cors: true, // Allow CORS
     fs: {
       strict: true, // Prevent accessing files outside root

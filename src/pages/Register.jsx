@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Register.css";
+import AuthLogin from "../components/GoogleLogin";
 
 function Register() {
   const [values, setValues] = useState({
@@ -79,96 +80,108 @@ function Register() {
       <div className="register-form">
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username">Username</label>
             <input
               type="text"
-              placeholder="Enter Username"
+              placeholder={
+                fieldErrors.username
+                  ? fieldErrors.username
+                  : "Username"
+              }
               name="username"
               value={values.username}
               onChange={handleChanges}
+              className={fieldErrors.username ? "input-error" : ""}
             />
-            {fieldErrors.username && (
-              <p className="error-message">{fieldErrors.username}</p>
-            )}
           </div>
 
           <div>
-            <label htmlFor="realname">Real Name</label>
+            {/* <label htmlFor="realname">Real Name</label> */}
             <input
               type="text"
-              placeholder="Enter Real Name"
+              placeholder={
+                fieldErrors.realname
+                  ? fieldErrors.realname
+                  : "Real Name"
+              }
               name="realname"
               value={values.realname}
               onChange={handleChanges}
+              className={fieldErrors.realname ? "input-error" : ""}
             />
-            {fieldErrors.realname && (
-              <p className="error-message">{fieldErrors.realname}</p>
-            )}
           </div>
 
           <div>
-            <label htmlFor="phonenumber">Phone Number</label>
+            {/* <label htmlFor="phonenumber">Phone Number</label> */}
             <input
               type="text"
-              placeholder="Enter Phone No."
+              placeholder={
+                fieldErrors.phonenumber
+                  ? fieldErrors.phonenumber
+                  : "Phone Number"
+              }
               name="phonenumber"
               value={values.phonenumber}
               onChange={handleChanges}
+              className={fieldErrors.phonenumber ? "input-error" : ""}
             />
-            {fieldErrors.phonenumber && (
-              <p className="error-message">{fieldErrors.phonenumber}</p>
-            )}
           </div>
 
           <div>
-            <label htmlFor="phonenumber">Email</label>
+            {/* <label htmlFor="phonenumber">Email</label> */}
             <input
               type="text"
-              placeholder="Enter Valid Email"
+              placeholder={
+                fieldErrors.email
+                  ? fieldErrors.email
+                  : "Email"
+              }
               name="email"
               value={values.email}
               onChange={handleChanges}
+              className={fieldErrors.email ? "input-error" : ""}
             />
-            {fieldErrors.email && (
-              <p className="error-message">{fieldErrors.email}</p>
-            )}
           </div>
 
           <div>
-            <label htmlFor="password">Password</label>
+            {/* <label htmlFor="password">Password</label> */}
             <input
               type="password"
-              placeholder="Enter Password"
+              placeholder={
+                fieldErrors.password
+                  ? fieldErrors.password
+                  : "Password"
+              }
               name="password"
               value={values.password}
               onChange={handleChanges}
+              className={fieldErrors.password ? "input-error" : ""}
             />
-            {fieldErrors.password && (
-              <p className="error-message">{fieldErrors.password}</p>
-            )}
           </div>
 
           <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            {/* <label htmlFor="confirmPassword">Confirm Password</label> */}
             <input
-              type="password"
-              placeholder="Confirm Password"
+              type="confirmPassword"
+              placeholder={
+                fieldErrors.confirmPassword
+                  ? fieldErrors.confirmPassword
+                  : "Confirm Password"
+              }
               name="confirmPassword"
               value={values.confirmPassword}
               onChange={handleChanges}
+              className={fieldErrors.confirmPassword ? "input-error" : ""}
             />
-            {fieldErrors.confirmPassword && (
-              <p className="error-message">{fieldErrors.confirmPassword}</p>
-            )}
           </div>
 
-          <button>Submit!</button>
+          <button>Register!</button>
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div>
           <p>Already have an account?</p>
           <a href="/login">Login</a>
         </div>
+        <AuthLogin />
       </div>
       <img
         id="register-img"

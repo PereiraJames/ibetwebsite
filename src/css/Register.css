@@ -5,24 +5,31 @@ body.register-page {
 }
 
 .navbar-offset {
-  height: 80px;
+  height: 110px;
 }
+
+.input-error {
+  border: 1px solid red;
+  color: red;
+}
+
+.input-error::placeholder {
+  color: red;
+  font-size: 0.9rem;
+  opacity: 1; /* Required in some browsers like Firefox */
+}
+
 
 /* Container for the registration form */
 .register-container {
   display: flex;
   justify-content: center;
-  /* Center horizontally */
   align-items: center;
-  /* Center vertically */
-  height: 100vh;
-  /* Full viewport height */
   background-color: #111;
-  /* Dark background for contrast */
   position: relative;
-  /* Positioning context for the form */
-  overflow: hidden;
-  /* Prevent scrolling */
+  width: 100%;
+  margin-top: 130px;
+  padding-bottom: 2rem;
 }
 
 /* Style for the registration form */
@@ -113,7 +120,7 @@ body.register-page {
 
 /* Style for the background image */
 .register-img {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

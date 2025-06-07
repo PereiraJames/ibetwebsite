@@ -20,7 +20,6 @@ function UserProfile() {
         </div> */}
       </div>
     </div>
-    
   );
 }
 

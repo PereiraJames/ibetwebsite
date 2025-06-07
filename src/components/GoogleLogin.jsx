@@ -22,8 +22,10 @@ function AuthLogin() {
         "registeredMethod": "google"
       }
 
+      console.log(decoded)
+
       // Sending the Google credentials to your API
-      const response = await fetch(`${ENDPOINT_URL}/auth/google-register`, {
+      const response = await fetch(`${ENDPOINT_URL}/auth/google-acc-check`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,9 +34,12 @@ function AuthLogin() {
       });
 
       if (response.status === 201) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        navigate("/");
+        navigate("/google-register", {
+          state: {googlecredentials: registerdata}
+        });
+        // const data = await response.json();
+        // localStorage.setItem("token", data.token);
+        // navigate("/");
       } else if (response.status === 409){ 
         console.log("alr exists")
         handleGoogleLogin(credentialResponse);
@@ -49,6 +54,7 @@ function AuthLogin() {
   };
 
   const handleGoogleLogin = async (credentialResponse) => {
+    console.log("Loging in")
     try {
       const decoded = jwtDecode(credentialResponse?.credential);
       console.log(decoded); // You can check what data you get here
@@ -88,26 +94,19 @@ function AuthLogin() {
   
 
   return (
-    <div className="userprofile-container">
-      <div className="navbar-void"></div>
-      <div className="bestbets-empty">
+    <div>
+      <div className="google-login-wrapper">
         <GoogleLogin
           onSuccess={handleGoogleRegister}
-          onError={() => {
-            console.log("Login Failed");
-          }}
+          onError={() => console.log("Login Failed")}
+          theme="filled_blue"
+          size="large"
         />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-        {/* <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-        /> */}
       </div>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
+  
 }
 
 export default AuthLogin;

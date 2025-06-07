@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import BestBets from "./pages/BestBets";
 import NavBar from "./components/NavBar";
 import Register from "./pages/Register";
+import GoogleRegister from "./pages/GoogleRegister";
 import Login from "./pages/Login";
 import "./css/App.css";
 import UserProfile from "./pages/UserProfile";
@@ -37,12 +38,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/bestbets" element={<BestBets />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/google-register" element={<GoogleRegister />} />
           <Route path="/login" element={<Login />} />
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/likedbets" element={<LikedBets />} />
           <Route path="/leaderboards" element={<Leaderboards />} />
           <Route path="/howtoplay" element={<HowToPlay />} />
           <Route path="/acceptedbets" element={<AcceptedBets />} />
+          
         </Routes>
       </main>
     </div>
