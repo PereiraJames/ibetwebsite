@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import "../css/Register.css";
+import "../css/GoogleRegister.css";
 
 function GoogleRegister() {
   const location = useLocation();
@@ -69,12 +69,10 @@ function GoogleRegister() {
         localStorage.setItem("token", data.token);
         navigate("/");
       } else if (response.status === 408){
-        errors.username = "Email is already Registered";
-        setFieldErrors(errors);
+        setErrorMessage("Email is already Registered");
       }
       else if (response.status === 409){
-        errors.username = "Username is required";
-        setFieldErrors(errors);
+        setErrorMessage("Username already Exists!");
       }
       else {
         const errorData = await response.json();
@@ -91,24 +89,25 @@ function GoogleRegister() {
       <div className="navbar-space"></div>
       <div className="register-form">
         <form onSubmit={handleSubmit}>
+          <div className="google-register-title">Register Your Google Account</div>
+          <div className="google-register-email">{googlecredentials?.email || ""}</div>
           <div>
-            <input
+          <input
               type="text"
-              placeholder="Username"
+              placeholder={
+                fieldErrors.username
+                  ? fieldErrors.username
+                  : "Username"
+              }
               name="username"
               value={values.username}
               onChange={handleChanges}
+              className={fieldErrors.username ? "input-error" : ""}
             />
-            {fieldErrors.username && (
-              <p className="error-message">{fieldErrors.username}</p>
-            )}
-          </div>
-
-          <p>{googlecredentials?.email || ""}</p>
-          
+            {errorMessage && <p className="error-message-google">{errorMessage}</p>}
+          </div>          
           <button>Register!</button>
         </form>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div>
           <p>Already have an account?</p>
           <a href="/login">Login</a>

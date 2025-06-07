@@ -14,7 +14,6 @@ const Home = () => {
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
-  console.log();
   useEffect(() => {
     const fetchBetsAndStatuses = async () => {
       try {
@@ -121,9 +120,6 @@ const Home = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button type="submit" className="search-button">
-              Search
-            </button>
           </form>
 
           <div className="bet-grid">

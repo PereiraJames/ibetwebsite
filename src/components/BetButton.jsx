@@ -69,7 +69,6 @@ function BetButton() {
     }
     const data = await response.json();
 
-    console.log(data.userData);
     return data.userData;
   };
 

@@ -1,4 +1,114 @@
-.htp-container{
-    background-color: black;
-    color: white;
+/* Global styling */
+.htp-container {
+  font-family: 'Arial', sans-serif;
+  background-color: #000; /* black background */
+  color: #e0e0e0;          /* light gray text */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-void {
+  height: 100px;
+}
+
+/* Layout */
+.htp-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+/* Text content */
+.htp-text-content {
+  width: 100%;
+}
+
+.htp-text-content h1 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  color: #00fff7; /* neon cyan */
+}
+
+.htp-text-content section {
+  margin-bottom: 1.8rem;
+}
+
+.htp-text-content section h2 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #ff6b6b; /* coral red accent */
+}
+
+.htp-text-content section p,
+.htp-text-content section ul {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+.htp-text-content section ul {
+  padding-left: 1.5rem;
+}
+
+.htp-text-content section ul li {
+  margin-bottom: 0.6rem;
+}
+
+/* Bet card styling */
+.card-back-example {
+  z-index: 1;
+}
+
+.bet-card-example {
+  background-image: url('/images/items/card-example.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+  min-width: 280px;
+  aspect-ratio: 1467 / 2140;
+  transition: transform 0.3s ease-in-out;
+  color: #00ffd5; /* bright teal text */
+  margin: 2rem auto;
+}
+
+/* Desktop layout */
+@media (min-width: 768px) {
+  .htp-content {
+    flex-direction: row;
+  }
+
+  .htp-text-content {
+    width: 65%;
+    margin-right: 340px;
+  }
+
+  .card-back-example {
+    position: fixed;
+    top: 100px;
+    right: 2rem;
+    margin: 0;
+  }
+}
+
+/* Mobile layout */
+@media (max-width: 767px) {
+  .card-back-example {
+    position: static;
+    margin-top: 2rem;
+  }
 }

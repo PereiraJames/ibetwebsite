@@ -22,8 +22,6 @@ function AuthLogin() {
         "registeredMethod": "google"
       }
 
-      console.log(decoded)
-
       // Sending the Google credentials to your API
       const response = await fetch(`${ENDPOINT_URL}/auth/google-acc-check`, {
         method: "POST",
@@ -37,11 +35,8 @@ function AuthLogin() {
         navigate("/google-register", {
           state: {googlecredentials: registerdata}
         });
-        // const data = await response.json();
-        // localStorage.setItem("token", data.token);
-        // navigate("/");
+
       } else if (response.status === 409){ 
-        console.log("alr exists")
         handleGoogleLogin(credentialResponse);
       } else {
         const errorData = await response.json();
@@ -54,11 +49,8 @@ function AuthLogin() {
   };
 
   const handleGoogleLogin = async (credentialResponse) => {
-    console.log("Loging in")
     try {
       const decoded = jwtDecode(credentialResponse?.credential);
-      console.log(decoded); // You can check what data you get here
-
       const logindata = {
         "name": decoded.name,
         "email": decoded.email,

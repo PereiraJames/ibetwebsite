@@ -19,7 +19,7 @@ const AcceptedBets = () => {
             getAllBets(),
             JWTtoken &&
               fetch(
-                `${import.meta.env.VITE_ENDPOINT_URL}/api/user/user-acceptedbets`,
+                `${import.meta.env.VITE_ENDPOINT_URL}/user/acceptedbets`,
                 {
                   method: "GET",
                   headers: {
@@ -29,7 +29,7 @@ const AcceptedBets = () => {
                 }
               ),
             JWTtoken &&
-              fetch(`${import.meta.env.VITE_ENDPOINT_URL}/api/user/bet-liked`, {
+              fetch(`${import.meta.env.VITE_ENDPOINT_URL}/user/likedbets`, {
                 method: "GET",
                 headers: {
                   Authorization: `Bearer ${JWTtoken}`,

@@ -204,7 +204,6 @@ app.post("/api/auth/google-register", async (req, res) => {
         }
         console.log(`Successfully added new account ${name} | ${email}`)
 
-        console.log(result)
         // Creating JWT Token
         // const generatedToken = jwt.sign({ id: user.user_id }, process.env.JWT_KEY, { expiresIn: "3h" });
         // console.log(`${user.user_id} | ${user.username} has successfully logged in.`)
@@ -244,8 +243,6 @@ app.post("/api/auth/login", (req, res) => {
 
       const user = result[0];
 
-      console.log(user)
-
       // Plaintext password comparison (Not recommended for production)
       if (user.password !== password) {
         return res.status(401).json({ message: "Invalid Password!" });
@@ -281,8 +278,6 @@ app.post("/api/auth/google-login", (req, res) => {
       }
 
       const user = result[0];
-
-      console.log(user)
 
       // Creating JWT Token
       const generatedToken = jwt.sign({ id: user.email }, process.env.JWT_KEY, { expiresIn: "3h" });
