@@ -1,10 +1,12 @@
 import { useState } from "react";
 import "../css/BetButton.css";
 import { isJWTValid } from "../services/utils";
+import { useNavigate } from "react-router-dom";
 
 function BetButton() {
   const date = new Date();
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
+  const navigate = useNavigate();
 
   const formatteddate = date.toLocaleDateString("en-GB", {
     year: "numeric",
@@ -122,6 +124,7 @@ function BetButton() {
           conditionals: "",
         });
         setIsOpen(false);
+        window.location.reload();
         setErrorMessage(""); // Clear error message on success
       } else {
         const errorData = await response.json();

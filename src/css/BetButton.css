@@ -24,7 +24,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 .bet-popup-content {
@@ -71,9 +70,17 @@ input:focus {
 
 .bet-text-group {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
 }
+
+.bet-text-group input {
+  flex: 1 1 100%; /* Allow it to grow and wrap */
+  min-width: 0;
+}
+
 
 .bet-text-prefix {
   color: black;
