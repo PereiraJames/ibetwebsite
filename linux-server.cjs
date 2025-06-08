@@ -15,6 +15,12 @@ if (!fs.existsSync(logDir)) {
 const accessLogPath = path.join(logDir, 'access.log');
 const accessLogStream = fs.createWriteStream(accessLogPath, { flags: 'a' });
 
+// IPs to exclude from logging
+const excludedIPs = new Set([
+  '172.31.24.29',
+  '172.31.41.165',
+]);
+
 // Custom token for cleaned IP (removes ::ffff:)
 morgan.token('clean-ip', (req) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
@@ -24,8 +30,16 @@ morgan.token('clean-ip', (req) => {
 // Custom morgan log format
 const customFormat = ':clean-ip [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer"';
 
-// Log to both file and console
+// Skip logging requests from excluded IPs
+const skipLogging = (req) => {
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
+  const cleanIp = ip.replace(/^::ffff:/, '');
+  return excludedIPs.has(cleanIp);
+};
+
+// Use morgan middleware with skip and dual output (file + console)
 app.use(morgan(customFormat, {
+  skip: skipLogging,
   stream: {
     write: (message) => {
       accessLogStream.write(message);
@@ -37,7 +51,7 @@ app.use(morgan(customFormat, {
 // Serve static files from "dist"
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Always return index.html for SPA routing
+// Always serve index.html for SPA routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
