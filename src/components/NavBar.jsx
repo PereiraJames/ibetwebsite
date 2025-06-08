@@ -224,6 +224,7 @@ function NavbarDesktop() {
     setUsername(null);
     setLoading(true);
     setDropdownOpen(false);
+    window.location.reload();
   };
 
   // Function to handle clicks outside dropdown
