@@ -18,8 +18,27 @@ function Register() {
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const handleChanges = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+  
+    let newValue = value;
+  
+    // Prevent spaces in username
+    if (name === "username") {
+      newValue = newValue.replace(/\s/g, "");
+    }
+  
+    setValues({
+      ...values,
+      [name]: newValue,
+    });
+  
+    // Optionally clear field error as the user types
+    setFieldErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -161,7 +180,7 @@ function Register() {
           <div>
             {/* <label htmlFor="confirmPassword">Confirm Password</label> */}
             <input
-              type="confirmPassword"
+              type="password"
               placeholder={
                 fieldErrors.confirmPassword
                   ? fieldErrors.confirmPassword

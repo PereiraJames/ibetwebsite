@@ -25,8 +25,6 @@ app.use(cors());
 // });
 app.use(express.json());
 
-
-
 // Connect to Jason Database
 const db = mysql.createConnection({
   host: process.env.DB_HOST,

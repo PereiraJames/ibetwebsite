@@ -16,7 +16,8 @@ body.register-page {
 .input-error::placeholder {
   color: red;
   font-size: 0.9rem;
-  opacity: 1; /* Required in some browsers like Firefox */
+  opacity: 1;
+  /* Required in some browsers like Firefox */
 }
 
 
