@@ -14,8 +14,5 @@ export function isJWTValid(token) {
             return false;
           }
     }
-    else{
-        return false;
-    }
   }
   

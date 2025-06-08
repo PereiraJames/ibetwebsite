@@ -12,7 +12,7 @@ const LikedBets = () => {
   const JWTtoken = localStorage.getItem("token");
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
-  if (!isJWTValid(JWTtoken)) {
+  if (!isJWTValid(JWTtoken) && JWTtoken) {
     localStorage.removeItem('token');
     console.log('Invalid or expired token removed.');
   }

@@ -59,7 +59,7 @@ function BetButton() {
   const fetchUserName = async () => {
     const JWTtoken = localStorage.getItem("token");
 
-    if (!isJWTValid(JWTtoken)) {
+    if (!isJWTValid(JWTtoken) && JWTtoken) {
         localStorage.removeItem('token');
         console.log('Invalid or expired token removed.');
       }
@@ -93,7 +93,7 @@ function BetButton() {
     const formattedEndDate = formatDate(betDetails.endDate);
     const JWTtoken = localStorage.getItem("token");
 
-    if (!isJWTValid(JWTtoken)) {
+    if (!isJWTValid(JWTtoken) && JWTtoken) {
       localStorage.removeItem('token');
       console.log('Invalid or expired token removed.');
     }

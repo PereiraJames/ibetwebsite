@@ -15,7 +15,7 @@ function BetCard({ bet: initialBet }) {
 
   let userId = null;
 
-  if (!isJWTValid(JWTtoken)) {
+  if (!isJWTValid(JWTtoken) && JWTtoken) {
       localStorage.removeItem('token');
       console.log('Invalid or expired token removed.');
     }

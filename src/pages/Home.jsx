@@ -15,7 +15,7 @@ const Home = () => {
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
-  if (!isJWTValid(JWTtoken)) {
+  if (!isJWTValid(JWTtoken) && JWTtoken) {
     localStorage.removeItem('token');
     console.log('Invalid or expired token removed.');
   }

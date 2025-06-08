@@ -19,7 +19,7 @@ const Leaderboards = () => {
 
   const JWTtoken = localStorage.getItem("token");
 
-  if (!isJWTValid(JWTtoken)) {
+  if (!isJWTValid(JWTtoken) && JWTtoken) {
     localStorage.removeItem('token');
     console.log('Invalid or expired token removed.');
   }
