@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import "../css/NavBar.css";
 import BetButton from "./BetButton";
 import logo from "/images/mnm_logo.png"; // Import the logo image
+import { isJWTValid } from "../services/utils";
 
 // Navbar for mobile view
 function NavbarMobile() {
@@ -13,6 +14,11 @@ function NavbarMobile() {
   const JWTtoken = localStorage.getItem("token");
   const dropdownRef = useRef(null); // Reference to the dropdown
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
+
+  if (!isJWTValid(JWTtoken)) {
+    localStorage.removeItem('token');
+    console.log('Invalid or expired token removed.');
+  }
 
   // Add or remove class to body to prevent scrolling
   useEffect(() => {

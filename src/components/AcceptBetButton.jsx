@@ -1,6 +1,7 @@
 import "../css/AcceptBetButton.css";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { isJWTValid } from "../services/utils";
 
 function AcceptBetButton({ bet, onBetAccepted }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,11 @@ function AcceptBetButton({ bet, onBetAccepted }) {
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
+
+  if (!isJWTValid(JWTtoken)) {
+    localStorage.removeItem('token');
+    console.log('Invalid or expired token removed.');
+  }
 
   const parseJwt = (token) => {
     try {

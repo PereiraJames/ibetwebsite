@@ -4,6 +4,7 @@ import AcceptBetButton from "./AcceptBetButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from "jwt-decode";
+import { isJWTValid } from "../services/utils";
 
 function BetCard({ bet: initialBet }) {
   const [bet, setBet] = useState(initialBet); // Track bet state
@@ -13,6 +14,13 @@ function BetCard({ bet: initialBet }) {
   const JWTtoken = localStorage.getItem("token");
 
   let userId = null;
+
+  if (!isJWTValid(JWTtoken)) {
+      localStorage.removeItem('token');
+      console.log('Invalid or expired token removed.');
+    }
+
+
   if (JWTtoken) {
     try {
       const decoded = jwtDecode(JWTtoken);

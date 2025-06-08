@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../css/BetButton.css";
+import { isJWTValid } from "../services/utils";
 
 function BetButton() {
   const date = new Date();
@@ -56,6 +57,11 @@ function BetButton() {
   const fetchUserName = async () => {
     const JWTtoken = localStorage.getItem("token");
 
+    if (!isJWTValid(JWTtoken)) {
+        localStorage.removeItem('token');
+        console.log('Invalid or expired token removed.');
+      }
+
     const response = await fetch(`${ENDPOINT_URL}/auth/get-username`, {
       method: "GET",
       headers: {
@@ -84,6 +90,11 @@ function BetButton() {
     const prefixBet = `I bet Mark and Majella will ${betDetails.text}`;
     const formattedEndDate = formatDate(betDetails.endDate);
     const JWTtoken = localStorage.getItem("token");
+
+    if (!isJWTValid(JWTtoken)) {
+      localStorage.removeItem('token');
+      console.log('Invalid or expired token removed.');
+    }
 
     // Update betDetails with the formatted endDate
     const updatedBetDetails = {

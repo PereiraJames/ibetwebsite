@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/LikedBets.css"; // Make sure this is linked
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
+import { isJWTValid } from "../services/utils";
 
 const LikedBets = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,6 +11,11 @@ const LikedBets = () => {
   const [error, setError] = useState("");
   const JWTtoken = localStorage.getItem("token");
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
+
+  if (!isJWTValid(JWTtoken)) {
+    localStorage.removeItem('token');
+    console.log('Invalid or expired token removed.');
+  }
 
   useEffect(() => {
     const fetchBetsAndStatuses = async () => {

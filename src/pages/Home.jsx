@@ -3,6 +3,7 @@ import "../css/Home.css"; // Make sure this is linked
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
 import FrontPageBanner from "../components/FrontBanner";
+import { isJWTValid } from "../services/utils";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,6 +15,10 @@ const Home = () => {
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
+  if (!isJWTValid(JWTtoken)) {
+    localStorage.removeItem('token');
+    console.log('Invalid or expired token removed.');
+  }
   useEffect(() => {
     const fetchBetsAndStatuses = async () => {
       try {

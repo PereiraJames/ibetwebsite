@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/Leaderboard.css"; // Make sure this is linked
 import { getLeaderboardBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
+import { isJWTValid } from "../services/utils";
 
 const Leaderboards = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,6 +18,11 @@ const Leaderboards = () => {
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
   const JWTtoken = localStorage.getItem("token");
+
+  if (!isJWTValid(JWTtoken)) {
+    localStorage.removeItem('token');
+    console.log('Invalid or expired token removed.');
+  }
 
   useEffect(() => {
     const fetchBetsAndAcceptedStatus = async () => {

@@ -2,7 +2,7 @@ import "../css/UserProfile.css";
 import React, { useState, useEffect, useRef } from "react";
 import { getAllBets } from "../services/database"; // Update this based on your path
 import BetCard from "../components/BetCard";
-
+import { isJWTValid } from "../services/utils";
 
 const UserProfile = () => {
   const JWTtoken = localStorage.getItem("token");
@@ -12,7 +12,11 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [bets, setBets] = useState([]);
-  
+
+  if (!isJWTValid(JWTtoken)) {
+    localStorage.removeItem('token');
+    console.log('Invalid or expired token removed.');
+  }  
 
   if (!JWTtoken) {
     return (
