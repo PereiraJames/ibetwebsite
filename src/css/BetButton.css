@@ -1,80 +1,130 @@
 .bet-button {
-    background-color: #3DADFF;
-    color: #FFC943;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px;
-    font-weight: bold;
-  }
-  
-  .bet-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .bet-popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100vh;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    font-weight: bold;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .submit-button {
-    background-color: #4CAF50;
-    color: black;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  .close-button {
-    background-color: #f44336;
-    color: black;
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-  }
-  
-  .bet-text-group{
-    display: flex;
-    justify-content: center;
-  }
+  background-color: #3DADFF;
+  color: #FFC943;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
 
-  .bet-text-prefix{
-    width:50%;
-    color: black;
-  }
+.bet-button:hover {
+  background-color: #2e91d3;
+}
 
-  .bet-popup-title{
-    color: black;
-  }
+.bet-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.bet-popup-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 80vw;
+  max-width: 600px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bet-popup-title {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+input:focus {
+  border-color: #3DADFF;
+  outline: none;
+}
+
+.bet-text-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bet-text-prefix {
+  color: black;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.submit-button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.close-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #d32f2f;
+}
+
+.error-message {
+  color: #f44336;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}

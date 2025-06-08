@@ -81,10 +81,10 @@ function AcceptBetButton({ bet, onBetAccepted }) {
                 {errorMessage && (
                   <p className="error-message">{errorMessage}</p>
                 )}
-                <button className="confirm-button" onClick={handleBetAccept}>
-                  Yes
+                <button className="accept-confirmation-button" onClick={handleBetAccept}>
+                  Accept
                 </button>
-                <button className="close-button" onClick={togglePopup}>
+                <button className="accept-close-button" onClick={togglePopup}>
                   Close
                 </button>
               </>

@@ -139,7 +139,7 @@ function BetButton() {
 
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Bet Text</label>
+                {/* <label>Bet Text</label> */}
                 <div className="bet-text-group">
                   <span className="bet-text-prefix">
                     I bet Mark and Majella will...
@@ -178,7 +178,7 @@ function BetButton() {
               </div>
 
               <div className="form-group">
-                <label>Conditionals</label>
+                <label>Conditionals (Optional)</label>
                 <input
                   placeholder="If one is gay, then cancel the bet"
                   type="text"
