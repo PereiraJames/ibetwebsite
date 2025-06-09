@@ -75,7 +75,7 @@
       /* Gradient overlay */
       url('/images/mobile/leaderboard.jpg');
     /* Mobile background image */
-    background-size: 160%;
+    background-size:100%;
     /* Shrink the image slightly to show more of the top */
     background-position: center;
     /* Move the image towards the top */

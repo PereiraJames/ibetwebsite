@@ -45,7 +45,7 @@ body.register-page {
   /* Soft shadow for depth */
   color: #fff;
   font-family: 'Helvetica Neue', sans-serif;
-  z-index: 10;
+  z-index: 9;
   /* Make sure form is above the image */
 }
 
@@ -139,7 +139,7 @@ body.register-page {
   .register-img {
     content: url('/images/mobile/register.jpg');
     /* Mobile image */
-    transform: translateX(50px);
+    /* transform: translateX(50px); */
     /* Moves the image 30px to the left */
     overflow: visible;
   }
