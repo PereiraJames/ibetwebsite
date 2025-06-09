@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../css/BetButton.css";
 import { isJWTValid } from "../services/utils";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function BetButton() {
   const date = new Date();
@@ -25,8 +25,37 @@ function BetButton() {
   });
   const [errorMessage, setErrorMessage] = useState(""); // Track error message
   const [isLoading, setIsLoading] = useState(false); // Track loading state
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [errorLoginMessage, setErrorLoginMessage] = useState("");
+  const [isTokenValid, setIsTokenValid] = useState(false);
+  
+  const JWTtoken = localStorage.getItem("token");
 
-  const togglePopup = () => setIsOpen(!isOpen);
+  if (!isJWTValid(JWTtoken) && JWTtoken) {
+    localStorage.removeItem('token');
+    console.log('Invalid or expired token removed.');
+  }
+
+  const checkTokenValidity = () => {
+    if (!JWTtoken) return false;
+    const decodedToken = parseJwt(JWTtoken);
+    return decodedToken && decodedToken.exp > Math.floor(Date.now() / 1000);
+  };
+
+  const toggleLoginPopup = () => {
+    
+    setIsLoginOpen(!isLoginOpen);
+    setErrorLoginMessage(""); // Reset error message
+    setIsTokenValid(checkTokenValidity()); 
+    // console.log("login popup");
+    // console.log(`Login ${isLoginOpen} Bet ${isOpen}`);// Check token validity when opening
+  };
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+    // console.log("bet popup");
+    // console.log(`Login ${isLoginOpen} Bet ${isOpen}`);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -141,19 +170,27 @@ function BetButton() {
   return (
     <div>
       {/* Bet Button */}
-      <button className="bet-button" onClick={togglePopup}>
-        BET!
-      </button>
-
-      {/* Popup Form */}
-      {isOpen && (
+      <button
+  className="bet-button"
+  onClick={() => {
+    if (JWTtoken) {
+      togglePopup();
+    } else {
+      toggleLoginPopup();
+    }
+  }}
+>
+  BET!
+</button>
+  
+      {/* BET POPUP - User is logged in and clicked BET */}
+      {isOpen && !isLoginOpen && JWTtoken && (
         <div className="bet-popup">
           <div className="bet-popup-content">
             <h2 className="bet-popup-title">Create a New Bet</h2>
-
+  
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                {/* <label>Bet Text</label> */}
                 <div className="bet-text-group">
                   <span className="bet-text-prefix">
                     I bet Mark and Majella will...
@@ -168,7 +205,7 @@ function BetButton() {
                   />
                 </div>
               </div>
-
+  
               <div className="form-group">
                 <label>Bet Amount</label>
                 <input
@@ -180,6 +217,7 @@ function BetButton() {
                   required
                 />
               </div>
+  
               <div className="form-group">
                 <label>End Date</label>
                 <input
@@ -190,7 +228,7 @@ function BetButton() {
                   required
                 />
               </div>
-
+  
               <div className="form-group">
                 <label>Conditionals (Optional)</label>
                 <input
@@ -201,24 +239,61 @@ function BetButton() {
                   onChange={handleChange}
                 />
               </div>
+  
               <button
                 type="submit"
                 className="submit-button"
-                disabled={isLoading} // Disable submit button while loading
+                disabled={isLoading}
               >
-                {isLoading ? "Submitting..." : "Submit"}{" "}
-                {/* Show loading text */}
+                {isLoading ? "Submitting..." : "Submit"}
               </button>
               {errorMessage && <p className="error-message">{errorMessage}</p>}
             </form>
+  
             <button className="close-button" onClick={togglePopup}>
               Close
             </button>
           </div>
         </div>
       )}
+  
+      {/* LOGIN POPUP - User clicked BET but is not logged in */}
+      {!isOpen && isLoginOpen && !JWTtoken && (
+        <div className="accept-popup">
+          <div className="accept-popup-content">
+            {isTokenValid ? (
+              <>
+                <p className="accept-popup-text">
+                  Are you sure you want to accept the bet?
+                </p>
+                <p className="accept-popup-text">{betDetails.text}</p>
+                {errorLoginMessage && (
+                  <p className="error-message">{errorLoginMessage}</p>
+                )}
+                <button className="accept-confirmation-button" onClick={handleBetAccept}>
+                  Accept
+                </button>
+                <button className="accept-close-button" onClick={toggleLoginPopup}>
+                  Close
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="popup-login-text">Please log in or register to create a bet.</p>
+                <Link to="/login" onClick={toggleLoginPopup}>
+                  <button className="popup-login">Go to Login</button>
+                </Link>
+                <button className="close-button" onClick={toggleLoginPopup}>
+                  Close
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
+  
 }
 
 export default BetButton;

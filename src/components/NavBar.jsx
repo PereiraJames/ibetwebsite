@@ -313,7 +313,8 @@ function NavbarDesktop() {
             LOGIN
           </Link>
         )}
-        {JWTtoken && username && !loading && <BetButton />}
+        {/* {JWTtoken && username && !loading && <BetButton />} */}
+        <BetButton/>
       </div>
     </div>
   );
