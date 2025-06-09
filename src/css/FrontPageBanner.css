@@ -61,6 +61,7 @@ h5 {
 
 .front-img-container {
   position: relative;
+  overflow: hidden;
 }
 
 .front-banner {
@@ -72,7 +73,7 @@ h5 {
 @media screen and (max-width: 768px) {
   .front-banner {
     content: url('/images/mobile/front-banner.jpg');
-    transform: translateX(-110px);
+    /* transform: translateX(-110px); */
     /* Moves the image 30px to the left */
     overflow: visible;
   }
