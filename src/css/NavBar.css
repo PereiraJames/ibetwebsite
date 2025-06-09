@@ -254,7 +254,16 @@ body.menu-open {
   text-align: center;
 }
 
-.mobile-menu-logout {
+.mobile-menu-bet .bet-button{
+  background-color: #3DADFF;
+  color: #FFC943;
+  border: 2px solid #FFC943;
+  padding: 15px 80px;
+  border-radius: 10px;
+}
+
+
+.mobile-menu-logging {
   display: block;
   width: 100%;
   padding: 12px 20px;

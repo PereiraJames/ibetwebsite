@@ -127,6 +127,9 @@ function NavbarMobile() {
         {JWTtoken && username ? (
           <div className="mobile-menu-dropdown" ref={dropdownRef}>
             <div className="mobile-menu-name">{username}</div>
+            
+            {/* Bet Button if logged in */}
+            <div className="mobile-menu-bet">{JWTtoken && username && !loading && <BetButton />}</div>
             <Link to="/" className="mobile-menu-item" onClick={closeMenu}>
               HOME
             </Link>
@@ -145,7 +148,7 @@ function NavbarMobile() {
               <Link to="/acceptedbets" className="mobile-menu-item" onClick={closeMenu}>
                 ACCEPTED BETS
               </Link>
-              <button onClick={() => { handleLogout(); closeMenu(); }} className="mobile-menu-logout">
+              <button onClick={() => { handleLogout(); closeMenu(); }} className="mobile-menu-logging">
                 LOGOUT
               </button>
           </div>
@@ -160,14 +163,11 @@ function NavbarMobile() {
             <Link to="/howtoplay" className="mobile-menu-item" onClick={closeMenu}>
               HOW TO PLAY
             </Link>
-            <Link to="/login" className="mobile-menu-item" onClick={closeMenu}>
+            <Link to="/login" className="mobile-menu-logging" onClick={closeMenu}>
               LOGIN
             </Link>
           </div>
         )}
-
-        {/* Bet Button if logged in */}
-        {JWTtoken && username && !loading && <BetButton />}
       </div>
     </div>
   );
