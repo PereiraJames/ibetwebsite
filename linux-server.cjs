@@ -27,8 +27,19 @@ morgan.token('clean-ip', (req) => {
   return ip.replace(/^::ffff:/, '');
 });
 
+morgan.token('sgt-date', () => {
+  const sgtDate = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
+  const dd = String(sgtDate.getDate()).padStart(2, '0');
+  const mm = String(sgtDate.getMonth() + 1).padStart(2, '0');
+  const yyyy = sgtDate.getFullYear();
+  const hh = String(sgtDate.getHours()).padStart(2, '0');
+  const min = String(sgtDate.getMinutes()).padStart(2, '0');
+  const ss = String(sgtDate.getSeconds()).padStart(2, '0');
+  return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+});
+
 // Custom morgan log format
-const customFormat = ':clean-ip [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer"';
+const customFormat = '[:sgt-date] :clean-ip | :url | :method :url HTTP/:http-version | :status';
 
 // Skip logging requests from excluded IPs
 const skipLogging = (req) => {
