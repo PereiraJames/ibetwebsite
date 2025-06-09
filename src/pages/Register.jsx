@@ -96,24 +96,28 @@ function Register() {
   return (
     <div className="register-container">
       <div className="navbar-space"></div>
-      <div className="register-form">
+      <div className="register-form-local">
+        <AuthLogin/>
+        <div className="register-or-local">
+          <p>or</p>
+        </div>
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="input-group-local">
             <input
               type="text"
-              placeholder={
-                fieldErrors.username
-                  ? fieldErrors.username
-                  : "Username"
-              }
+              placeholder={fieldErrors.username ? fieldErrors.username : "Username"}
               name="username"
               value={values.username}
               onChange={handleChanges}
-              className={fieldErrors.username ? "input-error" : ""}
+              className={fieldErrors.username ? "input-error-register" : ""}
             />
+            {fieldErrors.username && (
+              <div className="input-error-message">{fieldErrors.username}</div>
+            )}
           </div>
 
-          <div>
+
+          <div className="input-group-local">
             {/* <label htmlFor="realname">Real Name</label> */}
             <input
               type="text"
@@ -125,11 +129,14 @@ function Register() {
               name="realname"
               value={values.realname}
               onChange={handleChanges}
-              className={fieldErrors.realname ? "input-error" : ""}
-            />
+              className={fieldErrors.realname ? "input-error-register" : ""}
+           />
+           {fieldErrors.password && (
+              <div className="input-error-message">{fieldErrors.realname}</div>
+            )}
           </div>
 
-          <div>
+          <div className="input-group-local">
             {/* <label htmlFor="phonenumber">Phone Number</label> */}
             <input
               type="text"
@@ -141,11 +148,14 @@ function Register() {
               name="phonenumber"
               value={values.phonenumber}
               onChange={handleChanges}
-              className={fieldErrors.phonenumber ? "input-error" : ""}
-            />
+              className={fieldErrors.phonenumber ? "input-error-register" : ""}
+           />
+          {fieldErrors.phonenumber && (
+              <div className="input-error-message">{fieldErrors.phonenumber}</div>
+            )}
           </div>
 
-          <div>
+          <div className="input-group-local">
             {/* <label htmlFor="phonenumber">Email</label> */}
             <input
               type="text"
@@ -157,11 +167,14 @@ function Register() {
               name="email"
               value={values.email}
               onChange={handleChanges}
-              className={fieldErrors.email ? "input-error" : ""}
-            />
+              className={fieldErrors.email ? "input-error-register" : ""}
+           />
+           {fieldErrors.email && (
+              <div className="input-error-message">{fieldErrors.email}</div>
+            )}
           </div>
 
-          <div>
+          <div className="input-group-local">
             {/* <label htmlFor="password">Password</label> */}
             <input
               type="password"
@@ -173,11 +186,14 @@ function Register() {
               name="password"
               value={values.password}
               onChange={handleChanges}
-              className={fieldErrors.password ? "input-error" : ""}
-            />
+              className={fieldErrors.password ? "input-error-register" : ""}
+           />
+           {fieldErrors.password && (
+              <div className="input-error-message">{fieldErrors.password}</div>
+            )}
           </div>
 
-          <div>
+          <div className="input-group-local">
             {/* <label htmlFor="confirmPassword">Confirm Password</label> */}
             <input
               type="password"
@@ -189,18 +205,20 @@ function Register() {
               name="confirmPassword"
               value={values.confirmPassword}
               onChange={handleChanges}
-              className={fieldErrors.confirmPassword ? "input-error" : ""}
-            />
+              className={fieldErrors.confirmPassword ? "input-error-register" : ""}
+           />
+           {fieldErrors.confirmPassword && (
+              <div className="input-error-message">{fieldErrors.confirmPassword}</div>
+            )}
           </div>
 
-          <button>Register!</button>
+          <button className="register-confirm-button-local">Register!</button>
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <div>
+        <div className="">
           <p>Already have an account?</p>
           <a href="/login">Login</a>
         </div>
-        <AuthLogin />
       </div>
       <img
         id="register-img"

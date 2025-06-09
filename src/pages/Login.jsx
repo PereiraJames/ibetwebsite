@@ -42,9 +42,13 @@ function Login() {
   return (
     <div className="login-container">
       <div className="navbar-space"></div>
-      <div className="login-form">
+      <div className="login-form-local">
+        <AuthLogin/>
+        <div className="login-or-local">
+          <p>or</p>
+        </div>
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="input-group-local">
             <input
               type="text"
               placeholder="Username"
@@ -52,7 +56,7 @@ function Login() {
               onChange={handleChanges}
             />
           </div>
-          <div>
+          <div className="input-group-local">
             <input
               type="password"
               placeholder="Password"
@@ -66,7 +70,6 @@ function Login() {
         <div>
           <p>No Account?</p>
           <Link to="/register">Register</Link>
-          <AuthLogin/>
         </div>
       </div>
       <img

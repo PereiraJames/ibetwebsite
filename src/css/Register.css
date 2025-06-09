@@ -8,18 +8,29 @@ body.register-page {
   height: 110px;
 }
 
-.input-error {
-  border: 1px solid red;
+.input-error-register {
+  border: 3px solid red;
   color: red;
+  border-color: #ff6b6b !important;
+  background-color: #2e1a1a;
 }
 
-.input-error::placeholder {
+.input-error-register::placeholder {
   color: red;
   font-size: 0.9rem;
   opacity: 1;
   /* Required in some browsers like Firefox */
 }
 
+.input-group-local{
+  margin-bottom: 0.6rem;
+}
+
+.input-error-message {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  margin-left: 0.2rem;
+}
 
 /* Container for the registration form */
 .register-container {
@@ -34,7 +45,7 @@ body.register-page {
 }
 
 /* Style for the registration form */
-.register-form {
+.register-form-local {
   background: rgba(0, 0, 0, 0.6);
   /* Semi-transparent background */
   padding: 2rem 3rem;
@@ -50,11 +61,9 @@ body.register-page {
 }
 
 /* Modern form input styles */
-.register-form input {
+.register-form-local input {
   width: 100%;
   padding: 0.8rem;
-  margin: 1rem 0;
-  border: none;
   border-radius: 8px;
   background-color: #333;
   color: #fff;
@@ -63,13 +72,13 @@ body.register-page {
   transition: background-color 0.3s ease;
 }
 
-.register-form input:focus {
+.register-form-local input:focus {
   background-color: #444;
   /* Slightly lighter background on focus */
 }
 
 /* Label styling */
-.register-form label {
+.register-form-local label {
   font-weight: bold;
   display: block;
   margin-bottom: 0.5rem;
@@ -77,11 +86,10 @@ body.register-page {
 }
 
 /* Submit button styles */
-.register-form button {
+.register-form-local button {
   width: 100%;
   padding: 0.8rem;
   background-color: #008080;
-  /* Teal button */
   color: white;
   font-size: 1.1rem;
   border: none;
@@ -90,7 +98,7 @@ body.register-page {
   transition: background-color 0.3s ease;
 }
 
-.register-form button:hover {
+.register-form-local button:hover {
   background-color: #006f6f;
   /* Darker teal when hovering */
 }
@@ -99,23 +107,31 @@ body.register-page {
 .error-message {
   color: #ff4c4c;
   font-size: 0.9rem;
+}
+
+.register-or-local{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.register-confirm-button-local{
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* Style for the "Already have an account?" text and login link */
-.register-form div {
-  margin-top: 1rem;
+.register-form-local div {
   text-align: center;
 }
 
-.register-form a {
+.register-form-local a {
   color: #008080;
   /* Teal link color */
   text-decoration: none;
   font-weight: bold;
 }
 
-.register-form a:hover {
+.register-form-local a:hover {
   text-decoration: underline;
 }
 

@@ -11,7 +11,7 @@ function GoogleRegister() {
     return (
       <div className="register-container">
         <div className="navbar-space"></div>
-        <div className="register-form">
+        <div className="register-form-google">
           <h2>Google registration unavailable</h2>
           <p>Please try logging in again through Google.</p>
           <a href="/">Back to Home</a>
@@ -87,7 +87,7 @@ function GoogleRegister() {
   return (
     <div className="register-container">
       <div className="navbar-space"></div>
-      <div className="register-form">
+      <div className="register-form-google">
         <form onSubmit={handleSubmit}>
           <div className="google-register-title">Register Your Google Account</div>
           <div className="google-register-email">{googlecredentials?.email || ""}</div>

@@ -1,4 +1,4 @@
-.register-form {
+.register-form-google {
   background: rgba(0, 0, 0, 0.6);
   border: 1px solid #2a2a2a;
   border-radius: 12px;
@@ -25,7 +25,7 @@
   color: #aaaaaa;
 }
 
-.register-form input {
+.register-form-google input {
   width: 100%;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
@@ -37,7 +37,7 @@
   transition: border 0.3s ease;
 }
 
-.register-form input:focus {
+.register-form-google input:focus {
   border-color: #00ffd5;
   outline: none;
 }
@@ -55,7 +55,7 @@
   text-align: left;
 }
 
-.register-form button {
+.register-form-google button {
   width: 100%;
   padding: 0.8rem;
   font-size: 1rem;
@@ -68,7 +68,7 @@
   transition: background-color 0.25s;
 }
 
-.register-form button:hover {
+.register-form-google button:hover {
   background-color: #00cfc4;
 }
 

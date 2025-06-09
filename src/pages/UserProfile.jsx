@@ -22,7 +22,7 @@ const UserProfile = () => {
     return (
       <div className="register-container">
         <div className="navbar-space"></div>
-        <div className="register-form">
+        <div className="register-form-local">
           <h2>Sign In to View Your Profile</h2>
           <a href="/login">Login</a>
         </div>
