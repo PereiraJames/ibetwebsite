@@ -156,6 +156,7 @@ function NavbarMobile() {
               <button onClick={() => { handleLogout(); closeMenu(); }} className="mobile-menu-logging">
                 LOGOUT
               </button>
+              
           </div>
         ) : (
           <div className="mobile-menu-dropdown" ref={dropdownRef}>
@@ -172,6 +173,7 @@ function NavbarMobile() {
               LOGIN
             </Link>
           </div>
+          
         )}
       </div>
     </div>
@@ -319,7 +321,7 @@ function NavbarDesktop() {
           </Link>
         )}
         {/* {JWTtoken && username && !loading && <BetButton />} */}
-        
+        <BetButton/>
       </div>
     </div>
   );
