@@ -18,6 +18,10 @@
   gap: 20px;
 }
 
+.navbar-mobile-bet .bet-button{
+  margin-right: 0.5rem;
+}
+
 .navbar-mobile .mobile-menu {
   position: fixed;
   top: 0;
@@ -125,7 +129,7 @@ body.menu-open {
 
 /* Logo always centered */
 .navbar-logo {
-  max-width: 250px;
+  max-width: 200px;
   height: auto;
 }
 

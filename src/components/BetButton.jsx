@@ -281,7 +281,7 @@ function BetButton() {
               <>
                 <p className="popup-login-text">Please log in or register to create a bet.</p>
                 <Link to="/login" onClick={toggleLoginPopup}>
-                  <button className="popup-login">Go to Login</button>
+                  <button className="popup-login">Login / Register</button>
                 </Link>
                 <button className="close-button" onClick={toggleLoginPopup}>
                   Close

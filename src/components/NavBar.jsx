@@ -115,6 +115,11 @@ function NavbarMobile() {
         </Link>
       </div>
 
+      <div className="navbar-mobile-bet">
+        <BetButton/>
+      </div>
+      
+
       <button className="mobile-hamburger-icon" onClick={toggleMenu}>
         <span></span>
         <span></span>
@@ -314,7 +319,7 @@ function NavbarDesktop() {
           </Link>
         )}
         {/* {JWTtoken && username && !loading && <BetButton />} */}
-        <BetButton/>
+        
       </div>
     </div>
   );
