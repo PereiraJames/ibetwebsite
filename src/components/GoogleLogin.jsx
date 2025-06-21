@@ -3,6 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TelegramRedirector from "./TelegramRedirect";
 
 function AuthLogin() {
   const [errorMessage, setErrorMessage] = useState("");
