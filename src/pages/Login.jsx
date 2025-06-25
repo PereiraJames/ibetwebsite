@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Login.css";
 import AuthLogin from "../components/GoogleLogin";
-import TelegramRedirector from "../components/TelegramRedirect";
 
 
 function Login() {
@@ -44,7 +43,6 @@ function Login() {
   return (
     <div className="login-container">
       <div className="navbar-space"></div>
-      <TelegramRedirector/>
 
       <div className="login-form-local">
         <AuthLogin/>

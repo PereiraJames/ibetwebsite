@@ -85,7 +85,7 @@ function GoogleRegister() {
   };
 
   return (
-    <div className="register-container">
+    <div className="google-register-container">
       <div className="navbar-space"></div>
       <div className="register-form-google">
         <form onSubmit={handleSubmit}>
@@ -108,19 +108,20 @@ function GoogleRegister() {
           </div>          
           <button>Register!</button>
         </form>
-        <div>
+        <div className="google-login-redirect">
           <p>Already have an account?</p>
           <a href="/login">Login</a>
         </div>
       </div>
       <img
-        id="register-img"
+        id="google-register-img"
         src="/images/web/register.jpg"
-        alt="register-img"
-        className="register-img"
+        alt="google-register-img"
+        className="google-register-img"
       />
     </div>
   );
 }
 
 export default GoogleRegister;
+

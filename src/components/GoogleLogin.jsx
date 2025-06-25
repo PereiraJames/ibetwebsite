@@ -3,8 +3,6 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TelegramRedirector from "./TelegramRedirect";
-
 function AuthLogin() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -33,6 +31,9 @@ function AuthLogin() {
       });
 
       if (response.status === 201) {
+
+        console.log("redirect")
+        console.log(registerdata)
         navigate("/google-register", {
           state: {googlecredentials: registerdata}
         });

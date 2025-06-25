@@ -22,7 +22,7 @@ body.register-page {
   /* Required in some browsers like Firefox */
 }
 
-.input-group-local{
+.input-group-local {
   margin-bottom: 0.6rem;
 }
 
@@ -109,12 +109,12 @@ body.register-page {
   font-size: 0.9rem;
 }
 
-.register-or-local{
+.register-or-local {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
-.register-confirm-button-local{
+.register-confirm-button-local {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }

@@ -7,8 +7,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const GOOGLEAUTHTOKEN = import.meta.env.VITE_GOOGLEAUTH_TOKEN;
 
-console.log(GOOGLEAUTHTOKEN);
-
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
