@@ -1,106 +1,66 @@
 import "../css/Login.css";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-import { useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 function AuthLogin() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const ENDPOINT_URL = import.meta.env.VITE_ENDPOINT_URL;
 
-  const handleGoogleRegister = async (credentialResponse) => {
-    try {
-      const decoded = jwtDecode(credentialResponse?.credential);
+  const isInAppBrowser = () => {
+    const ua = navigator.userAgent;
+    return /Instagram|FBAV|FBAN|Messenger|Line|Telegram/i.test(ua);
+  };
 
-      const registerdata = {
-        "name": decoded.name,
-        "email": decoded.email,
-        "firstName": decoded.given_name,
-        "lastName": decoded.family_name,
-        "emailVerified": decoded.email_verified,
-        "registeredMethod": "google"
-      }
+  useEffect(() => {
+    if (isInAppBrowser()) {
+      window.location.href = "/open-in-browser";
+    }
+  }, []);
 
-      // Sending the Google credentials to your API
-      const response = await fetch(`${ENDPOINT_URL}/auth/google-acc-check`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(registerdata),
-      });
-
-      if (response.status === 201) {
-
-        console.log("redirect")
-        console.log(registerdata)
-        navigate("/google-register", {
-          state: {googlecredentials: registerdata}
+  const login = useGoogleLogin({
+    flow: 'auth-code',
+    code_challenge_method: 'S256',
+    onSuccess: async (response) => {
+      console.log("test")
+      try {
+        const serverResponse = await fetch(`${ENDPOINT_URL}/auth/google-auth-code`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code: response.code,
+            redirect_uri: window.location.origin + "/auth/callback"
+          }),
         });
-
-      } else if (response.status === 409){ 
-        handleGoogleLogin(credentialResponse);
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || "An error occurred");
-      }
-    } catch (error) {
-      console.error("Google Login Error:", error);
-      setErrorMessage("Error occurred while logging in with Google.");
-    }
-  };
-
-  const handleGoogleLogin = async (credentialResponse) => {
-    try {
-      const decoded = jwtDecode(credentialResponse?.credential);
-      const logindata = {
-        "name": decoded.name,
-        "email": decoded.email,
-        "firstName": decoded.given_name,
-        "lastName": decoded.family_name,
-        "emailVerified": decoded.email_verified,
-        "registeredMethod": "google"
-      }
-
-      // Sending the Google credentials to your API
-      const response = await fetch(`${ENDPOINT_URL}/auth/google-login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(logindata),
-      });
-
-      if (response.status === 200) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        navigate("/");
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || "An error occurred");
-      }
-    } catch (error) {
-      console.error("Google Login Error:", error);
-      setErrorMessage("Error occurred while logging in with Google.");
-    }
-  };
-
   
+        if (serverResponse.ok) {
+          const data = await serverResponse.json();
+          localStorage.setItem("token", data.token);
+          navigate("/");
+        } else {
+          const errorData = await serverResponse.json();
+          setErrorMessage(errorData.message || "Login failed");
+        }
+      } catch (err) {
+        console.error(err);
+        setErrorMessage("Something went wrong during login.");
+      }
+    },
+    onError: () => setErrorMessage("Google login failed"),
+    redirect_uri: window.location.origin + "/auth/callback"
+  });
 
   return (
     <div>
       <div className="google-login-wrapper">
-        <GoogleLogin
-          onSuccess={handleGoogleRegister}
-          onError={() => console.log("Login Failed")}
-          theme="filled_blue"
-          size="large"
-        />
+        <button onClick={() => login()}>Sign in with Google</button>
       </div>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
-  
 }
 
 export default AuthLogin;
